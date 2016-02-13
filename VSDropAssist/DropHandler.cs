@@ -10,13 +10,15 @@ namespace VSDropAssist
     internal class DropHandler : IDropHandler
     {
         private ILog _log = LogManager.GetLogger(typeof(DropHandler));
-        private IDropInfoHandler _dropInfoHandler = new GraphModelDropInfoHandler();
-        private IDropAction _dropAction = new MessageBoxDropAction();
+        private IDropInfoHandler _dropInfoHandler = null; // new GraphModelDropInfoHandler();
+        private IDropAction _dropAction = null; // new MessageBoxDropAction();
         private IWpfTextView _tgt;
 
-        public DropHandler(IWpfTextView wpfTextView)
+        public DropHandler(IWpfTextView wpfTextView, IDropInfoHandler dropInfoHandler, IDropAction dropAction )
         {
             _tgt = wpfTextView;
+            _dropInfoHandler = dropInfoHandler;
+            _dropAction = dropAction;
         }
 
         public DragDropPointerEffects HandleDragStarted(DragDropInfo dragDropInfo)
