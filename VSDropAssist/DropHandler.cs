@@ -47,7 +47,7 @@ namespace VSDropAssist
                 return DragDropPointerEffects.None;
             }
 
-            var result = _dropAction.Execute(nodes, _tgt);
+            var result = _dropAction.Execute(nodes, _tgt, dragDropInfo);
             if(result == DropActionResultEnum.AllowCopy) return DragDropPointerEffects.Copy ;
 
             return DragDropPointerEffects.None;

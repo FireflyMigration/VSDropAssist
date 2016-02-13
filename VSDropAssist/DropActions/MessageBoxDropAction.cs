@@ -2,12 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Microsoft.VisualStudio.Text.Editor;
+using Microsoft.VisualStudio.Text.Editor.DragDrop;
 
 namespace VSDropAssist.DropActions
 {
     internal class MessageBoxDropAction : DropActionBase
     {
-        public   override DropActionResultEnum Execute(IEnumerable<Node> nodes, IWpfTextView textView)
+        public   override DropActionResultEnum Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo)
         {
 
             var msg = string.Format("You dropped:\n{0}",

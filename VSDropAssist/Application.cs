@@ -27,7 +27,7 @@ namespace VSDropAssist
         private static void initIoC()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterType<MessageBoxDropAction>().As<IDropAction>();
+            builder.RegisterType<InsertTextDropAction>().As<IDropAction>();
             builder.RegisterType<GraphModelDropInfoHandler>().As<IDropInfoHandler>();
             builder.RegisterType<DropHandler>().As<IDropHandler>();
 
