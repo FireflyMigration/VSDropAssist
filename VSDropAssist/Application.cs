@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Autofac;
 using log4net.Config;
 using Microsoft.VisualStudio.Text.Editor;
@@ -35,12 +36,18 @@ namespace VSDropAssist
 
         }
 
-        public static IDropHandler GetDropHandler(IWpfTextView textView)
+        public static IDropHandler GetClassMemberDropHandler(IWpfTextView textView)
             
         {
             return _container.Resolve<IDropHandler>(new TypedParameter(typeof(IWpfTextView), textView));
 
         }
+
+        public static IDropHandler GetProjectItemDropHandler(IWpfTextView textView)
+        {
+            return null;
+        }
+
         public static T Resolve<T>()
         {
 
