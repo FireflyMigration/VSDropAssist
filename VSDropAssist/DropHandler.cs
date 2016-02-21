@@ -2,19 +2,17 @@ using System.Collections.Generic;
 using log4net;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
-using VSDropAssist.DropActions;
-using VSDropAssist.DropInfoHandlers;
 
 namespace VSDropAssist
 {
     internal class DropHandler : IDropHandler
     {
-        private ILog _log = LogManager.GetLogger(typeof(DropHandler));
-        private IDropInfoHandler _dropInfoHandler = null; // new GraphModelDropInfoHandler();
-        private IDropAction _dropAction = null; // new MessageBoxDropAction();
-        private IWpfTextView _tgt;
+        private readonly IDropAction _dropAction; // new MessageBoxDropAction();
+        private readonly IDropInfoHandler _dropInfoHandler; // new GraphModelDropInfoHandler();
+        private readonly ILog _log = LogManager.GetLogger(typeof (DropHandler));
+        private readonly IWpfTextView _tgt;
 
-        public DropHandler(IWpfTextView wpfTextView, IDropInfoHandler dropInfoHandler, IDropAction dropAction )
+        public DropHandler(IWpfTextView wpfTextView, IDropInfoHandler dropInfoHandler, IDropAction dropAction)
         {
             _tgt = wpfTextView;
             _dropInfoHandler = dropInfoHandler;
@@ -48,10 +46,20 @@ namespace VSDropAssist
             }
 
             var result = _dropAction.Execute(nodes, _tgt, dragDropInfo);
-            if(result == DropActionResultEnum.AllowCopy) return DragDropPointerEffects.Copy ;
+            if (result == DropActionResultEnum.AllowCopy) return DragDropPointerEffects.Copy;
 
             return DragDropPointerEffects.None;
+        }
 
+
+        public bool IsDropEnabled(DragDropInfo dragDropInfo)
+        {
+            return true;
+        }
+
+        public void HandleDragCanceled()
+        {
+            // ignore it
         }
 
         private IEnumerable<Node> getNodesfromDropInfo(DragDropInfo dragDropInfo)
@@ -63,20 +71,5 @@ namespace VSDropAssist
             }
             return _dropInfoHandler.GetNodes(dragDropInfo);
         }
-
-
-        public bool IsDropEnabled(DragDropInfo dragDropInfo)
-        {
-
-            return true;
-
-        }
-
-        public void HandleDragCanceled()
-        {
-            // ignore it
-        }
-
-       
     }
 }

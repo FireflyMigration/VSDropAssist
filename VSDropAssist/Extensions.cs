@@ -7,7 +7,7 @@ namespace VSDropAssist
 {
     public static class Extensions
     {
-        private static ILog _log = LogManager.GetLogger(typeof (Extensions));
+        private static readonly ILog _log = LogManager.GetLogger(typeof (Extensions));
 
         public static void Dump(this DragDropInfo dragDropInfo)
         {
@@ -23,7 +23,6 @@ namespace VSDropAssist
                     _log.DebugFormat("Format: {0}", d);
                     _log.Debug(dragDropInfo.Data.GetData(d));
                     _log.DebugFormat("--------------END----------------------------");
-
                 }
             }
             catch (Exception e)

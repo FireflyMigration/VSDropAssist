@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Autofac;
 using log4net.Config;
 using Microsoft.VisualStudio.Text.Editor;
@@ -12,12 +11,13 @@ namespace VSDropAssist
     public static class Application
     {
         private static IContainer _container;
-        private static bool _initialised = false;
+        private static readonly bool _initialised = false;
 
         static Application()
         {
             Init();
         }
+
         public static void Init()
         {
             if (_initialised) return;
@@ -33,14 +33,12 @@ namespace VSDropAssist
             builder.RegisterType<DropHandler>().As<IDropHandler>();
 
             _container = builder.Build();
-
         }
 
         public static IDropHandler GetClassMemberDropHandler(IWpfTextView textView)
-            
-        {
-            return _container.Resolve<IDropHandler>(new TypedParameter(typeof(IWpfTextView), textView));
 
+        {
+            return _container.Resolve<IDropHandler>(new TypedParameter(typeof (IWpfTextView), textView));
         }
 
         public static IDropHandler GetProjectItemDropHandler(IWpfTextView textView)
@@ -50,7 +48,6 @@ namespace VSDropAssist
 
         public static T Resolve<T>()
         {
-
             return _container.Resolve<T>();
         }
 

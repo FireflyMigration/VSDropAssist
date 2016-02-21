@@ -7,13 +7,14 @@ namespace VSDropAssist.DropActions
 {
     internal abstract class DropActionBase : IDropAction
     {
-        protected ILog _log = null;
+        protected ILog _log;
 
         protected DropActionBase()
         {
             _log = LogManager.GetLogger(GetType());
         }
 
-        public abstract DropActionResultEnum Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo);
+        public abstract DropActionResultEnum Execute(IEnumerable<Node> nodes, IWpfTextView textView,
+            DragDropInfo dragDropInfo);
     }
 }
