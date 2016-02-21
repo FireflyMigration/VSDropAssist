@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.Text.Editor.DragDrop;
 
 namespace VSDropAssist.DropActions
 {
-    internal class InsertTextDropAction : DropActionBase
+    internal class InsertColumnsAddDropAction : DropActionBase
     {
         public override DropActionResultEnum Execute(IEnumerable<Node> nodes, IWpfTextView textView,
             DragDropInfo dragDropInfo)
@@ -21,13 +21,15 @@ namespace VSDropAssist.DropActions
         {
             var output = new StringBuilder();
             
-            
             foreach (var n in nodes)
             {
-                output.AppendFormat("Columns.Add({0}.{1})\n;",n.Type.ToLower(), n.Member);
+                output.AppendFormat("Columns.Add({0}.{1});\n",n.Type.ToLower(), n.Member);
             }
 
-            return output.ToString();
+            var ret= output.ToString();
+
+            return ret;
+
         }
     }
 }

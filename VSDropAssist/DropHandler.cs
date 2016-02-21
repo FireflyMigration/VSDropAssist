@@ -26,6 +26,9 @@ namespace VSDropAssist
 
         public DragDropPointerEffects HandleDraggingOver(DragDropInfo dragDropInfo)
         {
+            //set the insertion point to follow the drop location
+            _tgt.Caret.MoveTo(dragDropInfo.VirtualBufferPosition);
+
             return DragDropPointerEffects.Copy;
         }
 
