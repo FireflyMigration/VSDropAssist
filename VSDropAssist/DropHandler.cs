@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using log4net;
 using Microsoft.VisualStudio.Text.Editor;
@@ -14,6 +15,7 @@ namespace VSDropAssist
 
         public DropHandler(IWpfTextView wpfTextView, IDropInfoHandler dropInfoHandler, IDropAction dropAction)
         {
+            _log.Debug("DropHandler.ctor");
             _tgt = wpfTextView;
             _dropInfoHandler = dropInfoHandler;
             _dropAction = dropAction;
@@ -26,9 +28,17 @@ namespace VSDropAssist
 
         public DragDropPointerEffects HandleDraggingOver(DragDropInfo dragDropInfo)
         {
-            //set the insertion point to follow the drop location
-            _tgt.Caret.MoveTo(dragDropInfo.VirtualBufferPosition);
+            try
+            {
+                //set the insertion point to follow the drop location
+                _tgt.Caret.MoveTo(dragDropInfo.VirtualBufferPosition);
 
+                return DragDropPointerEffects.Copy;
+            }
+            catch (Exception e)
+            {
+                _log.Error("HandleDraggingOver", e );
+            }
             return DragDropPointerEffects.Copy;
         }
 
@@ -47,7 +57,7 @@ namespace VSDropAssist
                 _log.Debug("No DropAction specified");
                 return DragDropPointerEffects.None;
             }
-
+            
             var result = _dropAction.Execute(nodes, _tgt, dragDropInfo);
             if (result == DropActionResultEnum.AllowCopy) return DragDropPointerEffects.Copy;
 
@@ -67,12 +77,20 @@ namespace VSDropAssist
 
         private IEnumerable<Node> getNodesfromDropInfo(DragDropInfo dragDropInfo)
         {
-            if (_dropInfoHandler == null)
+            try
             {
-                _log.Debug("No DropInfoHandler registered");
-                return null;
+                if (_dropInfoHandler == null)
+                {
+                    _log.Debug("No DropInfoHandler registered");
+                    return null;
+                }
+                return _dropInfoHandler.GetNodes(dragDropInfo);
             }
-            return _dropInfoHandler.GetNodes(dragDropInfo);
+            catch (Exception e)
+            {
+                _log.Error("getNodesfromDropInfo", e );
+            }
+            return null;
         }
     }
 }

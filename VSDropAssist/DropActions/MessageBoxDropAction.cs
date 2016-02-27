@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
+using System.ComponentModel;
 
 namespace VSDropAssist.DropActions
 {

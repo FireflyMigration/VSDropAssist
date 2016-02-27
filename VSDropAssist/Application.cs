@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Autofac;
+using log4net;
 using log4net.Config;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
@@ -28,7 +30,7 @@ namespace VSDropAssist
         private static void initIoC()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterType<InsertColumnsAddDropAction>().As<IDropAction>();
+            builder.RegisterType<DialogDropAction>().As<IDropAction>();
             builder.RegisterType<GraphModelDropInfoHandler>().As<IDropInfoHandler>();
             builder.RegisterType<DropHandler>().As<IDropHandler>();
 
@@ -53,10 +55,16 @@ namespace VSDropAssist
 
         private static void initLogging()
         {
-            var fi = new FileInfo("logging.config.xml");
-            if (!fi.Exists) throw new FileNotFoundException("logging.config");
+            var appFolder = Path.GetDirectoryName(typeof (Application).Assembly.Location);
 
+            var filepath = Path.Combine(appFolder , "logging.config.xml");
+
+            var fi = new FileInfo(filepath);
+            if (!fi.Exists) throw new FileNotFoundException("logging.config");
+            
             XmlConfigurator.ConfigureAndWatch(fi);
+            LogManager.GetLogger(typeof(Application)).Debug("Logging Started");
+
         }
     }
 }
