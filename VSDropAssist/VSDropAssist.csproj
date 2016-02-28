@@ -66,21 +66,33 @@
     <Compile Include="DropHandler.cs" />
     <Compile Include="DropInfoHandlers\ProjectItemDropInfoHandler.cs" />
     <Compile Include="Entities\Node.cs" />
-    <Compile Include="GraphModelDropHandlerProvider.cs" />
+    <Compile Include="DropHandlerProvider.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="DropInfoHandlers\GraphModelDropInfoHandler.cs" />
     <Compile Include="IDropAction.cs" />
     <Compile Include="IDropInfoHandler.cs" />
     <Compile Include="DropActions\MessageBoxDropAction.cs" />
+    <Compile Include="Options\VSDropAssistOptionsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Options\VSDropAssistOptionsControl.Designer.cs">
+      <DependentUpon>VSDropAssistOptionsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VSDropAssistOptionsPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="VSDropAssistPackage.cs" />
+    <Compile Include="Options\VSDropSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\VSDropAssist.DropActions.Settings.datasource" />
     <None Include="Properties\DataSources\VSDropAssist.Forms.CodeBuilderViewModel.datasource" />
+    <None Include="Properties\DataSources\VSDropAssist.Options.VSDropSettings.datasource" />
+    <None Include="Properties\DataSources\VSDropSettings.datasource" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
@@ -243,6 +255,9 @@
   <ItemGroup>
     <EmbeddedResource Include="DropActions\DropActionDialog.resx">
       <DependentUpon>DropActionDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Options\VSDropAssistOptionsControl.resx">
+      <DependentUpon>VSDropAssistOptionsControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>

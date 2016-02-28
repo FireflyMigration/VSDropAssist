@@ -16,11 +16,11 @@ namespace VSDropAssist
     [DropFormat("Microsoft.VisualStudio.GraphModel.Graph")]
     [Name("ClassMemberDropHandler")]
     [Order(Before = "DefaultFileDropHandler")]
-    internal class GraphModelDropHandlerProvider : IDropHandlerProvider
+    internal class DropHandlerProvider : IDropHandlerProvider
     {
         private IServiceContainer _serviceContainer;
 
-        static GraphModelDropHandlerProvider()
+        static DropHandlerProvider()
         {   
             Application.Init();
 

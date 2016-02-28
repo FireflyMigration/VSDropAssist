@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VSDropAssist.Annotations;
+using VSDropAssist.Options;
 
 namespace VSDropAssist.DropActions
 {
@@ -21,15 +22,29 @@ namespace VSDropAssist.DropActions
         }
 
     
-        public Settings GetSettings(Settings defaults)
+        public Settings GetSettings(Settings settings)
         {
-            this.bindingSource1.DataSource = defaults;
+            this.bsSettings.DataSource = settings;
             this.ShowDialog();
 
-            return defaults;
+            return settings;
         }
 
-       
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            showSetting(this.comboBox1.SelectedItem as string );
+        }
+
+        private void showSetting(string selectedItemKey)
+        {
+            if (selectedItemKey == null)
+            {this.bsSettings.RemoveFilter();
+
+                return;
+            }
+
+            this.bsSettings.Filter = "Key='" + selectedItemKey + "'";
+        }
     }
 
     public class Settings : INotifyPropertyChanged
@@ -38,6 +53,12 @@ namespace VSDropAssist.DropActions
 
         public string _formatExpression;
        
+        public VSDropSettings AvailableSettings { get; set; }
+
+        public Settings(VSDropSettings avaialbleSettings)
+        {
+            this.AvailableSettings = avaialbleSettings;
+        }
         public class EvaluateArgs : EventArgs
         {
             public string FormatExpression { get; private set; }

@@ -5,17 +5,15 @@
 //------------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Xml;
-using System.Xml.Serialization;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
@@ -83,7 +81,7 @@ namespace VSDropAssist
             var options = GetDialogPage(typeof (VSDropAssistOptionsPage)) as VSDropAssistOptionsPage;
             if (options != null)
             {
-                if (options.Settings != null && options.Settings.Any())
+                if (options.Settings != null && options.Settings.Settings.Any())
                 {
                     Debug.WriteLine("Found some settings!");
                 }
@@ -91,56 +89,5 @@ namespace VSDropAssist
         }
 
         #endregion
-    }
-
-    public class VSDropAssistSetting
-    {
-        public string Key { get; set; }
-        public string Prefix { get; set; }
-        public string Suffix { get; set; }
-
-    }
-    class VSDropAssistSettingListConverter : TypeConverter
-    {
-        private string delimiter = "@**@";
-   
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-        {
-            return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
-        }
-
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
-        {
-            return destinationType == typeof(string[]) || base.CanConvertTo(context, destinationType);
-        }
-
-        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
-        {
-            string v = value as string;
-
-            return v == null ? base.ConvertFrom(context, culture, value) : v.Split(new[] { delimiter }, StringSplitOptions.RemoveEmptyEntries);
-
-        }
-
-        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
-        {
-            string[] v = value as string[];
-            if (destinationType != typeof(string) || v == null)
-            {
-                return base.ConvertTo(context, culture, value, destinationType);
-            }
-            return string.Join(delimiter, v);
-
-        }
-    }
-
-    
-    public class VSDropAssistOptionsPage : DialogPage
-    {
-      
-        [Category("General")]
-        [DisplayName("Settings")]
-        [TypeConverter(typeof(VSDropAssistSettingListConverter))]
-        public string[] Settings { get; set; }
     }
 }

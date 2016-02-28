@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
 using VSDropAssist.DropActions;
 using VSDropAssist.DropInfoHandlers;
+using VSDropAssist.Options;
 
 namespace VSDropAssist
 {
@@ -25,7 +26,20 @@ namespace VSDropAssist
             if (_initialised) return;
             initLogging();
             initIoC();
+            initSettings();
         }
+
+        private static void initSettings()
+        {
+            Settings = VSDropSettings.LoadSettingsFromStorage();
+            if (Settings == null)
+            {
+                Settings = VSDropSettings.Default;
+                
+            }
+        }
+
+        public static VSDropSettings Settings { get; set; }
 
         private static void initIoC()
         {
@@ -65,6 +79,13 @@ namespace VSDropAssist
             
             XmlConfigurator.ConfigureAndWatch(fi);
             LogManager.GetLogger(typeof(Application)).Debug("Logging Started");
+
+        }
+
+        public static void ResetSettings()
+        {
+            Settings = VSDropSettings.Default;
+            VSDropSettings.SaveToStorage(Settings);
 
         }
     }

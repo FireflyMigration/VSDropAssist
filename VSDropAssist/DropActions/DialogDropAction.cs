@@ -50,8 +50,8 @@ namespace VSDropAssist.DropActions
 
         private Settings createSettings(DragDropInfo dragDropInfo, IWpfTextView textView)
         {
-            var ret = new Settings();
-            ret.VariableName = "myCustomer";
+            var ret = new Settings(Application.Settings);
+            ret.VariableName = "variableName";
 
             if ((dragDropInfo.KeyStates & DragDropKeyStates.AltKey ) != 0)
             {
