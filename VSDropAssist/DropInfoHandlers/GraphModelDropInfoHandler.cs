@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using log4net;
 using Microsoft.VisualStudio.GraphModel;
+
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
 
 namespace VSDropAssist.DropInfoHandlers
@@ -11,6 +12,12 @@ namespace VSDropAssist.DropInfoHandlers
     {
         private const string GRAPHMODELFORMAT = "Microsoft.VisualStudio.GraphModel.Graph";
         private readonly ILog _log = LogManager.GetLogger(typeof (GraphModelDropInfoHandler));
+
+        public bool CanUnderstand(DragDropInfo dragDropInfo)
+        {
+            return (dragDropInfo.Data.GetDataPresent(GRAPHMODELFORMAT));
+
+        }
 
         public IEnumerable<Node> GetNodes(DragDropInfo dragDropInfo)
         {

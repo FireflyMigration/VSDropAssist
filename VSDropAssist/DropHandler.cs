@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using log4net;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
@@ -9,15 +10,15 @@ namespace VSDropAssist
     internal class DropHandler : IDropHandler
     {
         private readonly IDropAction _dropAction; // new MessageBoxDropAction();
-        private readonly IDropInfoHandler _dropInfoHandler; // new GraphModelDropInfoHandler();
+        private readonly IEnumerable<IDropInfoHandler> _dropInfoHandlers; // new GraphModelDropInfoHandler();
         private readonly ILog _log = LogManager.GetLogger(typeof (DropHandler));
         private readonly IWpfTextView _tgt;
 
-        public DropHandler(IWpfTextView wpfTextView, IDropInfoHandler dropInfoHandler, IDropAction dropAction)
+        public DropHandler(IWpfTextView wpfTextView, IEnumerable<IDropInfoHandler> dropInfoHandlers, IDropAction dropAction)
         {
             _log.Debug("DropHandler.ctor");
             _tgt = wpfTextView;
-            _dropInfoHandler = dropInfoHandler;
+            _dropInfoHandlers = dropInfoHandlers;
             _dropAction = dropAction;
         }
 
@@ -79,12 +80,15 @@ namespace VSDropAssist
         {
             try
             {
-                if (_dropInfoHandler == null)
+                
+                var dropInfoHandler = _dropInfoHandlers.FirstOrDefault(x => x.CanUnderstand(dragDropInfo));
+                if (dropInfoHandler == null )
                 {
                     _log.Debug("No DropInfoHandler registered");
                     return null;
                 }
-                return _dropInfoHandler.GetNodes(dragDropInfo);
+
+                return dropInfoHandler.GetNodes(dragDropInfo);
             }
             catch (Exception e)
             {

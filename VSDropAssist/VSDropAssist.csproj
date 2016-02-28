@@ -64,6 +64,7 @@
     </Compile>
     <Compile Include="DropActions\InsertColumnsAddDropAction.cs" />
     <Compile Include="DropHandler.cs" />
+    <Compile Include="DropInfoHandlers\ProjectItemDropInfoHandler.cs" />
     <Compile Include="Entities\Node.cs" />
     <Compile Include="GraphModelDropHandlerProvider.cs" />
     <Compile Include="Extensions.cs" />

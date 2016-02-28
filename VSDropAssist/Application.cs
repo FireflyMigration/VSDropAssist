@@ -33,11 +33,12 @@ namespace VSDropAssist
             builder.RegisterType<DialogDropAction>().As<IDropAction>();
             builder.RegisterType<GraphModelDropInfoHandler>().As<IDropInfoHandler>();
             builder.RegisterType<DropHandler>().As<IDropHandler>();
+            builder.RegisterType<ProjectItemDropInfoHandler>().As<IDropInfoHandler>();
 
             _container = builder.Build();
         }
 
-        public static IDropHandler GetClassMemberDropHandler(IWpfTextView textView)
+        public static IDropHandler GetDropHandler(IWpfTextView textView)
 
         {
             return _container.Resolve<IDropHandler>(new TypedParameter(typeof (IWpfTextView), textView));

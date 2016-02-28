@@ -29,7 +29,7 @@ namespace VSDropAssist
 
         public IDropHandler GetAssociatedDropHandler(IWpfTextView wpfTextView)
         {
-            return Application.GetClassMemberDropHandler(wpfTextView);
+            return Application.GetDropHandler(wpfTextView);
         }
 
         public bool FireflyImagesEnabled { get; set; }

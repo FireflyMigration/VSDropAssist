@@ -5,6 +5,8 @@ namespace VSDropAssist
 {
     internal interface IDropInfoHandler
     {
+        bool CanUnderstand(DragDropInfo dragDropInfo);
+
         IEnumerable<Node> GetNodes(DragDropInfo dragDropInfo);
     }
 }
