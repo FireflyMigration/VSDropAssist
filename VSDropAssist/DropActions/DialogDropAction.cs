@@ -30,15 +30,15 @@ namespace VSDropAssist.DropActions
             if (dlg.DialogResult == DialogResult.OK)
             {
 
-              //  textView.TextBuffer.Insert(dragDropInfo.VirtualBufferPosition.Position.Position, getTextToInsert(nodes, settings ));
+               textView.TextBuffer.Insert(dragDropInfo.VirtualBufferPosition.Position.Position, getTextToInsert(nodes, result.FormatExpression, result.VariableName  ));
                 
             }
             return DropActionResultEnum.None;
         }
 
-        private string getTextToInsert(IEnumerable<Node> nodes, DropSetting setting, string variableName )
+        private string getTextToInsert(IEnumerable<Node> nodes,string formatExpression, string variableName )
         {
-            return _formatExpressionService.ReplaceText(variableName, nodes, setting.FormatExpression);
+            return _formatExpressionService.ReplaceText(variableName, nodes, formatExpression);
         }
 
         private VSDropSettings createSettings(DragDropInfo dragDropInfo, IWpfTextView textView)

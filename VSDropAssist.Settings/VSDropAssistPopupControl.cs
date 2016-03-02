@@ -44,9 +44,17 @@ namespace VSDropAssist.Settings
             set { this.bindingSource1.DataSource = value; }
         }
 
-      
-      
+        public DropSetting SelectedItem
+        {
+            get
+            {
+                return (DropSetting) this.bindingSource1.Current;
+                
+            }
+        }
 
+        public string VariableName {  get { return this.variableNameControl.Text; } }
+public string FormatExpression {  get { return this.FormatExpressionControl.Text; } }
         private void bindingSource1_CurrentChanged(object sender, EventArgs e)
         {
             // update the example data
