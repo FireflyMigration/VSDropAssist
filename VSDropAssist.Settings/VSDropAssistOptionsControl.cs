@@ -1,31 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
-using VSDropAssist.Settings;
 
-namespace VSDropAssist.Options
+namespace VSDropAssist.Settings
 {
     public partial class VSDropAssistOptionsControl : UserControl
     {
-        private IOptionsOwner _owner;
+        private IOptionsOwner _optionsPage;
 
         public VSDropAssistOptionsControl()
         {
             InitializeComponent();
         }
 
-        public void Init(IOptionsOwner owner)
+        public void Init(IOptionsOwner vsDropAssistOptionsPage)
         {
-            _owner = owner;
+            _optionsPage = vsDropAssistOptionsPage;
 
             // show the settings
-            this.bindingSource2.DataSource = _owner.Settings;
+            this.bindingSource2.DataSource = _optionsPage.Settings;
 
         }
 
@@ -36,7 +29,7 @@ namespace VSDropAssist.Options
             if (MessageBox.Show("Warning. This will remove all custom settings and revert to defaults", "Reset", MessageBoxButtons.OKCancel) != DialogResult.OK)
                 return;
 
-            _owner.ResetSettings();
+            _optionsPage.ResetSettings();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace VSDropAssist.DropActions
+﻿using VSDropAssist.Settings;
+
+namespace VSDropAssist.DropActions
 {
     partial class DropActionDialog
     {
@@ -148,7 +150,7 @@
             // bsSettings
             // 
             this.bsSettings.AllowNew = false;
-            this.bsSettings.DataSource = typeof(VSDropAssist.Options.VSDropSettings);
+            this.bsSettings.DataSource = typeof(VSDropSettings);
             // 
             // settingsBindingSource
             // 

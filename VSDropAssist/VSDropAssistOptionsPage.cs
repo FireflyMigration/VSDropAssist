@@ -1,10 +1,11 @@
 using System.Windows.Forms;
 using Microsoft.VisualStudio.Shell;
-using VSDropAssist.Options;
+using VSDropAssist.Settings;
+using VSDropAssistOptionsControl = VSDropAssist.Options.VSDropAssistOptionsControl;
 
 namespace VSDropAssist
 {
-    public class VSDropAssistOptionsPage : DialogPage
+    public class VSDropAssistOptionsPage : DialogPage, IOptionsOwner
     {
        
         private VSDropSettings _settings;
@@ -30,15 +31,15 @@ namespace VSDropAssist
         public override void SaveSettingsToStorage()
         {
             base.SaveSettingsToStorage();
-
-            VSDropSettings.SaveToStorage(this.Settings);
+            
+            SettingsHelper.SaveToStorage(this.Settings);
 
         }
         public override void LoadSettingsFromStorage()
         {
             base.LoadSettingsFromStorage();
 
-            _settings = VSDropSettings.LoadSettingsFromStorage();
+            _settings = SettingsHelper.LoadSettingsFromStorage();
 
         }
 

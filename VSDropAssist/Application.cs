@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.Text.Editor.DragDrop;
 using VSDropAssist.DropActions;
 using VSDropAssist.DropInfoHandlers;
 using VSDropAssist.Options;
+using VSDropAssist.Settings;
 
 namespace VSDropAssist
 {
@@ -31,7 +32,7 @@ namespace VSDropAssist
 
         private static void initSettings()
         {
-            Settings = VSDropSettings.LoadSettingsFromStorage();
+            Settings = SettingsHelper.LoadSettingsFromStorage();
             if (Settings == null)
             {
                 Settings = VSDropSettings.Default;
@@ -48,6 +49,7 @@ namespace VSDropAssist
             builder.RegisterType<GraphModelDropInfoHandler>().As<IDropInfoHandler>();
             builder.RegisterType<DropHandler>().As<IDropHandler>();
             builder.RegisterType<ProjectItemDropInfoHandler>().As<IDropInfoHandler>();
+            builder.RegisterType<FormatExpressionService>().As<IFormatExpressionService>();
 
             _container = builder.Build();
         }
@@ -85,7 +87,7 @@ namespace VSDropAssist
         public static void ResetSettings()
         {
             Settings = VSDropSettings.Default;
-            VSDropSettings.SaveToStorage(Settings);
+            SettingsHelper.SaveToStorage(Settings);
 
         }
     }

@@ -10,24 +10,30 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using VSDropAssist.Annotations;
 using VSDropAssist.Options;
+using VSDropAssist.Settings;
 
 namespace VSDropAssist.DropActions
 {
  
     public partial class DropActionDialog : Form
     {
+        private  VSDropSettings _vsDropSettings;
+
         public DropActionDialog()
         {
+           
             InitializeComponent();
         }
+        public VSDropSettings VSDropSettings {  get { return _vsDropSettings; }
+            set { _vsDropSettings = value; }
+        }
 
-    
-        public Settings GetSettings(Settings settings)
+        public DropSetting GetSelectedDropSetting()
         {
-            this.bsSettings.DataSource = settings;
+            this.bsSettings.DataSource = _vsDropSettings;
             this.ShowDialog();
 
-            return settings;
+            return null ;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -47,7 +53,7 @@ namespace VSDropAssist.DropActions
         }
     }
 
-    public class Settings : INotifyPropertyChanged
+    public class SettingsViewModel : INotifyPropertyChanged
     {
         public string _variableName;
 
@@ -55,7 +61,7 @@ namespace VSDropAssist.DropActions
        
         public VSDropSettings AvailableSettings { get; set; }
 
-        public Settings(VSDropSettings avaialbleSettings)
+        public SettingsViewModel(VSDropSettings avaialbleSettings)
         {
             this.AvailableSettings = avaialbleSettings;
         }

@@ -16,12 +16,52 @@ using System.Text;
 using System.Xml;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.OLE.Interop;
+using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.Shell.Settings;
 using Microsoft.Win32;
+using VSDropAssist.Settings;
 
 namespace VSDropAssist
 {
+    public static class SettingsHelper
+    {
+        const string collectionName = "VSDropAssistVSIX";
+
+        public static void SaveToStorage(VSDropSettings settings)
+        {
+
+            var settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
+            var userSettingsStore = settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
+
+            if (!userSettingsStore.CollectionExists(collectionName))
+                userSettingsStore.CreateCollection(collectionName);
+
+            if (settings == null) settings = new VSDropSettings();
+
+            var s = settings;
+            userSettingsStore.SetString(
+                collectionName,
+                nameof(VSDropSettings), s.ToXml()
+                );
+        }
+
+        public static VSDropSettings LoadSettingsFromStorage()
+        {
+            var settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
+            var userSettingsStore = settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
+
+            if (!userSettingsStore.PropertyExists(collectionName, nameof(VSDropSettings)))
+                return null;
+
+            var xmlData = userSettingsStore.GetString(collectionName, nameof(VSDropSettings));
+
+            if (!string.IsNullOrEmpty(xmlData)) return VSDropSettings.FromXml(xmlData);
+
+            return null;
+        }
+    }
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
     /// </summary>
@@ -81,7 +121,7 @@ namespace VSDropAssist
             var options = GetDialogPage(typeof (VSDropAssistOptionsPage)) as VSDropAssistOptionsPage;
             if (options != null)
             {
-                if (options.Settings != null && options.Settings.Settings.Any())
+                if (options.Settings != null)
                 {
                     Debug.WriteLine("Found some settings!");
                 }

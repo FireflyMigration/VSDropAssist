@@ -10,7 +10,7 @@
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
@@ -53,6 +53,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
+    <Compile Include="DropActions\CommaDelimitedListDropAction.cs" />
     <Compile Include="DropActions\DialogDropAction.cs" />
     <Compile Include="DropActions\DropActionBase.cs" />
     <Compile Include="DropActionResultEnum.cs" />
@@ -62,7 +63,11 @@
     <Compile Include="DropActions\DropActionDialog.Designer.cs">
       <DependentUpon>DropActionDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="DropActions\FormatExpressionService.cs" />
+    <Compile Include="DropActions\IFormatExpressionService.cs" />
     <Compile Include="DropActions\InsertColumnsAddDropAction.cs" />
+    <Compile Include="DropActions\InsertColumnsUpdateDropAction.cs" />
+    <Compile Include="DropActions\SimpleTextDropAction.cs" />
     <Compile Include="DropHandler.cs" />
     <Compile Include="DropInfoHandlers\ProjectItemDropInfoHandler.cs" />
     <Compile Include="Entities\Node.cs" />
@@ -84,7 +89,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="VSDropAssistPackage.cs" />
-    <Compile Include="Options\VSDropSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
@@ -242,13 +246,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -263,6 +265,12 @@
       <MergeWithCTO>true</MergeWithCTO>
       <ManifestResourceName>VSPackage</ManifestResourceName>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VSDropAssist.Settings\VSDropAssist.Settings.csproj">
+      <Project>{15bc08f0-530e-404d-b286-0f127e3ca766}</Project>
+      <Name>VSDropAssist.Settings</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />

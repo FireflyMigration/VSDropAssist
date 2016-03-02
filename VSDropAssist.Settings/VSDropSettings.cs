@@ -3,31 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-using Microsoft.VisualStudio.Settings;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Settings;
 
-namespace VSDropAssist.Options
+namespace VSDropAssist.Settings
 {
-    [XmlRoot("SETTING")]
-    public class DropSetting
-    {
-        public DropSetting(string key, string formatExpression)
-        {
-            this.Key = key;
-            this.FormatExpression = formatExpression;
-        }
-
-        public DropSetting()
-        {
-            
-        }
-
-        [XmlElement("KEY")]
-        public string Key { get; set; }
-        [XmlElement("FORMATEXPRESSION")]
-        public string FormatExpression { get; set; }
-    }
     [XmlRoot("options")]
     public class VSDropSettings
     {
@@ -91,39 +69,5 @@ namespace VSDropAssist.Options
             }
         }
 
-        const string collectionName = "VSDropAssistVSIX";
-
-        public static void SaveToStorage(VSDropSettings settings)
-        {
-
-            var settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
-            var userSettingsStore = settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
-
-            if (!userSettingsStore.CollectionExists(collectionName))
-                userSettingsStore.CreateCollection(collectionName);
-
-            if (settings == null) settings = new VSDropSettings();
-
-            var s = settings;
-            userSettingsStore.SetString(
-                collectionName,
-                nameof(VSDropSettings), s.ToXml()
-                );
-        }
-
-        public static VSDropSettings LoadSettingsFromStorage()
-        {
-            var settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
-            var userSettingsStore = settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
-
-            if (!userSettingsStore.PropertyExists(collectionName, nameof(VSDropSettings)))
-                return null;
-
-            var xmlData = userSettingsStore.GetString(collectionName, nameof(VSDropSettings));
-
-            if (!string.IsNullOrEmpty(xmlData)) return VSDropSettings.FromXml(xmlData);
-
-            return null;
-        }
     }
 }

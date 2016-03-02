@@ -1,12 +1,25 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using log4net;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
 
 namespace VSDropAssist
 {
+    internal class SmartDropAction : IDropAction
+    {
+        public SmartDropAction()
+        {
+            
+        }
+        public DropActionResultEnum Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo)
+        {
+            return DropActionResultEnum.None;
+
+        }
+    }
     internal class DropHandler : IDropHandler
     {
         private readonly IDropAction _dropAction; // new MessageBoxDropAction();

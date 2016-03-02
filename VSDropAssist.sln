@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSDropAssist", "VSDropAssis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSDropAssist.Tests", "VSDropAssist.Tests\VSDropAssist.Tests.csproj", "{3C52BC11-21FD-4FF2-9AC5-1BD271B9410A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSDropAssist.Settings", "VSDropAssist.Settings\VSDropAssist.Settings.csproj", "{15BC08F0-530E-404D-B286-0F127E3CA766}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSDropAssist.Settings.TestHost", "VSDropAssist.Settings.TestHost\VSDropAssist.Settings.TestHost.csproj", "{BF75CE3A-F870-4BD7-BF0B-B05954C261E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{3C52BC11-21FD-4FF2-9AC5-1BD271B9410A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C52BC11-21FD-4FF2-9AC5-1BD271B9410A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C52BC11-21FD-4FF2-9AC5-1BD271B9410A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15BC08F0-530E-404D-B286-0F127E3CA766}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15BC08F0-530E-404D-B286-0F127E3CA766}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15BC08F0-530E-404D-B286-0F127E3CA766}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15BC08F0-530E-404D-B286-0F127E3CA766}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF75CE3A-F870-4BD7-BF0B-B05954C261E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF75CE3A-F870-4BD7-BF0B-B05954C261E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF75CE3A-F870-4BD7-BF0B-B05954C261E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF75CE3A-F870-4BD7-BF0B-B05954C261E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
