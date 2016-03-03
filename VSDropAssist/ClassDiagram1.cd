@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="VSDropAssist.DropHandler" Collapsed="true">
+    <Position X="10.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AFAAABAACCAAAEAAAAABAAAAAAAIAAAAAACAIAAAAAA=</HashCode>
+      <FileName>DropHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VSDropAssist.DropHandlerProvider" Collapsed="true">
+    <Position X="19" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAARAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>DropHandlerProvider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VSDropAssist.Node" Collapsed="true">
+    <Position X="22.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIIIAAAQAAAAAAAAA=</HashCode>
+      <FileName>Entities\Node.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VSDropAssist.SettingsHelper" Collapsed="true">
+    <Position X="15.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>VSDropAssistPackage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VSDropAssist.VSDropAssistOptionsPage" Collapsed="true">
+    <Position X="20.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAEAAAAAAAAAgAAAAAAAAAAAAAAAgAAACAAAAAA=</HashCode>
+      <FileName>VSDropAssistOptionsPage.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VSDropAssist.DropActions.CommaDelimitedListDropAction" Collapsed="true">
+    <Position X="5" Y="8.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DropActions\CommaDelimitedListDropAction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VSDropAssist.DropActions.DialogDropAction" Collapsed="true">
+    <Position X="2.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAACAAAAAAAAAAgAAAAAAAAAAAg=</HashCode>
+      <FileName>DropActions\DialogDropAction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VSDropAssist.DropActions.DropActionBase" Collapsed="true">
+    <Position X="6" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DropActions\DropActionBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VSDropAssist.DropActions.DropActionDialog" Collapsed="true">
+    <Position X="14.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAEAAAAAACACAAAAAACAAAACACCAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>DropActions\DropActionDialog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VSDropAssist.DropActions.UserDropSetting" Collapsed="true">
+    <Position X="16" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAACAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DropActions\DropActionDialog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VSDropAssist.DropActions.FormatExpressionService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="16" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>DropActions\FormatExpressionService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VSDropAssist.DropActions.InsertColumnsAddDropAction" Collapsed="true">
+    <Position X="10.75" Y="8.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DropActions\InsertColumnsAddDropAction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VSDropAssist.DropActions.InsertColumnsUpdateDropAction" Collapsed="true">
+    <Position X="8" Y="8.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DropActions\InsertColumnsUpdateDropAction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VSDropAssist.DropActions.SimpleTextDropAction" Collapsed="true">
+    <Position X="9.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DropActions\SimpleTextDropAction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VSDropAssist.DropInfoHandlers.GraphModelDropInfoHandler" Collapsed="true">
+    <Position X="3" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAACAAEAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DropInfoHandlers\GraphModelDropInfoHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VSDropAssist.DropInfoHandlers.ProjectItemDropInfoHandler" Collapsed="true">
+    <Position X="4.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgACAAAAAAAAEAACAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DropInfoHandlers\ProjectItemDropInfoHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VSDropAssist.Settings.DropSetting" Collapsed="true">
+    <Position X="15.75" Y="9" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VSDropAssist.Settings.VSDropAssistOptionsControl" Collapsed="true">
+    <Position X="17.5" Y="9" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VSDropAssist.Settings.VSDropAssistPopupControl" Collapsed="true">
+    <Position X="15.75" Y="10" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="VSDropAssist.Settings.VSDropSettings" Collapsed="true">
+    <Position X="17.5" Y="10" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Interface Name="VSDropAssist.IDropAction" Collapsed="true">
+    <Position X="18" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IDropAction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="VSDropAssist.IDropInfoHandler" Collapsed="true">
+    <Position X="14.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IDropInfoHandler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="VSDropAssist.DropActions.IFormatExpressionService" Collapsed="true">
+    <Position X="14.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>DropActions\IFormatExpressionService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="VSDropAssist.Settings.IOptionsOwner" Collapsed="true">
+    <Position X="15.75" Y="11.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

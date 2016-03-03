@@ -92,6 +92,7 @@
     <Compile Include="VSDropAssistPackage.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Key.snk" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\VSDropAssist.DropActions.Settings.datasource" />

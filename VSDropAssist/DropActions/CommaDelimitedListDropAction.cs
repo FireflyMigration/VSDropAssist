@@ -9,7 +9,7 @@ namespace VSDropAssist.DropActions
         protected override string getTextToInsert(IEnumerable<Node> nodes)
         {
 
-            var output = string.Join(",", nodes.Select(x => string.Format("{0}.{1}", x.Type.ToLower(), x.Member)));
+            var output = string.Join(",\n", nodes.Select(x => string.Format("{0}.{1}", x.Type.ToLower(), x.Member)));
 
 
             return string.Format("{0}\n", output);

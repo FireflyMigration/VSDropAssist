@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using Microsoft.VisualStudio.Text.Editor;
@@ -9,6 +10,10 @@ namespace VSDropAssist.DropActions
     {
         private readonly IFormatExpressionService _formatExpressionService;
 
+        private Lazy< InsertColumnsAddDropAction> _insertColumnsAddDropAction = new Lazy<InsertColumnsAddDropAction>( ()=> new InsertColumnsAddDropAction());
+        private Lazy<InsertColumnsUpdateDropAction> _insertColumnsUpdateDropAction = new Lazy<InsertColumnsUpdateDropAction>( ()=> new InsertColumnsUpdateDropAction());
+        private Lazy<CommaDelimitedListDropAction> _commaDelimitedListDropAction = new Lazy<CommaDelimitedListDropAction>(()=> new CommaDelimitedListDropAction());
+        
         public SmartDropAction(IFormatExpressionService formatExpressionService )
         {
             _formatExpressionService = formatExpressionService;
@@ -30,21 +35,19 @@ namespace VSDropAssist.DropActions
         {
             if ((dragDropInfo.KeyStates & DragDropKeyStates.AltKey) != 0)
             {
-                return new InsertColumnsUpdateDropAction();
+                return _insertColumnsUpdateDropAction.Value ;
             }
             if ((dragDropInfo.KeyStates & DragDropKeyStates.ShiftKey) != 0)
             {
-                return new InsertColumnsAddDropAction();
+               return _insertColumnsAddDropAction.Value ;
             }
             if ((dragDropInfo.KeyStates & DragDropKeyStates.ControlKey) != 0)
             {
-                // not supported yet
                 MessageBox.Show("Not supported (yet)");
                 return null;
                 //return new DialogDropAction(_formatExpressionService);
             }
-
-            return new CommaDelimitedListDropAction();
+            return _commaDelimitedListDropAction.Value ;
         }
     }
 }
