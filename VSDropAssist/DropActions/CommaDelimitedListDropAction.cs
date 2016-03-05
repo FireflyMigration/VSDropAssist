@@ -6,14 +6,14 @@ namespace VSDropAssist.DropActions
     internal class CommaDelimitedListDropAction : SimpleTextDropAction
     {
 
-        protected override string getTextToInsert(IEnumerable<Node> nodes)
+        private const string FORMAT = "%v%.%m%,\n";
+        protected override string GetFormatString()
         {
+            return FORMAT;
+        }
 
-            var output = string.Join(",\n", nodes.Select(x => string.Format("{0}.{1}", x.Type.ToLower(), x.Member)));
-
-
-            return string.Format("{0}\n", output);
-
+        public CommaDelimitedListDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService)
+        {
         }
     }
 }

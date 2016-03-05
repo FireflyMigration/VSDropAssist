@@ -9,8 +9,8 @@ namespace VSDropAssist.DropActions
 {
     internal class MessageBoxDropAction : DropActionBase
     {
-        public override DropActionResultEnum Execute(IEnumerable<Node> nodes, IWpfTextView textView,
-            DragDropInfo dragDropInfo)
+        public override IExecuteResult Execute(IEnumerable<Node> nodes, IWpfTextView textView,
+            DragDropInfo dragDropInfo, string indentText)
         {
             var msg = string.Format("You dropped:\n{0}",
                 string.Join("\n",
@@ -18,7 +18,7 @@ namespace VSDropAssist.DropActions
             _log.Debug(msg);
             MessageBox.Show(msg);
 
-            return DropActionResultEnum.None;
+            return ExecuteResult.None;
         }
     }
 }

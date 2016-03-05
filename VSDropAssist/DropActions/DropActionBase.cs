@@ -14,7 +14,7 @@ namespace VSDropAssist.DropActions
             _log = LogManager.GetLogger(GetType());
         }
 
-        public abstract DropActionResultEnum Execute(IEnumerable<Node> nodes, IWpfTextView textView,
-            DragDropInfo dragDropInfo);
+        public abstract IExecuteResult  Execute(IEnumerable<Node> nodes, IWpfTextView textView,
+            DragDropInfo dragDropInfo, string indentText);
     }
 }

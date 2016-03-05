@@ -58,9 +58,17 @@ namespace VSDropAssist
                 _log.Debug("No DropAction specified");
                 return DragDropPointerEffects.None;
             }
-            
-            var result = _dropAction.Execute(nodes, _tgt, dragDropInfo);
-            if (result == DropActionResultEnum.AllowCopy) return DragDropPointerEffects.Copy;
+
+            // store the start buffer position
+            var droppedPosition = dragDropInfo.VirtualBufferPosition.Position.Position;
+            var droppedLine = dragDropInfo.VirtualBufferPosition.Position.GetContainingLine();
+            var offset = droppedPosition - droppedLine.Start.Position;
+
+            var droppedLineText = dragDropInfo.VirtualBufferPosition.Position.GetContainingLine().GetText();
+            var indent = droppedLineText.Length;
+            var indentText = new string(' ', indent);
+            var result = _dropAction.Execute(nodes, _tgt, dragDropInfo, indentText );
+            if (result.DropActionResultEnum  == DropActionResultEnum.AllowCopy) return DragDropPointerEffects.Copy;
 
             return DragDropPointerEffects.None;
         }

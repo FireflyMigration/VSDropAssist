@@ -6,5 +6,7 @@ namespace VSDropAssist
         public string Type { get; set; }
         public string Member { get; set; }
         public string Assembly { get; set; }
+
+        public int StartLine { get; set; }
     }
 }

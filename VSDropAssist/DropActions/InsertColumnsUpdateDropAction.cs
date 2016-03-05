@@ -5,20 +5,17 @@ namespace VSDropAssist.DropActions
 {
     internal class InsertColumnsUpdateDropAction : SimpleTextDropAction
     {
-        
 
-        protected override  string getTextToInsert(IEnumerable<Node> nodes)
+        private const string FORMAT = "%v%.%m%.Value = ;\n";
+        protected override string GetFormatString()
         {
-            var output = new StringBuilder();
+            return FORMAT;
+        }
 
-            foreach (var n in nodes)
-            {
-                output.AppendFormat("{0}.{1}.Value = ;\n", n.Type.ToLower(), n.Member);
-            }
 
-            var ret = output.ToString();
-
-            return ret;
+        public InsertColumnsUpdateDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService)
+        {
         }
     }
+    
 }

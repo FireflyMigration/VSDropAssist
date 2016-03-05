@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using log4net;
 using Microsoft.VisualStudio.GraphModel;
-
+using Microsoft.VisualStudio.GraphModel.CodeSchema;
+using Microsoft.VisualStudio.GraphModel.Schemas;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
 
 namespace VSDropAssist.DropInfoHandlers
@@ -41,6 +42,7 @@ namespace VSDropAssist.DropInfoHandlers
                         var type = "";
                         var ns = "";
                         var member = "";
+                        var startLine = 0;
 
                         var c = n.Id.Value as GraphNodeIdCollection;
                         if (c != null)
@@ -55,12 +57,27 @@ namespace VSDropAssist.DropInfoHandlers
                                 else _log.Debug("Unknown GraphNodeId:" + i.LiteralValue);
                             }
                         }
+                        try
+                        {
+                            foreach (var p in n.Properties)
+                            {
+                                if (p.Key.Id == "SourceLocation")
+                                {
+                                    var pos = (Microsoft.VisualStudio.GraphModel.CodeSchema.SourceLocation) p.Value;
+                                    startLine = pos.StartPosition.Line;
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            _log.Error("Failed to get node sourcecode location: " + member );
+                        }
 
                         if (!string.IsNullOrEmpty(member))
-                            ret.Add(new Node {Assembly = assembly, Member = member, Namespace = ns, Type = type});
+                            ret.Add(new Node {Assembly = assembly, Member = member, Namespace = ns, Type = type, StartLine = startLine});
                     }
                 }
-                if (ret.Any()) return ret;
+                if (ret.Any()) return ret.OrderBy(x => x.StartLine );
             }
             catch (Exception e)
             {
