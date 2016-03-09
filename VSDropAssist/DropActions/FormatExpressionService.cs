@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace VSDropAssist.DropActions
@@ -7,7 +8,8 @@ namespace VSDropAssist.DropActions
     {
         public string ReplaceText(string variableName, IEnumerable<Node> nodes, string formatExpression, string indentText)
         {
-            var sb = new StringBuilder();
+            var text = new List<string>();
+
             var first = true;
             foreach (var n in nodes)
             {
@@ -17,13 +19,14 @@ namespace VSDropAssist.DropActions
                 expr = expr.Replace("%t%", n.Type);
                 expr = expr.Replace("%n%", n.Namespace);
                 expr = expr.Replace("%a%", n.Assembly);
+                expr = expr.Replace("%f%", n.FullName );
                 expr = expr.Replace("%v%", string.IsNullOrEmpty(variableName) ? n.Type : variableName);
-                
-                    sb.AppendFormat("{0}{1}",first ? string.Empty : indentText, expr);
+                text.Add(string.Format("{0}{1}", first ? string.Empty : indentText, expr));
+                  
                 first = false;
 
             }
-            return sb.ToString();
+            return string.Join("",text.Distinct());
         }
     }
 }

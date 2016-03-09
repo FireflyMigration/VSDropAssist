@@ -4,7 +4,7 @@ using System.Text;
 
 namespace VSDropAssist.DropActions
 {
-    internal class InsertColumnsAddDropAction : SimpleTextDropAction
+    internal class InsertColumnsAddDropAction : ClassMemberDropAction
     {
 
 

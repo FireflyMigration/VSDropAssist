@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSDropAssist.Settings", "VS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSDropAssist.Settings.TestHost", "VSDropAssist.Settings.TestHost\VSDropAssist.Settings.TestHost.csproj", "{BF75CE3A-F870-4BD7-BF0B-B05954C261E8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireflyCommunity.Core.Logging", "FireflyCommunity.Core.Logging\FireflyCommunity.Core.Logging.csproj", "{22CE5512-28D9-404D-B925-95CC00060674}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{BF75CE3A-F870-4BD7-BF0B-B05954C261E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF75CE3A-F870-4BD7-BF0B-B05954C261E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF75CE3A-F870-4BD7-BF0B-B05954C261E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22CE5512-28D9-404D-B925-95CC00060674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22CE5512-28D9-404D-B925-95CC00060674}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22CE5512-28D9-404D-B925-95CC00060674}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22CE5512-28D9-404D-B925-95CC00060674}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

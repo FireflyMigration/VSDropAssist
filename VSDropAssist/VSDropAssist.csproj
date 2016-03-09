@@ -53,6 +53,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
+    <Compile Include="DropActions\ClassFullNameDropAction.cs" />
+    <Compile Include="DropActions\ClassMemberDropAction.cs" />
+    <Compile Include="DropActions\ClassOnlyDropAction.cs" />
     <Compile Include="DropActions\CommaDelimitedListDropAction.cs" />
     <Compile Include="DropActions\DialogDropAction.cs" />
     <Compile Include="DropActions\DropActionBase.cs" />
@@ -269,6 +272,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FireflyCommunity.Core.Logging\FireflyCommunity.Core.Logging.csproj">
+      <Project>{22ce5512-28d9-404d-b925-95cc00060674}</Project>
+      <Name>FireflyCommunity.Core.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VSDropAssist.Settings\VSDropAssist.Settings.csproj">
       <Project>{15bc08f0-530e-404d-b286-0f127e3ca766}</Project>
       <Name>VSDropAssist.Settings</Name>

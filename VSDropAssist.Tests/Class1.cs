@@ -19,4 +19,9 @@ namespace VSDropAssist.Tests
             
         } 
     }
+
+    public class DropFormatTest
+    {
+        
+    }
 }

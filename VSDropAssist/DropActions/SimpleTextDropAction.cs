@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.Text.Editor;
@@ -15,12 +16,20 @@ namespace VSDropAssist.DropActions
             _formatExpressionService = formatExpressionService;
         }
 
+        public virtual bool getNodeFilter(Node n)
+        {
+            return  true ;
+
+        }
         public override IExecuteResult Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo, string indentText)
         {
-            textView.TextBuffer.Insert(dragDropInfo.VirtualBufferPosition.Position.Position, getTextToInsert(nodes, indentText ));
+            var filteredNodes = nodes.Where(x => getNodeFilter(x));
+
+          
+            textView.TextBuffer.Insert(dragDropInfo.VirtualBufferPosition.Position.Position, getTextToInsert(filteredNodes, indentText ));
 
 
-            return new ExecuteResult(true,getSelectionWidth(nodes),getSelectionHeight(nodes), DropActionResultEnum.AllowCopy, getSelectionStart() );
+            return new ExecuteResult(true,getSelectionWidth(filteredNodes),getSelectionHeight(filteredNodes), DropActionResultEnum.AllowCopy, getSelectionStart() );
         }
 
         protected  virtual int getSelectionHeight(IEnumerable<Node> nodes)
@@ -35,7 +44,7 @@ namespace VSDropAssist.DropActions
         }
         protected virtual int getSelectionStart()
         {
-            return GetFormatString().IndexOf("%v%");
+            return Math.Max(0, GetFormatString().IndexOf("%v%"));
         }
 
         protected virtual string getTextToInsert(IEnumerable<Node> nodes, string indentText)

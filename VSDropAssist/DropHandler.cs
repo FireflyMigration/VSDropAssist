@@ -20,6 +20,7 @@ namespace VSDropAssist
             _tgt = wpfTextView;
             _dropInfoHandlers = dropInfoHandlers;
             _dropAction = dropAction;
+            
         }
 
         public DragDropPointerEffects HandleDragStarted(DragDropInfo dragDropInfo)

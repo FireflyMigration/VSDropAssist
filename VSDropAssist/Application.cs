@@ -3,6 +3,8 @@ using System.IO;
 using Autofac;
 using log4net;
 using log4net.Config;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
 using VSDropAssist.DropActions;
@@ -16,6 +18,7 @@ namespace VSDropAssist
     {
         private static IContainer _container;
         private static readonly bool _initialised = false;
+        public static Lazy<IVsSolution> Solution;
 
         static Application()
         {
@@ -28,6 +31,9 @@ namespace VSDropAssist
             initLogging();
             initIoC();
             initSettings();
+            Solution =
+               new Lazy<IVsSolution>(() => Package.GetGlobalService(typeof(IVsSolution)) as IVsSolution);
+
         }
 
         private static void initSettings()

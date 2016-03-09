@@ -114,7 +114,9 @@ namespace VSDropAssist
         {
             base.Initialize();
             setupVSDRopAssistDefaults();
+          
         }
+
 
         private void setupVSDRopAssistDefaults()
         {

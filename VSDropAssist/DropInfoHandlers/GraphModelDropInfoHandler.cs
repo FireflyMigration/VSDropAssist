@@ -44,6 +44,8 @@ namespace VSDropAssist.DropInfoHandlers
                         var member = "";
                         var startLine = 0;
 
+                       // todo: dropping a class doesnt work as Insufficient information
+
                         var c = n.Id.Value as GraphNodeIdCollection;
                         if (c != null)
                         {
@@ -73,7 +75,7 @@ namespace VSDropAssist.DropInfoHandlers
                             _log.Error("Failed to get node sourcecode location: " + member );
                         }
 
-                        if (!string.IsNullOrEmpty(member))
+                        if (!string.IsNullOrEmpty(type))
                             ret.Add(new Node {Assembly = assembly, Member = member, Namespace = ns, Type = type, StartLine = startLine});
                     }
                 }

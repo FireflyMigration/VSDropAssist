@@ -16,7 +16,8 @@ namespace VSDropAssist.DropActions
         private Lazy< InsertColumnsAddDropAction> _insertColumnsAddDropAction ;
         private Lazy<InsertColumnsUpdateDropAction> _insertColumnsUpdateDropAction ;
         private Lazy<CommaDelimitedListDropAction> _commaDelimitedListDropAction;
-        
+        private Lazy<ClassFullNameDropAction> _classFullNameDropAction;
+         
         public SmartDropAction(IFormatExpressionService formatExpressionService )
         {
             _formatExpressionService = formatExpressionService;
@@ -24,11 +25,12 @@ namespace VSDropAssist.DropActions
                 new Lazy<InsertColumnsAddDropAction>(() => new InsertColumnsAddDropAction(_formatExpressionService));
             _insertColumnsUpdateDropAction = new Lazy<InsertColumnsUpdateDropAction>(() => new InsertColumnsUpdateDropAction(_formatExpressionService ));
             _commaDelimitedListDropAction = new Lazy<CommaDelimitedListDropAction>(() => new CommaDelimitedListDropAction(_formatExpressionService ));
+            _classFullNameDropAction = new Lazy<ClassFullNameDropAction>(()=> new ClassFullNameDropAction(_formatExpressionService ));
         }
 
         public IExecuteResult  Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo, string indentText)
         {
-            var dropAction = getDropAction(dragDropInfo);
+            var dropAction = getDropAction(nodes, dragDropInfo);
 
             if (dropAction != null)
             {
@@ -46,8 +48,13 @@ namespace VSDropAssist.DropActions
                     
                
                     var startLine = textView.TextSnapshot.GetLineFromPosition(droppedPosition);
-                    var start = new VirtualSnapshotPoint(startLine, offset  + result.SelectionStartInChars);
-                    var endLine = textView.TextSnapshot.GetLineFromLineNumber(startLine.LineNumber + result.SelectionHeightInLines-1);
+                    var start = new VirtualSnapshotPoint(startLine,Math.Max(0, offset  + result.SelectionStartInChars));
+
+                    var endLine = startLine;
+                    if (result.SelectionHeightInLines > 1)
+                        textView.TextSnapshot.GetLineFromLineNumber(startLine.LineNumber +
+                                                                    result.SelectionHeightInLines - 1);
+                            
                     var end = new VirtualSnapshotPoint(endLine, offset + result.SelectionWidthInChars + result.SelectionStartInChars );
                     textView.Selection.Mode = TextSelectionMode.Box;
 
@@ -58,23 +65,33 @@ namespace VSDropAssist.DropActions
 
         }
 
-        private IDropAction getDropAction(DragDropInfo dragDropInfo)
+        private IDropAction getDropAction(IEnumerable<Node> nodes, DragDropInfo dragDropInfo)
         {
-            if ((dragDropInfo.KeyStates & DragDropKeyStates.AltKey) != 0)
+            // if dropping any non-classes
+            if (nodes.Any(x => x.IsClass == false))
             {
-                return _insertColumnsUpdateDropAction.Value ;
+                if ((dragDropInfo.KeyStates & DragDropKeyStates.AltKey) != 0)
+                {
+                    return _insertColumnsUpdateDropAction.Value;
+                }
+                if ((dragDropInfo.KeyStates & DragDropKeyStates.ShiftKey) != 0)
+                {
+                    return _insertColumnsAddDropAction.Value;
+                }
+                if ((dragDropInfo.KeyStates & DragDropKeyStates.ControlKey) != 0)
+                {
+                    MessageBox.Show("Not supported (yet)");
+                    return null;
+                    //return new DialogDropAction(_formatExpressionService);
+                }
+                return _commaDelimitedListDropAction.Value;
             }
-            if ((dragDropInfo.KeyStates & DragDropKeyStates.ShiftKey) != 0)
+            else
             {
-               return _insertColumnsAddDropAction.Value ;
+                // at least 1 class, so just drop the classes
+                return _classFullNameDropAction.Value;
             }
-            if ((dragDropInfo.KeyStates & DragDropKeyStates.ControlKey) != 0)
-            {
-                MessageBox.Show("Not supported (yet)");
-                return null;
-                //return new DialogDropAction(_formatExpressionService);
-            }
-            return _commaDelimitedListDropAction.Value ;
+            return null;
         }
     }
 }

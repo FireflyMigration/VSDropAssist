@@ -3,7 +3,7 @@ using System.Text;
 
 namespace VSDropAssist.DropActions
 {
-    internal class InsertColumnsUpdateDropAction : SimpleTextDropAction
+    internal class InsertColumnsUpdateDropAction : ClassMemberDropAction
     {
 
         private const string FORMAT = "%v%.%m%.Value = ;\n";

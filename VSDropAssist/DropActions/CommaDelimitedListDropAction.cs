@@ -1,9 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
-
 namespace VSDropAssist.DropActions
 {
-    internal class CommaDelimitedListDropAction : SimpleTextDropAction
+    internal class CommaDelimitedListDropAction : ClassMemberDropAction
     {
 
         private const string FORMAT = "%v%.%m%,\n";

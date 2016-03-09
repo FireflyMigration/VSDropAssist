@@ -5,7 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using EnvDTE;
 using log4net;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
 
 namespace VSDropAssist.DropInfoHandlers
@@ -108,6 +111,7 @@ namespace VSDropAssist.DropInfoHandlers
                                 SolutionExplorerNodeData node = new SolutionExplorerNodeData();
                                 node.ProjectGuid = new Guid(splitString[0]);
                                 node.ProjectFileName = splitString[1];
+                                node.ProjectRef = eachNode;
 
                                 // For PROJECTITEM data structures, the file name portion has been run through ToLower (or equivalent)
                                 // but the IDataObject will also have a "System.String" data type which is still in the correct case
@@ -139,6 +143,8 @@ namespace VSDropAssist.DropInfoHandlers
 
                 return nodeData;
             }
+
+            public string ProjectRef { get; set; }
 
             #region Private Members
             /// <summary>
@@ -285,7 +291,7 @@ namespace VSDropAssist.DropInfoHandlers
             }
             #endregion
         }
-
+        
         public bool CanUnderstand(DragDropInfo dragDropInfo)
         {
             if (!dragDropInfo.Data.GetDataPresent(PROJECTITEMFORMAT))
@@ -309,9 +315,14 @@ namespace VSDropAssist.DropInfoHandlers
                 // create nodes from the projectitems
                 var data = dragDropInfo.Data.GetData(PROJECTITEMFORMAT);
                 var nodeIsProject = false;
-                var filenames = SolutionExplorerNodeData.DecodeProjectItemData(dragDropInfo.Data, nodeIsProject);
+                var droppedData = SolutionExplorerNodeData.DecodeProjectItemData(dragDropInfo.Data, nodeIsProject);
 
-                var nodes = filenames.Select(x => new Node() {Type = getClassNameFromFileName(x.FileName)});
+                // find the nodes in the solution
+                var solutionItems = findSolutionItems(droppedData);
+                if (solutionItems != null) return solutionItems;
+
+                _log.Debug("FAiled to find items in IVSHierarchy. Generating items based on filename only");
+                var nodes = droppedData.Select(x => new Node() {Type = getClassNameFromFileName(x.FileName)});
                 _log.Debug("Found data");
 
                 return nodes;
@@ -324,6 +335,102 @@ namespace VSDropAssist.DropInfoHandlers
             return null;
         }
 
+        private IEnumerable<Node > findSolutionItems(IList<SolutionExplorerNodeData> droppedData)
+        {
+            var ret = new List<Node>();
+
+            foreach (var item in droppedData)
+            {
+                var solutionItem = createNodeFromSolutionItem(item.ProjectRef );
+
+                if (solutionItem != null)
+                {
+                    ret.Add(solutionItem);
+                }
+            }
+            return ret;
+
+        }
+
+        private Node createNodeFromSolutionItem(string projectRef)
+        {
+            var solution = Application.Solution.Value;
+
+            IVsHierarchy hierarchy= null ;
+            uint itemid;
+            
+            VSUPDATEPROJREFREASON[] updateReasons = new VSUPDATEPROJREFREASON[1];
+            string updatedProjectRef;
+            if (solution.GetItemOfProjref(projectRef, out hierarchy,out itemid, out updatedProjectRef,updateReasons ) == 0)
+            {
+                object objProj;
+                hierarchy.GetProperty(itemid, (int)__VSHPROPID.VSHPROPID_ExtObject, out objProj);
+
+                // identify what this thing is
+                var pi = objProj as ProjectItem;
+                var p = objProj as Project;
+                var ce = objProj as CodeElement;
+
+                if(pi!=null)
+                {
+                    // find the first class inthe project
+                    var theClass = findFirstClass(pi);
+                    var asm = "";
+                    var ns = getNamespace(theClass);
+                    var t = theClass.Name ;
+                    var startline = theClass.StartPoint.Line;
+                    var fullname = theClass.FullName;
+
+                    return new Node()
+                    {
+                        Assembly = asm,
+                        Namespace = ns,
+                        Type = t,
+                        Member = string.Empty,
+                        StartLine = startline,
+                        IsClass = true ,
+                        FullName = fullname 
+                    };
+                }
+            }
+            return null;
+
+        }
+
+        private string getNamespace(CodeClass theClass)
+        {
+            var fn = theClass.FullName;
+            var typename = theClass.Name;
+
+            return fn.Substring(0,fn.Length -  typename.Length-1);
+        }
+
+        private CodeClass findFirstClass(ProjectItem pi)
+        {
+            
+            return findFirstClass(pi.FileCodeModel.CodeElements);
+            
+        }
+
+        private CodeClass findFirstClass(CodeElements elements)
+        {
+
+            foreach (CodeElement ce in elements )
+            {
+                if (ce.Kind == vsCMElement.vsCMElementClass) return ce as CodeClass;
+
+                if (ce.Children.Count > 0)
+                {
+                    var ret = findFirstClass(ce.Children);
+                    if (ret != null) return ret;
+                }
+                else
+                {
+                
+                }
+            }
+            return null;
+        }
         private string getClassNameFromFileName(string fileName)
         {
             // assumes the classname is the filename
