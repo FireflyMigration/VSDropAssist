@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Autofac;
+using EnvDTE;
 using log4net;
 using log4net.Config;
 using Microsoft.VisualStudio.Shell;
@@ -19,6 +20,7 @@ namespace VSDropAssist
         private static IContainer _container;
         private static readonly bool _initialised = false;
         public static Lazy<IVsSolution> Solution;
+        public static Lazy<DTE> DTE; 
 
         static Application()
         {
@@ -33,7 +35,7 @@ namespace VSDropAssist
             initSettings();
             Solution =
                new Lazy<IVsSolution>(() => Package.GetGlobalService(typeof(IVsSolution)) as IVsSolution);
-
+            DTE = new Lazy<DTE>(()=> Package.GetGlobalService(typeof(DTE)) as DTE );
         }
 
         private static void initSettings()

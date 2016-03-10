@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using EnvDTE;
+using log4net;
 using Microsoft.VisualStudio.Imaging.Interop;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
@@ -17,7 +19,10 @@ namespace VSDropAssist.DropActions
         private Lazy<InsertColumnsUpdateDropAction> _insertColumnsUpdateDropAction ;
         private Lazy<CommaDelimitedListDropAction> _commaDelimitedListDropAction;
         private Lazy<ClassFullNameDropAction> _classFullNameDropAction;
-         
+        private ILog _log = LogManager.GetLogger(typeof (SmartDropAction));
+        private Lazy<ClassVarDropAction> _classVarDropAction;
+        private Lazy<ClassPrivateDropAction> _classPrivateDropAction;
+
         public SmartDropAction(IFormatExpressionService formatExpressionService )
         {
             _formatExpressionService = formatExpressionService;
@@ -26,6 +31,9 @@ namespace VSDropAssist.DropActions
             _insertColumnsUpdateDropAction = new Lazy<InsertColumnsUpdateDropAction>(() => new InsertColumnsUpdateDropAction(_formatExpressionService ));
             _commaDelimitedListDropAction = new Lazy<CommaDelimitedListDropAction>(() => new CommaDelimitedListDropAction(_formatExpressionService ));
             _classFullNameDropAction = new Lazy<ClassFullNameDropAction>(()=> new ClassFullNameDropAction(_formatExpressionService ));
+            _classVarDropAction = new Lazy<ClassVarDropAction>(() => new ClassVarDropAction(_formatExpressionService));
+            _classPrivateDropAction = new Lazy<ClassPrivateDropAction>(() => new ClassPrivateDropAction(_formatExpressionService));
+
         }
 
         public IExecuteResult  Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo, string indentText)
@@ -52,7 +60,7 @@ namespace VSDropAssist.DropActions
 
                     var endLine = startLine;
                     if (result.SelectionHeightInLines > 1)
-                        textView.TextSnapshot.GetLineFromLineNumber(startLine.LineNumber +
+                       endLine= textView.TextSnapshot.GetLineFromLineNumber(startLine.LineNumber +
                                                                     result.SelectionHeightInLines - 1);
                             
                     var end = new VirtualSnapshotPoint(endLine, offset + result.SelectionWidthInChars + result.SelectionStartInChars );
@@ -88,10 +96,39 @@ namespace VSDropAssist.DropActions
             }
             else
             {
+
+                if ((dragDropInfo.KeyStates & DragDropKeyStates.ShiftKey) != 0)
+                {
+                    var codeElementHelper = new CodeElementHelper();
+
+                    var droppedClass =(CodeClass) codeElementHelper.GetCodeElement(Application.DTE.Value,
+                        dragDropInfo.VirtualBufferPosition.Position, vsCMElement.vsCMElementClass);
+                    var droppedMethod =(CodeFunction ) codeElementHelper.GetCodeElement(Application.DTE.Value,
+                        dragDropInfo.VirtualBufferPosition.Position, vsCMElement.vsCMElementFunction);
+
+                    if (droppedMethod != null)
+                    {
+                        // in a method, create a var
+                        _log.Debug("Create a var in " + droppedMethod.FullName);
+                        
+                        return _classVarDropAction.Value;
+                    }
+                    if (droppedClass != null)
+                    {
+                        _log.Debug("Create a private in " + droppedClass.FullName);
+                        // in a class, but not a method, create a private variable
+                        return _classPrivateDropAction.Value;
+                    }
+                    _log.Debug(
+                        "Shift held down, but could not identify a class or function at the drop location. Reverting to full classname");
+                }
+                
                 // at least 1 class, so just drop the classes
-                return _classFullNameDropAction.Value;
+                    return _classFullNameDropAction.Value;
             }
             return null;
         }
+
+
     }
 }

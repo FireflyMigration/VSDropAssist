@@ -56,6 +56,9 @@
     <Compile Include="DropActions\ClassFullNameDropAction.cs" />
     <Compile Include="DropActions\ClassMemberDropAction.cs" />
     <Compile Include="DropActions\ClassOnlyDropAction.cs" />
+    <Compile Include="DropActions\ClassPrivateDropAction.cs" />
+    <Compile Include="DropActions\ClassVarDropAction.cs" />
+    <Compile Include="DropActions\CodeElementHelper.cs" />
     <Compile Include="DropActions\CommaDelimitedListDropAction.cs" />
     <Compile Include="DropActions\DialogDropAction.cs" />
     <Compile Include="DropActions\DropActionBase.cs" />

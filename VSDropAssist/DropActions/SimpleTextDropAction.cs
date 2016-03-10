@@ -29,7 +29,12 @@ namespace VSDropAssist.DropActions
             textView.TextBuffer.Insert(dragDropInfo.VirtualBufferPosition.Position.Position, getTextToInsert(filteredNodes, indentText ));
 
 
-            return new ExecuteResult(true,getSelectionWidth(filteredNodes),getSelectionHeight(filteredNodes), DropActionResultEnum.AllowCopy, getSelectionStart() );
+            return new ExecuteResult(getSelectAfterDrop(),getSelectionWidth(filteredNodes),getSelectionHeight(filteredNodes), DropActionResultEnum.AllowCopy, getSelectionStart() );
+        }
+
+        protected virtual bool getSelectAfterDrop()
+        {
+            return true;
         }
 
         protected  virtual int getSelectionHeight(IEnumerable<Node> nodes)

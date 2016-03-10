@@ -10,7 +10,10 @@ namespace VSDropAssist.DropActions
             return base.getNodeFilter(n) && n.IsClass;
         }
 
-      
+        protected override bool getSelectAfterDrop()
+        {
+            return false ;
+        }
 
         public ClassOnlyDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService)
         {
