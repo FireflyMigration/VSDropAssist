@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>VS Drop Assist</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            
+            font-size: .75em;
+        }
+         table  {
+             margin-top: 10px;
+             border: 1px solid black;
+             empty-cells: show;
+            
+             border-collapse: collapse;
+         }
+
+        td,th {
+            border: 1px solid black;
+            vert-align: middle;
+            padding: 2px 2px 5px 5px;
+        }
+        th {
+            
+            background-color: lightskyblue;
+        }
+
+        .hint {
+            
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+<h1>VS Drop Assist</h1>
+
+<h2>Usage</h2>
+<p>
+    Drag one or more objects from the Solution Explorer and drop onto a code window.
+</p>
+    <p>
+        Drop whilst holding down the following buttons to generate different text.
+        After dropping, the %v% is selected and you can immediately type a new name (press ESC to cancel the selection)
+    </p>
+   
+<br/>
+If dragging 1-or-more class members (use ctrl or shift-click to select multiple items in the solution explorer)
+<table>
+    <thead><tr><th>Key</th><th>String</th></tr></thead>
+    <tbody>
+    <tr><td>ALT</td><td> %v%.%m%.Value = ;\n</td></tr>
+    <tr><td>SHIFT</td><td>Columns.Add(%v%.%m%);\n</td></tr>
+    <tr><td>(none)</td><td> %v%.%m%,\n</td></tr>
+    </tbody>
+</table>
+<br/>
+    If dragging at least 1 class (use ctrl or shift-click to select multiple items in the solution explorer)
+<table>
+
+    <thead><tr><th>Key</th><th>String</th><th></th></tr></thead><tbody>
+    <tr>
+        <td>SHIFT</td>
+        <td>var %v% = new %f%();\n</td>
+        <td>
+            <div class="hint">(If dropping into a method)</div>
+        </td>
+    </tr>
+    <tr>
+        <td>SHIFT</td>
+        <td>public readonly %f% %v% = new %f%();\n</td>
+        <td>
+            <div class="hint">(If dropping outside a method within a class declaration)</div>
+        </td>
+    </tr>
+    <tr><td>(none)</td><td> %f%\n</td><td/></tr>
+</tbody>
+</table>
+
+<h4>Tokens:</h4>
+<table>
+    <thead><tr><th>Token</th><th>Replaced with</th></tr></thead>
+    <tbody>
+    <tr><td>%f%</td><td>Class full name</td></tr>
+    <tr><td>%v%</td><td>Class type name</td></tr>
+    <tr><td>%m</td><td>Member (method) name</td></tr>
+
+    </tbody>
+    
+</table>
+    
+</body>
+</html>
