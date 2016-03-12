@@ -20,27 +20,25 @@ namespace FireflyCommunity.Core.Logging
         protected override void Append(LoggingEvent loggingEvent)
         {
             Debug.WriteLine("ClassOutline.Logging:" + loggingEvent.RenderedMessage);
-
-            dynamic tmp = null;
+            string msg = "";
+           
             if (loggingEvent.ExceptionObject != null)
             {
-                tmp = new
+               var tmp = new
                 {
+                    level = loggingEvent.Level.ToString(),
                     Message = loggingEvent.RenderedMessage,
                     Exception = loggingEvent.ExceptionObject,
                     Domain = loggingEvent.Domain
                 };
+                msg= JsonConvert.SerializeObject(tmp);
+              
             }
             else
             {
-                tmp = new
-                {
-                    Message = loggingEvent.RenderedMessage,
-                    Domain = loggingEvent.Domain
-                };
+                msg = string.Format("{0}:{1}", loggingEvent.Level, loggingEvent.RenderedMessage);
             }
-            var s = JsonConvert.SerializeObject(tmp);
-            ReportError(s );
+            ReportError(msg);
         }
 
         private void ReportError(string errorInfo)

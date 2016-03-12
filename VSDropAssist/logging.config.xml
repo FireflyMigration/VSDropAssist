@@ -4,7 +4,7 @@
   <appender name="VisualStudio" type="ClassOutline.Logging.VisualStudioOutputLogger, ClassOutline.Logging" />
 
     <root>
-    <level value="ALL" />
+    <level value="ERROR" />
     <appender-ref ref="VisualStudio" />
   </root>
 </log4net>
