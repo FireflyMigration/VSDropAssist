@@ -35,16 +35,19 @@ namespace VSDropAssist.DropActions
 
             if (dlg.DialogResult == DialogResult.OK)
             {
-
-               textView.TextBuffer.Insert(dragDropInfo.VirtualBufferPosition.Position.Position, getTextToInsert(nodes, result.FormatExpression, result.VariableName, indentText   ));
+                if (!string.IsNullOrEmpty(result.VariableName))
+                {
+                    foreach (var n in nodes) n.VariableName = result.VariableName;
+                }
+               textView.TextBuffer.Insert(dragDropInfo.VirtualBufferPosition.Position.Position, getTextToInsert(nodes, result.FormatExpression,  indentText   ));
                 
             }
             return ExecuteResult.None;
         }
 
-        private string getTextToInsert(IEnumerable<Node> nodes,string formatExpression, string variableName, string indentText )
+        private string getTextToInsert(IEnumerable<Node> nodes,string formatExpression, string indentText )
         {
-            return _formatExpressionService.ReplaceText(variableName, nodes, formatExpression, indentText );
+            return _formatExpressionService.ReplaceText( nodes, formatExpression, indentText );
         }
 
         private VSDropSettings createSettings(DragDropInfo dragDropInfo, IWpfTextView textView)

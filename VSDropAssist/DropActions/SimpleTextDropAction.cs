@@ -44,7 +44,7 @@ namespace VSDropAssist.DropActions
 
         protected virtual int getSelectionWidth(IEnumerable<Node> nodes  )
         {
-            return nodes.Max(x => x.Type.Length);
+            return nodes.Max(x => x.VariableName.Length);
 
         }
         protected virtual int getSelectionStart()
@@ -55,7 +55,7 @@ namespace VSDropAssist.DropActions
         protected virtual string getTextToInsert(IEnumerable<Node> nodes, string indentText)
         {
 
-            return _formatExpressionService.ReplaceText(string.Empty, nodes, GetFormatString(), indentText);
+            return _formatExpressionService.ReplaceText( nodes, GetFormatString(), indentText);
 
         }
     }

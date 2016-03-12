@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using log4net;
 using Microsoft.VisualStudio.GraphModel;
 using Microsoft.VisualStudio.GraphModel.CodeSchema;
@@ -9,6 +10,21 @@ using Microsoft.VisualStudio.Text.Editor.DragDrop;
 
 namespace VSDropAssist.DropInfoHandlers
 {
+    public class DGMLDropInfoHandler : IDropInfoHandler
+    {
+        private const string DATAFORMAT = "DGML";
+        private ILog _log = LogManager.GetLogger(typeof (DGMLDropInfoHandler));
+
+        public bool CanUnderstand(DragDropInfo dragDropInfo)
+        {
+            return dragDropInfo.Data.GetDataPresent(DATAFORMAT);
+        }
+
+        public IEnumerable<Node> GetNodes(DragDropInfo dragDropInfo)
+        {
+            throw new NotImplementedException();
+        }
+    }
     internal class GraphModelDropInfoHandler : IDropInfoHandler
     {
         private const string GRAPHMODELFORMAT = "Microsoft.VisualStudio.GraphModel.Graph";
@@ -37,6 +53,9 @@ namespace VSDropAssist.DropInfoHandlers
                     _log.Debug("Found a GraphModel");
                     foreach (var n in gm.Nodes)
                     {
+                        // ignore if no descriptive label as these are added by VisualStudio for some reason
+                        if (string.IsNullOrEmpty(n.DescriptiveCategoryLabel)) continue;
+
                         _log.Debug("Found node:" + n.Id.Value);
                         var assembly = "";
                         var type = "";
@@ -76,7 +95,18 @@ namespace VSDropAssist.DropInfoHandlers
                         }
 
                         if (!string.IsNullOrEmpty(type))
-                            ret.Add(new Node {Assembly = assembly, Member = member, Namespace = ns, Type = type, StartLine = startLine});
+                        {
+                            var nestedTypeName = new TypeParser().GetTypeFromString(type);
+
+                            ret.Add(new Node
+                            {
+                                Assembly = assembly,
+                                Member = member,
+                                Namespace = ns,
+                                Type = nestedTypeName ,
+                                StartLine = startLine
+                            });
+                        }
                     }
                 }
                 if (ret.Any()) return ret.OrderBy(x => x.StartLine );
@@ -86,6 +116,37 @@ namespace VSDropAssist.DropInfoHandlers
                 _log.Error("GetNodes failed", e);
             }
             return null;
+        }
+    
+    }
+    public class TypeParser
+    {
+        public string GetTypeFromString(string source)
+        {
+            var pattern = @"(Name=(?<theName>\w*) (?<parent>ParentType=(?<parentType>\w*)))";
+            var reg = new Regex(pattern);
+            var typeNames = new List<string>();
+            var mc = reg.Matches(source);
+            if (mc.Count == 0) return source;
+
+            foreach (Match m in mc)
+            {
+                foreach (Capture g in m.Groups["theName"].Captures)
+                {
+                    if (!string.IsNullOrEmpty(g.Value)) typeNames.Add(g.Value);
+                }
+                foreach (Capture pg in m.Groups["parentType"].Captures)
+                {
+                    if (!string.IsNullOrEmpty(pg.Value))
+                    {
+                        typeNames.Add(pg.Value);
+                    }
+                }
+
+            }
+            typeNames.Reverse();
+            return string.Join(".", typeNames);
+
         }
     }
 }
