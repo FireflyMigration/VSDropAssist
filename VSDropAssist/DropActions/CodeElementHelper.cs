@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using EnvDTE;
 using log4net;
 using Microsoft.VisualStudio.Text;
@@ -20,11 +22,19 @@ namespace VSDropAssist.DropActions
             
             foreach (CodeElement ce in codeElements)
             {
+                if (ce.Kind.ToString() == "vsCMElementImportStmt")
+                {
+                    continue;
+                }
                 try
                 {
-                    _log.Debug("Searching " + ce.FullName);
+                    _log.Debug("Searching " + ce.Name);
+                    Debug.WriteLine(string.Format("Searching {0}:{1}", ce.Kind.ToString(), ce.Name));
                 }
-                catch { }
+                catch (Exception e)
+                {
+                    Debug.WriteLine("Exception getting object name: " + e.Message );
+                }
 
                 var sp = getStartPoint(ce);
                 var pointLine = point.GetContainingLine().LineNumber;
@@ -96,6 +106,7 @@ namespace VSDropAssist.DropActions
         private CodeElements getCodeElements(CodeElement ce)
         {
             if (ce is CodeNamespace) return ((CodeNamespace) ce).Members;
+            if (ce is CodeClass) return ((CodeClass) ce).Members;
             if (ce is CodeType ) return ((CodeType )ce).Members;
             if (ce is CodeFunction ) return ((CodeFunction )ce).Parameters ;
 

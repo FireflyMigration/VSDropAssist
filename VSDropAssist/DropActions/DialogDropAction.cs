@@ -39,15 +39,18 @@ namespace VSDropAssist.DropActions
                 {
                     foreach (var n in nodes) n.VariableName = result.VariableName;
                 }
-               textView.TextBuffer.Insert(dragDropInfo.VirtualBufferPosition.Position.Position, getTextToInsert(nodes, result.FormatExpression,  indentText   ));
-                
+                foreach (var t in getTextToInsert(nodes, result.FormatExpression, ""))
+                {
+                    textView.TextBuffer.Insert(dragDropInfo.VirtualBufferPosition.Position.Position,
+                        t);
+                }
             }
             return ExecuteResult.None;
         }
 
-        private string getTextToInsert(IEnumerable<Node> nodes,string formatExpression, string indentText )
+        private IEnumerable<string> getTextToInsert(IEnumerable<Node> nodes,string formatExpression, string indentText )
         {
-            return _formatExpressionService.ReplaceText( nodes, formatExpression, indentText );
+            return nodes.Select(n =>  _formatExpressionService.ReplaceText( n, formatExpression, indentText ));
         }
 
         private VSDropSettings createSettings(DragDropInfo dragDropInfo, IWpfTextView textView)

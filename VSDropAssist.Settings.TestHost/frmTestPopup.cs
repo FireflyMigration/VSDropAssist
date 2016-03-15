@@ -31,7 +31,7 @@ namespace VSDropAssist.Settings.TestHost
 
             }
 
-            args.Example = _formatExpressionService.ReplaceText( nodes, args.SelectedSetting.FormatExpression,string.Empty  );
+            args.Example = _formatExpressionService.ReplaceText( nodes.FirstOrDefault(), args.SelectedSetting.FormatExpression,string.Empty  );
         }
 
         private void frmTestPopup_Load(object sender, EventArgs e)
