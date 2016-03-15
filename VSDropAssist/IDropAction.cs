@@ -54,4 +54,6 @@ namespace VSDropAssist
     {
         IExecuteResult Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo, string indentText);
     }
+
+    
 }

@@ -24,7 +24,7 @@ namespace VSDropAssist.DropActions
                 expr = expr.Replace("%a%", n.Assembly);
                 expr = expr.Replace("%f%", n.FullName );
                 expr = expr.Replace("%v%",v);
-                text.Add(string.Format("{0}{1}", first ? string.Empty : indentText, expr));
+                text.Add(string.Format("{0}{1}",  indentText, expr));
                   
                 first = false;
 

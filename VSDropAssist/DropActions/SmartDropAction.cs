@@ -22,7 +22,7 @@ namespace VSDropAssist.DropActions
         private ILog _log = LogManager.GetLogger(typeof (SmartDropAction));
         private Lazy<ClassVarDropAction> _classVarDropAction;
         private Lazy<ClassPrivateDropAction> _classPrivateDropAction;
-
+        private Lazy<NewClassInstanceDropAction> _newClassInstanceDropAction; 
         public SmartDropAction(IFormatExpressionService formatExpressionService )
         {
             _formatExpressionService = formatExpressionService;
@@ -33,7 +33,7 @@ namespace VSDropAssist.DropActions
             _classFullNameDropAction = new Lazy<ClassFullNameDropAction>(()=> new ClassFullNameDropAction(_formatExpressionService ));
             _classVarDropAction = new Lazy<ClassVarDropAction>(() => new ClassVarDropAction(_formatExpressionService));
             _classPrivateDropAction = new Lazy<ClassPrivateDropAction>(() => new ClassPrivateDropAction(_formatExpressionService));
-
+            _newClassInstanceDropAction = new Lazy<NewClassInstanceDropAction>(() => new NewClassInstanceDropAction(_formatExpressionService));
         }
 
         public IExecuteResult  Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo, string indentText)
@@ -46,8 +46,6 @@ namespace VSDropAssist.DropActions
                 var droppedPosition = dragDropInfo.VirtualBufferPosition.Position.Position;
                 var droppedLine = dragDropInfo.VirtualBufferPosition.Position.GetContainingLine();
                 var offset = droppedPosition - droppedLine.Start.Position;
-                
-                var indent = indentText.Length;
                 
                 var result =  dropAction.Execute(nodes, textView, dragDropInfo, indentText);
 
@@ -122,7 +120,10 @@ namespace VSDropAssist.DropActions
                     _log.Debug(
                         "Shift held down, but could not identify a class or function at the drop location. Reverting to full classname");
                 }
-                
+                else if ((dragDropInfo.KeyStates & DragDropKeyStates.AltKey) != 0)
+                {
+                    return _newClassInstanceDropAction.Value;
+                }
                 // at least 1 class, so just drop the classes
                     return _classFullNameDropAction.Value;
             }

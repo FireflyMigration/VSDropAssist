@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.Text.Editor.DragDrop;
 using Microsoft.VisualStudio.Utilities;
 using VSDropAssist.DropActions;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Text.Operations;
 
 namespace VSDropAssist
 {
@@ -20,15 +21,23 @@ namespace VSDropAssist
     {
         private IServiceContainer _serviceContainer;
 
+        [Import]
+        IEditorOperationsFactoryService factory = null;
+
+        [Import ]
+        ISmartIndentationService smartIndentationService = null;
+
         static DropHandlerProvider()
         {   
             Application.Init();
-
+            
         }
 
 
         public IDropHandler GetAssociatedDropHandler(IWpfTextView wpfTextView)
         {
+            Application.EditorOperationsFactoryService = factory;
+            Application.SmartIndentationService = smartIndentationService;
             return Application.GetDropHandler(wpfTextView);
         }
 

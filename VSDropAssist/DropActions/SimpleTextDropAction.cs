@@ -25,11 +25,16 @@ namespace VSDropAssist.DropActions
         {
             var filteredNodes = nodes.Where(x => getNodeFilter(x));
 
-          
-            textView.TextBuffer.Insert(dragDropInfo.VirtualBufferPosition.Position.Position, getTextToInsert(filteredNodes, indentText ));
+            textView.TextBuffer.Insert(dragDropInfo.VirtualBufferPosition.Position.Position, String.Format("{0}\n", indentText));
+            // move down a line
+            var line = dragDropInfo.VirtualBufferPosition.Position.GetContainingLine();
+            var nextline =
+                dragDropInfo.VirtualBufferPosition.Position.Snapshot.GetLineFromLineNumber(line.LineNumber + 1);
+
+            textView.TextBuffer.Insert(nextline.Start , getTextToInsert(filteredNodes, indentText ));
 
 
-            return new ExecuteResult(getSelectAfterDrop(),getSelectionWidth(filteredNodes),getSelectionHeight(filteredNodes), DropActionResultEnum.AllowCopy, getSelectionStart() );
+            return new ExecuteResult(getSelectAfterDrop(),getSelectionWidth(filteredNodes),getSelectionHeight(filteredNodes), DropActionResultEnum.AllowCopy, getSelectionStart() + indentText.Length  );
         }
 
         protected virtual bool getSelectAfterDrop()

@@ -5,6 +5,17 @@ using Microsoft.VisualStudio.Text.Editor.DragDrop;
 
 namespace VSDropAssist.DropActions
 {
+    internal class NewClassInstanceDropAction : ClassOnlyDropAction
+    {
+        public NewClassInstanceDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService)
+        {
+        }
+
+        protected override string GetFormatString()
+        {
+            return "new %f%();\n";
+        }
+    }
     internal  class ClassFullNameDropAction : ClassOnlyDropAction
     {
         

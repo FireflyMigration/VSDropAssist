@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using log4net;
+using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
 
@@ -44,6 +45,35 @@ namespace VSDropAssist
             return DragDropPointerEffects.Copy;
         }
 
+        private string getIndent(ITextView textView, VirtualSnapshotPoint virtualSnapshotPoint, ITextSnapshotLine line )
+        {
+            if (Application.EditorOperationsFactoryService == null)
+            {
+                _log.Debug("Failed to connect to EditorOperationsFactorySevice. Whitespace cannot be identifier");
+             
+            }
+            else
+            {
+
+                var editorOperations = Application.EditorOperationsFactoryService.GetEditorOperations(textView);
+
+                var whitespace = editorOperations.GetWhitespaceForVirtualSpace(virtualSnapshotPoint);
+
+                if (whitespace.Length > 0) return whitespace;
+            }
+            if (Application.SmartIndentationService == null)
+            {
+                _log.Debug("SmartIndentService unavailable");
+            }
+            else
+            {
+                var ws = Application.SmartIndentationService.GetDesiredIndentation(textView, line);
+
+                if (ws.HasValue) return new string( ' ',ws.Value);
+            }
+            return null;
+        }
+
         public DragDropPointerEffects HandleDataDropped(DragDropInfo dragDropInfo)
         {
             //dump(dragDropInfo);
@@ -61,13 +91,11 @@ namespace VSDropAssist
             }
 
             // store the start buffer position
-            var droppedPosition = dragDropInfo.VirtualBufferPosition.Position.Position;
+        
             var droppedLine = dragDropInfo.VirtualBufferPosition.Position.GetContainingLine();
-            var offset = droppedPosition - droppedLine.Start.Position;
 
-            var droppedLineText = dragDropInfo.VirtualBufferPosition.Position.GetContainingLine().GetText();
-            var indent = droppedLineText.Length;
-            var indentText = new string(' ', indent);
+            var indentText = getIndent(_tgt, dragDropInfo.VirtualBufferPosition, droppedLine ) ?? "";
+
             var result = _dropAction.Execute(nodes, _tgt, dragDropInfo, indentText );
             if (result.DropActionResultEnum  == DropActionResultEnum.AllowCopy) return DragDropPointerEffects.Copy;
 

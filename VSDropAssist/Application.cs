@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
+using Microsoft.VisualStudio.Text.Operations;
 using VSDropAssist.DropActions;
 using VSDropAssist.DropInfoHandlers;
 using VSDropAssist.Options;
@@ -20,7 +21,9 @@ namespace VSDropAssist
         private static IContainer _container;
         private static readonly bool _initialised = false;
         public static Lazy<IVsSolution> Solution;
-        public static Lazy<DTE> DTE; 
+        public static Lazy<DTE> DTE;
+        public static IEditorOperationsFactoryService EditorOperationsFactoryService;
+        public static ISmartIndentationService SmartIndentationService;
 
         static Application()
         {
@@ -36,6 +39,8 @@ namespace VSDropAssist
             Solution =
                new Lazy<IVsSolution>(() => Package.GetGlobalService(typeof(IVsSolution)) as IVsSolution);
             DTE = new Lazy<DTE>(()=> Package.GetGlobalService(typeof(DTE)) as DTE );
+            SmartIndentationService =
+                Package.GetGlobalService(typeof (ISmartIndentationService)) as ISmartIndentationService;
         }
 
         private static void initSettings()
