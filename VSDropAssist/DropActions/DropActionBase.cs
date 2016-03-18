@@ -15,6 +15,6 @@ namespace VSDropAssist.DropActions
         }
 
         public abstract IExecuteResult  Execute(IEnumerable<Node> nodes, IWpfTextView textView,
-            DragDropInfo dragDropInfo, string indentText);
+            DragDropInfo dragDropInfo);
     }
 }

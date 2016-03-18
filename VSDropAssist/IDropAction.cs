@@ -12,6 +12,8 @@ namespace VSDropAssist
         int SelectionHeightInLines { get; }
         DropActionResultEnum DropActionResultEnum { get; set; }
         int SelectionStartInChars { get;  }
+
+        int SelectionStartLine { get; }
     }
 
     public class ExecuteResult : IExecuteResult 
@@ -32,11 +34,13 @@ namespace VSDropAssist
             }
         }
 
-        public ExecuteResult(bool selectAfterDrop, int selectionWidthInChars, int selectionHeightInLines, DropActionResultEnum dropActionResultEnum, int selectionStartInChars)
+        public ExecuteResult(bool selectAfterDrop, int selectionWidthInChars, int selectionHeightInLines, DropActionResultEnum dropActionResultEnum, int selectionStartInChars, int selectionStartLine)
             : this(selectAfterDrop, selectionWidthInChars, selectionHeightInLines, dropActionResultEnum )
         {
             SelectionStartInChars = selectionStartInChars;
+            SelectionStartLine = selectionStartLine;
         }
+
         public ExecuteResult(bool selectAfterDrop, int selectionWidthInChars, int selectionHeightInLines, DropActionResultEnum dropActionResultEnum)
         {
             SelectAfterDrop = selectAfterDrop;
@@ -49,10 +53,11 @@ namespace VSDropAssist
         public int SelectionHeightInLines { get; set; }
         public DropActionResultEnum DropActionResultEnum { get; set; }
         public int SelectionStartInChars { get; set; }
+        public int SelectionStartLine { get; set; }
     }
     internal interface IDropAction
     {
-        IExecuteResult Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo, string indentText);
+        IExecuteResult Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo);
     }
 
     

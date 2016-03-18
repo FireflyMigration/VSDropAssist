@@ -10,7 +10,7 @@ namespace VSDropAssist.DropActions
     internal class MessageBoxDropAction : DropActionBase
     {
         public override IExecuteResult Execute(IEnumerable<Node> nodes, IWpfTextView textView,
-            DragDropInfo dragDropInfo, string indentText)
+            DragDropInfo dragDropInfo)
         {
             var msg = string.Format("You dropped:\n{0}",
                 string.Join("\n",

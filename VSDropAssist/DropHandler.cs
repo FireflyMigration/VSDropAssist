@@ -96,7 +96,7 @@ namespace VSDropAssist
 
             var indentText = getIndent(_tgt, dragDropInfo.VirtualBufferPosition, droppedLine ) ?? "";
 
-            var result = _dropAction.Execute(nodes, _tgt, dragDropInfo, indentText );
+            var result = _dropAction.Execute(nodes, _tgt, dragDropInfo);
             if (result.DropActionResultEnum  == DropActionResultEnum.AllowCopy) return DragDropPointerEffects.Copy;
 
             return DragDropPointerEffects.None;

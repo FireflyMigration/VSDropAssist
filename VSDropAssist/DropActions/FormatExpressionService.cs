@@ -6,7 +6,7 @@ namespace VSDropAssist.DropActions
 {
     public class FormatExpressionService : IFormatExpressionService
     {
-        public string ReplaceText( Node n, string formatExpression, string indentText)
+        public string ReplaceText( Node n, string formatExpression)
         {
     
                 var expr = formatExpression;
@@ -20,7 +20,7 @@ namespace VSDropAssist.DropActions
                 expr = expr.Replace("%a%", n.Assembly);
                 expr = expr.Replace("%f%", n.FullName );
                 expr = expr.Replace("%v%",v);
-            return indentText + expr;
+            return expr;
         }
     }
 }

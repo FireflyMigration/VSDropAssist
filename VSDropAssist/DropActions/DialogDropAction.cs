@@ -26,7 +26,7 @@ namespace VSDropAssist.DropActions
             _formatExpressionService = formatExpressionService;
         }
 
-        public override IExecuteResult Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo, string indentText)
+        public override IExecuteResult Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo)
         {
             var settings = createSettings(dragDropInfo, textView);
             var dlg = new DropActionDialog();
@@ -39,7 +39,7 @@ namespace VSDropAssist.DropActions
                 {
                     foreach (var n in nodes) n.VariableName = result.VariableName;
                 }
-                foreach (var t in getTextToInsert(nodes, result.FormatExpression, ""))
+                foreach (var t in getTextToInsert(nodes, result.FormatExpression))
                 {
                     textView.TextBuffer.Insert(dragDropInfo.VirtualBufferPosition.Position.Position,
                         t);
@@ -48,9 +48,9 @@ namespace VSDropAssist.DropActions
             return ExecuteResult.None;
         }
 
-        private IEnumerable<string> getTextToInsert(IEnumerable<Node> nodes,string formatExpression, string indentText )
+        private IEnumerable<string> getTextToInsert(IEnumerable<Node> nodes,string formatExpression )
         {
-            return nodes.Select(n =>  _formatExpressionService.ReplaceText( n, formatExpression, indentText ));
+            return nodes.Select(n =>  _formatExpressionService.ReplaceText( n, formatExpression ));
         }
 
         private VSDropSettings createSettings(DragDropInfo dragDropInfo, IWpfTextView textView)

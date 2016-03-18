@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using EnvDTE;
@@ -36,7 +37,7 @@ namespace VSDropAssist.DropActions
             _newClassInstanceDropAction = new Lazy<NewClassInstanceDropAction>(() => new NewClassInstanceDropAction(_formatExpressionService));
         }
 
-        public IExecuteResult  Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo, string indentText)
+        public IExecuteResult  Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo)
         {
             var dropAction = getDropAction(nodes, dragDropInfo);
 
@@ -45,27 +46,33 @@ namespace VSDropAssist.DropActions
                 // store the start buffer position
                 var droppedPosition = dragDropInfo.VirtualBufferPosition.Position.Position;
                 var droppedLine = dragDropInfo.VirtualBufferPosition.Position.GetContainingLine();
-                var offset = droppedPosition - droppedLine.Start.Position;
-                
-                var result =  dropAction.Execute(nodes, textView, dragDropInfo, indentText);
+
+           
+                var result =  dropAction.Execute(nodes, textView, dragDropInfo);
 
                 if (result.SelectAfterDrop)
                 {
                     
                
                     var startLine = textView.TextSnapshot.GetLineFromPosition(droppedPosition);
-                    var start = new VirtualSnapshotPoint(startLine,Math.Max(0, offset  + result.SelectionStartInChars));
+                    if (result.SelectionStartLine > 0)
+                    {
+                        startLine = textView.TextSnapshot.GetLineFromLineNumber(result.SelectionStartLine);
+                    }
+                    var start = new VirtualSnapshotPoint(startLine,Math.Max(0,  result.SelectionStartInChars));
 
                     var endLine = startLine;
                     if (result.SelectionHeightInLines > 1)
                        endLine= textView.TextSnapshot.GetLineFromLineNumber(startLine.LineNumber +
                                                                     result.SelectionHeightInLines - 1);
                             
-                    var end = new VirtualSnapshotPoint(endLine, offset + result.SelectionWidthInChars + result.SelectionStartInChars );
+                    var end = new VirtualSnapshotPoint(endLine, result.SelectionWidthInChars + result.SelectionStartInChars );
                     textView.Selection.Mode = TextSelectionMode.Box;
 
                     textView.Selection.Select(start, end);
                 }
+                textView.Caret.MoveTo(textView.Selection.End);
+
             }
             return ExecuteResult.None ;
 
@@ -98,12 +105,30 @@ namespace VSDropAssist.DropActions
                 if ((dragDropInfo.KeyStates & DragDropKeyStates.ShiftKey) != 0)
                 {
                     var codeElementHelper = new CodeElementHelper();
+                    
+                    var sel = Application.DTE.Value?.ActiveDocument?.Selection as TextSelection;
+                    CodeElement droppedClass = null;
+                    CodeElement droppedMethod = null;
+                    if (sel != null)
+                    {
+                        droppedClass = sel.ActivePoint.CodeElement[vsCMElement.vsCMElementClass];
+                        droppedMethod = sel.ActivePoint.CodeElement[vsCMElement.vsCMElementFunction];
 
-                    var droppedClass =(CodeClass) codeElementHelper.GetCodeElement(Application.DTE.Value,
-                        dragDropInfo.VirtualBufferPosition.Position, vsCMElement.vsCMElementClass);
-                    var droppedMethod =(CodeFunction ) codeElementHelper.GetCodeElement(Application.DTE.Value,
-                        dragDropInfo.VirtualBufferPosition.Position, vsCMElement.vsCMElementFunction);
+                        try
+                        {
+                            if (droppedMethod != null)
+                            {
+                                Debug.WriteLine("Dropped onto method " + droppedMethod.Name);
 
+                            }
+                            if (droppedClass != null)
+                            {
+                                Debug.WriteLine("Dropped onto class " + droppedClass.Name);
+                            }
+                        }
+                        catch { }
+
+                    }
                     if (droppedMethod != null)
                     {
                         // in a method, create a var
