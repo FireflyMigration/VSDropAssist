@@ -94,5 +94,17 @@ namespace VSDropAssist
             }
             set { _variableName = value; }
         }
+
+        public string NormalisedNamespace { get; set; }
+
+        public string NormalisedFullName
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(this.NormalisedNamespace))
+                    return string.Format("{0}.{1}", this.NormalisedNamespace, this.Type);
+                return this.Type;
+            }
+        }
     }
 }

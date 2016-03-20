@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using EnvDTE;
+using EnvDTE80;
 using log4net;
 using Microsoft.VisualStudio.Imaging.Interop;
 using Microsoft.VisualStudio.Text;
@@ -37,16 +38,18 @@ namespace VSDropAssist.DropActions
             _newClassInstanceDropAction = new Lazy<NewClassInstanceDropAction>(() => new NewClassInstanceDropAction(_formatExpressionService));
         }
 
-        public IExecuteResult  Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo)
+        public IExecuteResult  Execute(IEnumerable<Node> enodes, IWpfTextView textView, DragDropInfo dragDropInfo)
         {
-            var dropAction = getDropAction(nodes, dragDropInfo);
+            var dropLocation = GetDropLocation();
+            var nodes = new List<Node>(enodes);
+            normaliseNamespaces(dropLocation, nodes);
+
+            var dropAction = getDropAction(nodes, dragDropInfo, dropLocation);
 
             if (dropAction != null)
             {
                 // store the start buffer position
                 var droppedPosition = dragDropInfo.VirtualBufferPosition.Position.Position;
-                var droppedLine = dragDropInfo.VirtualBufferPosition.Position.GetContainingLine();
-
            
                 var result =  dropAction.Execute(nodes, textView, dragDropInfo);
 
@@ -78,7 +81,147 @@ namespace VSDropAssist.DropActions
 
         }
 
-        private IDropAction getDropAction(IEnumerable<Node> nodes, DragDropInfo dragDropInfo)
+        private void normaliseNamespaces(DropLocation dropLocation , List<Node> nodes)
+        {
+            List<NamespaceDeclaration> namespaces = new List<NamespaceDeclaration>(dropLocation.Namespaces);
+
+            var defaultNS = dropLocation.ProjectDefaultNamespace;
+            if (!namespaces.Any(x => x.Namespace == defaultNS))
+            {
+                namespaces.Add(new NamespaceDeclaration() { Namespace = defaultNS });
+            }
+
+            foreach (var n in nodes)
+            {
+                var ns = n.Namespace;
+                n.NormalisedNamespace = ns ;
+                var nsComponents = ns.Split('.');
+
+                if (!string.IsNullOrEmpty(ns))
+                {
+                    var exactMatch = namespaces.FirstOrDefault(x => x.Namespace == ns);
+                    if (exactMatch != null)
+                    {
+                        n.NormalisedNamespace = ""; // namespace not needed, as its already imported
+                    }
+                    else
+                    {
+                        // find a using statement similar to this one;
+                        var similar =
+                            namespaces.FirstOrDefault(x => !x.Namespace.Split('.').Except(nsComponents).Any() );
+
+                        if (similar != null)
+                        {
+                            n.NormalisedNamespace = ns.Substring(similar.Namespace.Length + 1);
+                        }
+
+                    }
+                }
+            }
+        }
+
+        public class DropLocation
+        {
+           public  CodeClass Class { get; set; }
+           public  CodeFunction Function { get; set; }
+            
+            public IEnumerable<NamespaceDeclaration> Namespaces { get; set; }
+
+            public string ProjectDefaultNamespace
+            {
+                get
+                {
+                    if (Class == null) return null;
+                    
+                    return Class?.ProjectItem?.ContainingProject?.Properties?.Item("DefaultNamespace")?.Value.ToString();
+                }
+            }
+        }
+
+        private DropLocation GetDropLocation()
+        {
+            var ret = new DropLocation();
+            var activeDocument = Application.DTE.Value?.ActiveDocument;
+            var sel = activeDocument?.Selection as TextSelection;
+            CodeElement droppedClass = null;
+            CodeElement droppedMethod = null;
+            
+            ret.Namespaces = getImportStatements(activeDocument);
+            if (sel != null)
+            {
+                droppedClass = sel.ActivePoint.CodeElement[vsCMElement.vsCMElementClass];
+                droppedMethod = sel.ActivePoint.CodeElement[vsCMElement.vsCMElementFunction];
+                
+                try
+                {
+                    if (droppedMethod != null)
+                    {
+                        Debug.WriteLine("Dropped onto method " + droppedMethod.Name);
+
+                    }
+                    if (droppedClass != null)
+                    {
+
+                        Debug.WriteLine("Dropped onto class " + droppedClass.Name);
+                    }
+                }
+                catch
+                {
+                }
+
+            }
+
+            if(droppedClass!=null) ret.Class =(CodeClass) droppedClass;
+            if(droppedMethod!=null) ret.Function = (CodeFunction)droppedMethod;
+
+            return ret;
+        }
+
+        public class NamespaceDeclaration
+        {
+            public string Alias { get; set; }
+            public string Namespace { get; set; }
+
+            public override string ToString()
+            {
+                if (!string.IsNullOrEmpty(Alias)) return String.Format("{0}={1}", this.Alias, this.Namespace);
+                return this.Namespace;
+            }
+        }
+
+        private IEnumerable<NamespaceDeclaration> getImportStatements(Document activeDocument)
+        {
+            if (activeDocument == null) return null;
+
+            var helper = new CodeElementHelper();
+            var tmp = helper.GetCodeElements(activeDocument.ProjectItem.FileCodeModel.CodeElements,
+                (ce) => ce.Kind == vsCMElement.vsCMElementImportStmt || ce.Kind == vsCMElement.vsCMElementNamespace);
+
+            var ret = new List<NamespaceDeclaration>();
+
+            foreach (CodeElement t in tmp)
+            {
+                if (t.Kind == vsCMElement.vsCMElementImportStmt)
+                {
+                    var istmt = t as CodeImport;
+                    var i = new NamespaceDeclaration();
+
+                    i.Alias = istmt.Alias;
+                    i.Namespace = istmt.Namespace;
+
+                    ret.Add(i);
+                }
+                if (t.Kind == vsCMElement.vsCMElementNamespace)
+                {
+                    var ns = t as CodeNamespace;
+
+                    ret.Add(new NamespaceDeclaration() { Namespace = ns.Name});
+                }
+            }
+            return ret;
+        }
+
+        private IDropAction getDropAction(IEnumerable<Node> nodes, DragDropInfo dragDropInfo, DropLocation dropLocation )
         {
             // if dropping any non-classes
             if (nodes.Any(x => x.IsClass == false))
@@ -104,31 +247,10 @@ namespace VSDropAssist.DropActions
 
                 if ((dragDropInfo.KeyStates & DragDropKeyStates.ShiftKey) != 0)
                 {
-                    var codeElementHelper = new CodeElementHelper();
-                    
-                    var sel = Application.DTE.Value?.ActiveDocument?.Selection as TextSelection;
-                    CodeElement droppedClass = null;
-                    CodeElement droppedMethod = null;
-                    if (sel != null)
-                    {
-                        droppedClass = sel.ActivePoint.CodeElement[vsCMElement.vsCMElementClass];
-                        droppedMethod = sel.ActivePoint.CodeElement[vsCMElement.vsCMElementFunction];
+                    var droppedMethod = dropLocation.Function;
+                    var droppedClass = dropLocation.Class;
 
-                        try
-                        {
-                            if (droppedMethod != null)
-                            {
-                                Debug.WriteLine("Dropped onto method " + droppedMethod.Name);
-
-                            }
-                            if (droppedClass != null)
-                            {
-                                Debug.WriteLine("Dropped onto class " + droppedClass.Name);
-                            }
-                        }
-                        catch { }
-
-                    }
+                
                     if (droppedMethod != null)
                     {
                         // in a method, create a var

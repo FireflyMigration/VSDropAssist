@@ -16,10 +16,13 @@ namespace VSDropAssist.DropActions
 
                 expr = expr.Replace("%m%", n.Member);
                 expr = expr.Replace("%t%", n.Type);
-                expr = expr.Replace("%n%", n.Namespace);
-                expr = expr.Replace("%a%", n.Assembly);
-                expr = expr.Replace("%f%", n.FullName );
-                expr = expr.Replace("%v%",v);
+                expr = expr.Replace("%n%", n.NormalisedNamespace );
+            expr = expr.Replace("%N%", n.Namespace);
+            expr = expr.Replace("%a%", n.Assembly);
+            
+                expr = expr.Replace("%f%",n.NormalisedFullName );
+            expr = expr.Replace("%F%", n.FullName);
+            expr = expr.Replace("%v%",v);
             return expr;
         }
     }

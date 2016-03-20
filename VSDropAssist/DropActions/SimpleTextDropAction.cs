@@ -67,22 +67,27 @@ namespace VSDropAssist.DropActions
 
             List<CodeLine> codeLines = null;
 
+            codeLines = getTextToInsert(filteredNodes).ToList();
+            var indentText = "";
+            if (indent.HasValue) indentText = new string(' ', indent.Value);
+
+            foreach (var cl in codeLines)
+            {
+                cl.FormatExpression = string.Format("{0}{1}", indentText, cl.FormatExpression);
+                cl.FormattedCode = string.Format("{0}{1}", indentText, cl.FormattedCode);
+
+                cl.VariableStartPosition = cl.GetVariableStartPosition(_formatExpressionService);
+                if (cl.VariableStartPosition > 0)
+                {
+                    Debug.WriteLine("{0} variable starts at {1}\n{2}^", cl.FormattedCode, cl.VariableStartPosition,
+                        new string(' ', cl.VariableStartPosition));
+                }
+            }
+
             try
             {
                 var edit = textView.TextBuffer.CreateEdit();
-                var indentText = "";
-                if (indent.HasValue) indentText = new string(' ', indent.Value);
 
-                codeLines = getTextToInsert(filteredNodes).ToList();
-
-                foreach (var cl in codeLines)
-                {
-                    cl.FormatExpression = string.Format("{0}{1}", indentText, cl.FormatExpression );
-                    cl.FormattedCode = string.Format("{0}{1}", indentText, cl.FormattedCode);
-                    
-                    cl.VariableStartPosition = cl.GetVariableStartPosition(_formatExpressionService);
-                    Debug.WriteLine("{0} variable starts at {1}\n{2}^", cl.FormattedCode, cl.VariableStartPosition , new string(' ', cl.VariableStartPosition ));
-                }
                 
                 var allText = string.Join("", codeLines.Select(x => x.FormattedCode));
                 edit.Insert(dragDropInfo.VirtualBufferPosition.Position.GetContainingLine().End, lineBreak  + allText);

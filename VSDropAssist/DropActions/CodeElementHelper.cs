@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using EnvDTE;
 using log4net;
 using Microsoft.VisualStudio.Text;
@@ -103,7 +105,30 @@ namespace VSDropAssist.DropActions
             return ret;
         }
 
-        private CodeElements getCodeElements(CodeElement ce)
+        public IEnumerable<CodeElement> GetCodeElements(CodeElements elements, Predicate<CodeElement> match)
+        {
+            var ret = new List<CodeElement>();
+            if (elements == null) return null;
+            if (elements.Count == 0) return null;
+
+            foreach (CodeElement ce in elements)
+            {
+                Debug.WriteLine("{0}: {1}", ce.SafeName(), ce.KindAsString());
+                if(match(ce)) ret.Add(ce);
+
+                var children = getCodeElements(ce);
+                if (children != null)
+                {
+                    var inner = GetCodeElements(children, match);
+                    if(inner!=null) ret.AddRange(inner);
+                }
+
+            }
+
+            if (!ret.Any()) return null;
+            return ret;
+        }
+        public CodeElements getCodeElements(CodeElement ce)
         {
             if (ce is CodeNamespace) return ((CodeNamespace) ce).Members;
             if (ce is CodeClass) return ((CodeClass) ce).Members;
@@ -114,6 +139,39 @@ namespace VSDropAssist.DropActions
 
             return null;
 
+        }
+    }
+
+    public static class CodeElementExtensions
+    {
+        public static string SafeName(this CodeElement ce)
+        {
+            try
+            {
+                return ce.Name;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Failed to get Name");
+            }
+            return null;
+        }
+        public static string KindAsString(this CodeElement ce)
+        {
+            try
+            {
+                var k = Enum.GetName(typeof (vsCMElement), ce.Kind);
+                if (k != null)
+                {
+                    return k.ToString();
+                }
+
+            }
+            catch (Exception e )
+            {
+                Debug.WriteLine("Failed to parse kind");
+            }
+            return null;
         }
     }
 }
