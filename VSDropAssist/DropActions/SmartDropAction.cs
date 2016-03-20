@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -85,11 +86,11 @@ namespace VSDropAssist.DropActions
         {
             List<NamespaceDeclaration> namespaces = new List<NamespaceDeclaration>(dropLocation.Namespaces);
 
-            var defaultNS = dropLocation.ProjectDefaultNamespace;
-            if (!namespaces.Any(x => x.Namespace == defaultNS))
-            {
-                namespaces.Add(new NamespaceDeclaration() { Namespace = defaultNS });
-            }
+            //var defaultNS = dropLocation.ProjectDefaultNamespace;
+            //if (!namespaces.Any(x => x.Namespace == defaultNS))
+            //{
+            //    namespaces.Add(new NamespaceDeclaration() { Namespace = defaultNS });
+            //}
 
             foreach (var n in nodes)
             {
@@ -102,17 +103,21 @@ namespace VSDropAssist.DropActions
                     var exactMatch = namespaces.FirstOrDefault(x => x.Namespace == ns);
                     if (exactMatch != null)
                     {
-                        n.NormalisedNamespace = ""; // namespace not needed, as its already imported
+                        n.NormalisedNamespace = exactMatch.Alias ; // namespace not needed, as its already imported
                     }
                     else
                     {
                         // find a using statement similar to this one;
                         var similar =
-                            namespaces.FirstOrDefault(x => !x.Namespace.Split('.').Except(nsComponents).Any() );
+                            namespaces.Where(x => !x.Namespace.Split('.').Except(nsComponents).Any())
+                                .OrderByDescending(x => x.Namespace.Length)
+                                .FirstOrDefault();
 
                         if (similar != null)
                         {
-                            n.NormalisedNamespace = ns.Substring(similar.Namespace.Length + 1);
+                            n.NormalisedNamespace =   ns.Substring(similar.Namespace.Length + 1);
+                            if (!string.IsNullOrEmpty(similar.Alias))
+                                n.NormalisedNamespace = similar.Alias + "." + n.NormalisedNamespace;
                         }
 
                     }
@@ -122,11 +127,20 @@ namespace VSDropAssist.DropActions
 
         public class DropLocation
         {
-           public  CodeClass Class { get; set; }
+            private List<NamespaceDeclaration> _namespaces;
+            public  CodeClass Class { get; set; }
            public  CodeFunction Function { get; set; }
-            
-            public IEnumerable<NamespaceDeclaration> Namespaces { get; set; }
 
+            public IEnumerable<NamespaceDeclaration> Namespaces
+            {
+                get { return _namespaces; }
+                
+            }
+
+            public DropLocation()
+            {
+                _namespaces = new List<NamespaceDeclaration>();
+            }
             public string ProjectDefaultNamespace
             {
                 get
@@ -135,6 +149,25 @@ namespace VSDropAssist.DropActions
                     
                     return Class?.ProjectItem?.ContainingProject?.Properties?.Item("DefaultNamespace")?.Value.ToString();
                 }
+            }
+
+            public void AddNamespace(IEnumerable<NamespaceDeclaration> namespaces)
+            {
+                foreach (var ns in namespaces)
+                {
+                    AddNamespace(ns);
+                    
+                }
+            }
+
+            public void AddNamespace(NamespaceDeclaration ns)
+            {
+                if (string.IsNullOrEmpty(ns.Namespace)) return;
+                if (this.Namespaces.All(x => x.Namespace != ns.Namespace )) _namespaces.Add(ns);
+            }
+            public void AddNamespace(string ns)
+            {
+                AddNamespace(new NamespaceDeclaration() {Namespace=ns });
             }
         }
 
@@ -146,7 +179,7 @@ namespace VSDropAssist.DropActions
             CodeElement droppedClass = null;
             CodeElement droppedMethod = null;
             
-            ret.Namespaces = getImportStatements(activeDocument);
+            ret.AddNamespace( getImportStatements(activeDocument));
             if (sel != null)
             {
                 droppedClass = sel.ActivePoint.CodeElement[vsCMElement.vsCMElementClass];
@@ -163,6 +196,7 @@ namespace VSDropAssist.DropActions
                     {
 
                         Debug.WriteLine("Dropped onto class " + droppedClass.Name);
+                        ret.AddNamespace(droppedClass.SafeNamespace());
                     }
                 }
                 catch
@@ -189,7 +223,7 @@ namespace VSDropAssist.DropActions
             }
         }
 
-        private IEnumerable<NamespaceDeclaration> getImportStatements(Document activeDocument)
+        private List<NamespaceDeclaration> getImportStatements(Document activeDocument)
         {
             if (activeDocument == null) return null;
 

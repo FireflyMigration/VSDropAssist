@@ -144,6 +144,19 @@ namespace VSDropAssist.DropActions
 
     public static class CodeElementExtensions
     {
+        public static string SafeNamespace(this CodeElement ce)
+        {
+            if (ce.Kind == vsCMElement.vsCMElementClass)
+            {
+                var clazz = ce as CodeClass;
+
+                var fullname = ce.FullName;
+                var ns = fullname.Substring(0,fullname.LastIndexOf('.'));
+                return ns;
+            }
+
+            return null;
+        }
         public static string SafeName(this CodeElement ce)
         {
             try
