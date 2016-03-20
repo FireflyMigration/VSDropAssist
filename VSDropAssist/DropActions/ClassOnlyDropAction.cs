@@ -15,6 +15,7 @@ namespace VSDropAssist.DropActions
             return false ;
         }
 
+        
         public ClassOnlyDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService)
         {
         }

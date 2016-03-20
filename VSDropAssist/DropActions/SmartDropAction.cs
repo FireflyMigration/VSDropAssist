@@ -22,7 +22,7 @@ namespace VSDropAssist.DropActions
         private Lazy<ClassFullNameDropAction> _classFullNameDropAction;
         private ILog _log = LogManager.GetLogger(typeof (SmartDropAction));
         private Lazy<ClassVarDropAction> _classVarDropAction;
-        private Lazy<ClassPrivateDropAction> _classPrivateDropAction;
+        private Lazy<ClassModuleVariableDropAction> _classPrivateDropAction;
         private Lazy<NewClassInstanceDropAction> _newClassInstanceDropAction; 
         public SmartDropAction(IFormatExpressionService formatExpressionService )
         {
@@ -33,7 +33,7 @@ namespace VSDropAssist.DropActions
             _commaDelimitedListDropAction = new Lazy<CommaDelimitedListDropAction>(() => new CommaDelimitedListDropAction(_formatExpressionService ));
             _classFullNameDropAction = new Lazy<ClassFullNameDropAction>(()=> new ClassFullNameDropAction(_formatExpressionService ));
             _classVarDropAction = new Lazy<ClassVarDropAction>(() => new ClassVarDropAction(_formatExpressionService));
-            _classPrivateDropAction = new Lazy<ClassPrivateDropAction>(() => new ClassPrivateDropAction(_formatExpressionService));
+            _classPrivateDropAction = new Lazy<ClassModuleVariableDropAction>(() => new ClassModuleVariableDropAction(_formatExpressionService));
             _newClassInstanceDropAction = new Lazy<NewClassInstanceDropAction>(() => new NewClassInstanceDropAction(_formatExpressionService));
         }
 

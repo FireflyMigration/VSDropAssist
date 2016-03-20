@@ -9,11 +9,7 @@ namespace VSDropAssist.DropActions
         {
         }
 
-        protected override int getSelectionHeight(IEnumerable<Node> nodes)
-        {
-            return nodes.Count();
-        }
-
+        
         public override bool getNodeFilter(Node n)
         {
             return base.getNodeFilter(n) && n.IsClass == false;

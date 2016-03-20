@@ -22,9 +22,9 @@ namespace VSDropAssist.DropActions
         public ClassFullNameDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService)
         {
         }
-        protected override int getSelectionWidth(IEnumerable<Node> nodes)
+        protected override int getSelectionWidth(IEnumerable<CodeLine> lines)
         {
-            return nodes.Max(x => x.FullName).Length;
+            return lines.Max(x => x.SourceNode.FullName).Length;
         }
 
 

@@ -41,6 +41,13 @@ namespace VSDropAssist.DropActions
             return  true ;
 
         }
+
+        private class SelectionDimensions
+        {
+            public int StartChar { get; set; }
+            public int StartLine { get; set; }
+            public int Length { get; set; }
+        }
         public override IExecuteResult Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo)
         {
             var filteredNodes = nodes.Where(x => getNodeFilter(x));
@@ -57,18 +64,27 @@ namespace VSDropAssist.DropActions
                 var firstNonWhitespace = lineText.IndexOf(c => !char.IsWhiteSpace(c));
                 indent = firstNonWhitespace;
             }
-            
-            
+
+            List<CodeLine> codeLines = null;
+
             try
             {
                 var edit = textView.TextBuffer.CreateEdit();
                 var indentText = "";
                 if (indent.HasValue) indentText = new string(' ', indent.Value);
 
-                var textLines = getTextToInsert(filteredNodes);
+                codeLines = getTextToInsert(filteredNodes).ToList();
 
-                var indentedLines = textLines.Select(x => string.Format("{0}{1}", indentText, x));
-                var allText = string.Join("", indentedLines);
+                foreach (var cl in codeLines)
+                {
+                    cl.FormatExpression = string.Format("{0}{1}", indentText, cl.FormatExpression );
+                    cl.FormattedCode = string.Format("{0}{1}", indentText, cl.FormattedCode);
+                    
+                    cl.VariableStartPosition = cl.GetVariableStartPosition(_formatExpressionService);
+                    Debug.WriteLine("{0} variable starts at {1}\n{2}^", cl.FormattedCode, cl.VariableStartPosition , new string(' ', cl.VariableStartPosition ));
+                }
+                
+                var allText = string.Join("", codeLines.Select(x => x.FormattedCode));
                 edit.Insert(dragDropInfo.VirtualBufferPosition.Position.GetContainingLine().End, lineBreak  + allText);
                 edit.Apply();
             }
@@ -78,9 +94,9 @@ namespace VSDropAssist.DropActions
             }
 
             var selectAfterDrop = getSelectAfterDrop();
-            var selectionWidthInChars = getSelectionWidth(filteredNodes);
-            var selectionHeightInLines = getSelectionHeight(filteredNodes);
-            var selectionStartInChars = getSelectionStart() + indent.GetValueOrDefault();
+            var selectionWidthInChars = getSelectionWidth(codeLines );
+            var selectionHeightInLines = getSelectionHeight(codeLines);
+            var selectionStartInChars = getSelectionStart(codeLines);
             var selectionStartRow = dropLine.LineNumber + 1;
             return new ExecuteResult(selectAfterDrop,selectionWidthInChars,selectionHeightInLines, DropActionResultEnum.AllowCopy, selectionStartInChars , selectionStartRow );
         }
@@ -90,26 +106,51 @@ namespace VSDropAssist.DropActions
             return true;
         }
 
-        protected  virtual int getSelectionHeight(IEnumerable<Node> nodes)
+        protected  virtual int getSelectionHeight(IEnumerable<CodeLine > lines)
         {
-            return nodes.Count();
+            return lines.Count();
         }
 
-        protected virtual int getSelectionWidth(IEnumerable<Node> nodes  )
+        protected virtual int getSelectionWidth(IEnumerable<CodeLine> lines)
         {
-            return nodes.Max(x => x.VariableName.Length);
+            return lines.Max(x => x.SourceNode.VariableName.Length);
 
         }
-        protected virtual int getSelectionStart()
+        protected virtual int getSelectionStart(IEnumerable<CodeLine> lines)
         {
-            return Math.Max(0, GetFormatString().IndexOf("%v%"));
+            if (lines == null || !lines.Any()) return -1;
+            return lines.FirstOrDefault().VariableStartPosition;
         }
 
-        protected virtual IEnumerable<string> getTextToInsert(IEnumerable<Node> nodes)
+        protected virtual IEnumerable<CodeLine> getTextToInsert(IEnumerable<Node> nodes)
         {
 
-            return nodes.Select(x => _formatExpressionService.ReplaceText( x, GetFormatString()));
+           return nodes.Select(x => new CodeLine() {
+                FormattedCode=_formatExpressionService.ReplaceText(x, GetFormatString()),
+                FormatExpression = GetFormatString(),
+        
+                SourceNode = x});
+                
+        }
+        
+    }
+
+    public class CodeLine
+    {
+        public string FormatExpression { get; set; }
+        public string FormattedCode { get; set; }
+        public Node SourceNode { get; set; }
+        public int VariableStartPosition { get; set; }
+
+        public int GetVariableStartPosition(IFormatExpressionService formatExpressionService)
+        {
+            var g = Guid.NewGuid();
+            var tmpFmt = FormatExpression.Replace("%v%", g.ToString());
+
+            var tmpResult = formatExpressionService.ReplaceText(this.SourceNode, tmpFmt);
+            return tmpResult.IndexOf(g.ToString());
 
         }
     }
+
 }
