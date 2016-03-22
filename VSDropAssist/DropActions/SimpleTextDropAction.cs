@@ -42,12 +42,7 @@ namespace VSDropAssist.DropActions
 
         }
 
-        private class SelectionDimensions
-        {
-            public int StartChar { get; set; }
-            public int StartLine { get; set; }
-            public int Length { get; set; }
-        }
+       
         public override IExecuteResult Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo)
         {
             var filteredNodes = nodes.Where(x => getNodeFilter(x));
@@ -63,6 +58,13 @@ namespace VSDropAssist.DropActions
 
                 var firstNonWhitespace = lineText.IndexOf(c => !char.IsWhiteSpace(c));
                 indent = firstNonWhitespace;
+
+                // indent if char is a {
+                if (lineText[firstNonWhitespace] == '{')
+                {
+                    var indentSize = textView.Options.GetOptionValue<int>("Tabs/IndentSize");
+                    indent += indentSize;
+                }
             }
 
             List<CodeLine> codeLines = null;

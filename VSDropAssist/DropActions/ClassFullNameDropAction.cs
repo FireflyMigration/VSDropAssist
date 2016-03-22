@@ -15,6 +15,18 @@ namespace VSDropAssist.DropActions
         {
             return "new %f%();\n";
         }
+
+        protected override IEnumerable<CodeLine> getTextToInsert(IEnumerable<Node> nodes)
+        {
+            var ret = base.getTextToInsert(nodes).ToList();
+
+            // trim trailing newline
+            var last = ret.Last();
+            var code = last.FormattedCode;
+            last.FormattedCode = code.Substring(0, code.Length - 1);
+
+            return ret;
+        }
     }
     internal  class ClassFullNameDropAction : ClassOnlyDropAction
     {
@@ -31,6 +43,17 @@ namespace VSDropAssist.DropActions
         protected override string GetFormatString()
         {
             return  "%f%\n";
+        }
+        protected override IEnumerable<CodeLine> getTextToInsert(IEnumerable<Node> nodes)
+        {
+            var ret = base.getTextToInsert(nodes).ToList();
+
+            // trim trailing newline
+            var last = ret.Last();
+            var code = last.FormattedCode;
+            last.FormattedCode = code.Substring(0, code.Length - 1);
+
+            return ret;
         }
     }
 }
