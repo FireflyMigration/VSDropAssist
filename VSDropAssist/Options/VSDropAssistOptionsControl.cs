@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VSDropAssist.DropActions;
 using VSDropAssist.Settings;
 
 namespace VSDropAssist.Options
@@ -25,13 +26,22 @@ namespace VSDropAssist.Options
             _owner = owner;
 
             // show the settings
-            this.bindingSource2.DataSource = _owner.Settings;
+            this.bsDropSettings.DataSource = _owner.Settings;
+
+            showFormatTokens();
+        }
+
+        private void showFormatTokens()
+        {
+            var s = Application.Resolve<IFormatExpressionService>();
+
+            this.bsFormatExpressions.DataSource  = s.GetExpressionItems();
 
         }
 
         private void ResetControl_Click(object sender, EventArgs e)
         {
-            this.bindingSource2.EndEdit();
+            this.bsDropSettings.EndEdit();
 
             if (MessageBox.Show("Warning. This will remove all custom settings and revert to defaults", "Reset", MessageBoxButtons.OKCancel) != DialogResult.OK)
                 return;

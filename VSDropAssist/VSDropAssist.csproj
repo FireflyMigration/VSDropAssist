@@ -101,6 +101,8 @@
     <None Include="ClassDiagram1.cd" />
     <None Include="Key.snk" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\VSDropAssist.DropActions.ExpressionItem.datasource" />
+    <None Include="Properties\DataSources\VSDropAssist.DropActions.IFormatExpressionService.datasource" />
     <None Include="Properties\DataSources\VSDropAssist.DropActions.Settings.datasource" />
     <None Include="Properties\DataSources\VSDropAssist.Forms.CodeBuilderViewModel.datasource" />
     <None Include="Properties\DataSources\VSDropAssist.Options.VSDropSettings.datasource" />
