@@ -345,7 +345,7 @@ namespace VSDropAssist.DropInfoHandlers
 
                 if (solutionItem != null)
                 {
-                    ret.Add(solutionItem);
+                    if(!ret.Contains(solutionItem )) ret.Add(solutionItem);
                 }
             }
             return ret;

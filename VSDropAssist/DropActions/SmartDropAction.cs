@@ -85,13 +85,14 @@ namespace VSDropAssist.DropActions
         private void normaliseNamespaces(DropLocation dropLocation , List<Node> nodes)
         {
             List<NamespaceDeclaration> namespaces = new List<NamespaceDeclaration>(dropLocation.Namespaces);
-
-            //var defaultNS = dropLocation.ProjectDefaultNamespace;
-            //if (!namespaces.Any(x => x.Namespace == defaultNS))
-            //{
-            //    namespaces.Add(new NamespaceDeclaration() { Namespace = defaultNS });
-            //}
-
+            if (Application.Settings.NormaliseProjectNamespace)
+            {
+                var defaultNS = dropLocation.ProjectDefaultNamespace;
+                if (!namespaces.Any(x => x.Namespace == defaultNS))
+                {
+                    namespaces.Add(new NamespaceDeclaration() {Namespace = defaultNS});
+                }
+            }
             foreach (var n in nodes)
             {
                 var ns = n.Namespace;
@@ -178,7 +179,7 @@ namespace VSDropAssist.DropActions
             var sel = activeDocument?.Selection as TextSelection;
             CodeElement droppedClass = null;
             CodeElement droppedMethod = null;
-            
+          
             ret.AddNamespace( getImportStatements(activeDocument));
             if (sel != null)
             {

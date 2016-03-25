@@ -69,7 +69,7 @@ namespace VSDropAssist.DropActions
 
             List<CodeLine> codeLines = null;
 
-            codeLines = getTextToInsert(filteredNodes).ToList();
+            codeLines = getTextToInsert(filteredNodes).Distinct().ToList();
             var indentText = "";
             if (indent.HasValue) indentText = new string(' ', indent.Value);
 

@@ -6,6 +6,43 @@ namespace VSDropAssist
 {
     public class Node
     {
+        protected bool Equals(Node other)
+        {
+            return string.Equals(_member, other._member) 
+                && string.Equals(_type, other._type) 
+                && string.Equals(_ns, other._ns) 
+                && string.Equals(_assembly, other._assembly) 
+               // && _startLine == other._startLine
+                && _isClass == other._isClass
+                && string.Equals(_fullName, other._fullName) 
+                && string.Equals(_variableName, other._variableName) && string.Equals(NormalisedNamespace, other.NormalisedNamespace);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Node) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = (_member != null ? _member.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (_type != null ? _type.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (_ns != null ? _ns.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (_assembly != null ? _assembly.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ _startLine;
+                hashCode = (hashCode*397) ^ _isClass.GetHashCode();
+                hashCode = (hashCode*397) ^ (_fullName != null ? _fullName.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (_variableName != null ? _variableName.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (NormalisedNamespace != null ? NormalisedNamespace.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
+
         public Node()
         {
             IsClass = true;

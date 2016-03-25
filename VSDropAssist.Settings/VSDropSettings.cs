@@ -15,7 +15,7 @@ namespace VSDropAssist.Settings
         public VSDropSettings()
         {
             this.Settings = new List<DropSetting>();
-           
+            this.NormaliseProjectNamespace = true;
         }
         public string GetControlFormatExpression()
         {
@@ -65,9 +65,11 @@ namespace VSDropAssist.Settings
                 var ret = new VSDropSettings();
                 ret.Settings.Add(new DropSetting(CONTROL, "{v}.{m}.Value = new{m};\n"));
                 ret.Settings.Add(new DropSetting(ALT, "Columns.Add({v}.{m});\n"));
+                ret.NormaliseProjectNamespace = true;
                 return ret;
             }
         }
 
+        public bool NormaliseProjectNamespace { get; set; }
     }
 }
