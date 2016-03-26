@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.Text.Editor.DragDrop;
 
 namespace VSDropAssist.DropActions
 {
-    internal abstract class DropActionBase : IDropAction
+    public abstract class DropActionBase : IDropAction
     {
         protected ILog _log;
 
@@ -16,5 +16,10 @@ namespace VSDropAssist.DropActions
 
         public abstract IExecuteResult  Execute(IEnumerable<Node> nodes, IWpfTextView textView,
             DragDropInfo dragDropInfo);
+
+        public virtual int Match(DropQuery qry)
+        {
+            return 1;
+        }
     }
 }

@@ -82,6 +82,11 @@ namespace VSDropAssist.DropActions
 
         }
 
+        public virtual int Match(DropQuery qry)
+        {
+            return 1;
+        }
+
         private void normaliseNamespaces(DropLocation dropLocation , List<Node> nodes)
         {
             List<NamespaceDeclaration> namespaces = new List<NamespaceDeclaration>(dropLocation.Namespaces);

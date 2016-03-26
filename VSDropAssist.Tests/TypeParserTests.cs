@@ -1,27 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 using VSDropAssist.DropInfoHandlers;
 
 namespace VSDropAssist.Tests
 {
-    
-    [TestFixture]
-    public class CodeBuilderControllerTests
-    {
-        
-        [Test]
-        public void can_create_controller()
-        {
-            
-        } 
-    }
-
     [TestFixture ]
     public class TypeParserTests
     {
@@ -55,10 +36,5 @@ namespace VSDropAssist.Tests
             var actual = s.GetTypeFromString(typeText);
             Assert.AreEqual(expected, actual);
         }
-    }
-  
-    public class DropFormatTest
-    {
-        
     }
 }

@@ -26,7 +26,8 @@ namespace VSDropAssist.DropActions
             return -1;
         }
     }
-    internal abstract class SimpleTextDropAction : DropActionBase
+
+    public abstract class SimpleTextDropAction : DropActionBase
     {
         protected readonly IFormatExpressionService _formatExpressionService;
         protected abstract string GetFormatString();
@@ -78,11 +79,13 @@ namespace VSDropAssist.DropActions
                 cl.FormatExpression = string.Format("{0}{1}", indentText, cl.FormatExpression);
                 cl.FormattedCode = string.Format("{0}{1}", indentText, cl.FormattedCode);
 
-                cl.VariableStartPosition = cl.GetVariableStartPosition(_formatExpressionService);
-                if (cl.VariableStartPosition > 0)
+                
+                if (cl.TokenStartPosition  > 0)
                 {
-                    Debug.WriteLine("{0} variable starts at {1}\n{2}^", cl.FormattedCode, cl.VariableStartPosition,
-                        new string(' ', cl.VariableStartPosition));
+                    cl.TokenStartPosition += indent.Value; // offset the token start, as we've indented the code
+
+                    Debug.WriteLine("{0} variable starts at {1}\n{2}^", cl.FormattedCode, cl.TokenStartPosition,
+                        new string(' ', cl.TokenStartPosition));
                 }
             }
 
@@ -91,7 +94,7 @@ namespace VSDropAssist.DropActions
                 var edit = textView.TextBuffer.CreateEdit();
 
                 
-                var allText = string.Join("", codeLines.Select(x => x.FormattedCode));
+                var allText = string.Join(getDelimiter(), codeLines.Select(x => x.FormattedCode));
                 edit.Insert(dragDropInfo.VirtualBufferPosition.Position.GetContainingLine().End, lineBreak  + allText);
                 edit.Apply();
             }
@@ -108,6 +111,11 @@ namespace VSDropAssist.DropActions
             return new ExecuteResult(selectAfterDrop,selectionWidthInChars,selectionHeightInLines, DropActionResultEnum.AllowCopy, selectionStartInChars , selectionStartRow );
         }
 
+        protected virtual string getDelimiter()
+        {
+            return "";
+        }
+
         protected virtual bool getSelectAfterDrop()
         {
             return true;
@@ -120,23 +128,28 @@ namespace VSDropAssist.DropActions
 
         protected virtual int getSelectionWidth(IEnumerable<CodeLine> lines)
         {
-            return lines.Max(x => x.SourceNode.VariableName.Length);
+            return lines.Max(x => x.TokenLength);
 
         }
         protected virtual int getSelectionStart(IEnumerable<CodeLine> lines)
         {
             if (lines == null || !lines.Any()) return -1;
-            return lines.FirstOrDefault().VariableStartPosition;
+            return lines.FirstOrDefault().TokenStartPosition ;
         }
 
+        protected virtual string getTokenToSelectAfterDrop()
+        {
+            return "%v%";
+        }
         protected virtual IEnumerable<CodeLine> getTextToInsert(IEnumerable<Node> nodes)
         {
 
-           return nodes.Select(x => new CodeLine() {
-                FormattedCode=_formatExpressionService.ReplaceText(x, GetFormatString()),
+           return nodes.Select(node => new CodeLine() {
+                FormattedCode=_formatExpressionService.ReplaceText(node, GetFormatString()),
                 FormatExpression = GetFormatString(),
-        
-                SourceNode = x});
+        TokenStartPosition = _formatExpressionService.GetTokenStart(node, GetFormatString(), getTokenToSelectAfterDrop()),
+        TokenLength = _formatExpressionService.GetTokenLength(node, getTokenToSelectAfterDrop()),
+                SourceNode = node});
                 
         }
         
@@ -147,17 +160,8 @@ namespace VSDropAssist.DropActions
         public string FormatExpression { get; set; }
         public string FormattedCode { get; set; }
         public Node SourceNode { get; set; }
-        public int VariableStartPosition { get; set; }
-
-        public int GetVariableStartPosition(IFormatExpressionService formatExpressionService)
-        {
-            var g = Guid.NewGuid();
-            var tmpFmt = FormatExpression.Replace("%v%", g.ToString());
-
-            var tmpResult = formatExpressionService.ReplaceText(this.SourceNode, tmpFmt);
-            return tmpResult.IndexOf(g.ToString());
-
-        }
+        public int TokenStartPosition { get; set; }
+        public int TokenLength { get; set; }
     }
 
 }

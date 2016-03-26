@@ -48,8 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="CodeBuilderControllerTests.cs" />
+    <Compile Include="DropActionProviderTests.cs" />
+    <Compile Include="FormatExpressionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeParserTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

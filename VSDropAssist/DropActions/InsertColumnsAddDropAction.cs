@@ -4,18 +4,14 @@ using System.Text;
 
 namespace VSDropAssist.DropActions
 {
-    internal class InsertColumnsAddDropAction : ClassMemberDropAction
+    internal class InsertColumnsAddDropAction : ConfigurableDropAction 
     {
 
 
-        private const string FORMAT = "Columns.Add(%v%.%m%);\n";
-        protected override string GetFormatString()
-        {
-            return FORMAT;
-        }
-     
+        
 
-        public InsertColumnsAddDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService)
+        public InsertColumnsAddDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService
+            , new DropActionConfiguration() {FormatExpression = "Columns.Add(%v%.%m%);", SupportsClasses = false, ShiftMustBeDown = true })
         {
         }
     }

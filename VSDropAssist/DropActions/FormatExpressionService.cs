@@ -43,12 +43,22 @@ namespace VSDropAssist.DropActions
 
         }
 
+        public int GetTokenLength(Node n, string token)
+        {
+            var item = _expressionItems.FirstOrDefault(x => x.Token.Equals(token));
+            if (item  == null) return 0;
+
+            var tmpExpression = item.expr(n, item.Token);
+
+            return tmpExpression.Length;
+        }
+
         public string ReplaceText( Node n, string formatExpression)
         {
     
                 var expr = formatExpression;
 
-                var v = n.VariableName;
+                
             foreach (var e in _expressionItems)
             {
               
@@ -61,6 +71,25 @@ namespace VSDropAssist.DropActions
         {
             return _expressionItems;
             
+        }
+
+        public int GetTokenStart(Node node, string expr, string token)
+        {
+            var g = Guid.NewGuid();
+            var tmpExpr = expr;
+            foreach (var e in _expressionItems)
+            {
+                if (e.Token  != token)
+                {
+                    tmpExpr = e.expr(node, tmpExpr);
+                }
+                else
+                {
+                    tmpExpr = tmpExpr.Replace(token, g.ToString());
+                }
+            }
+
+            return tmpExpr.IndexOf(g.ToString());
         }
     }
 }

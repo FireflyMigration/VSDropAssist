@@ -3,17 +3,11 @@ using System.Text;
 
 namespace VSDropAssist.DropActions
 {
-    internal class InsertColumnsUpdateDropAction : ClassMemberDropAction
+    internal class InsertColumnsUpdateDropAction : ConfigurableDropAction
     {
-
-        private const string FORMAT = "%v%.%m%.Value = ;\n";
-        protected override string GetFormatString()
-        {
-            return FORMAT;
-        }
-
-
-        public InsertColumnsUpdateDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService)
+        
+        public InsertColumnsUpdateDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService
+            , new DropActionConfiguration() { AltMustBeDown=true, FormatExpression = "%v%.%m%.Value = ;" , SupportsClasses = false })
         {
         }
     }

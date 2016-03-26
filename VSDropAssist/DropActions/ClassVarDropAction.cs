@@ -4,47 +4,24 @@ using System.Linq;
 
 namespace VSDropAssist.DropActions
 {
-    internal abstract class ClassOnlyWithSelectDropAction : ClassOnlyDropAction
+    internal abstract class ClassOnlyWithSelectDropAction : ConfigurableDropAction
     {
-        protected override bool getSelectAfterDrop()
-        {
-            return true;
-        }
-
-        protected override int getSelectionHeight(IEnumerable<CodeLine> lines)
-        {
-            return Math.Min(1, lines.Count());
-        }
-
-        protected override int getSelectionWidth(IEnumerable<CodeLine> lines)
-        {
-            if (lines == null || !lines.Any()) return 0;
-
-            return lines.First().SourceNode?.VariableName?.Length ?? 0;
-        }
-
-        protected override int getSelectionStart(IEnumerable<CodeLine> lines)
-        {
-            if (lines == null || !lines.Any()) return 0;
-            return lines.First().VariableStartPosition;
-        }
-
-        
-
-        public ClassOnlyWithSelectDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService)
+     
+        protected  ClassOnlyWithSelectDropAction(IFormatExpressionService formatExpressionService, IDropActionConfiguration config ) : base(formatExpressionService,config  )
         {
         }
     }
     internal class ClassVarDropAction : ClassOnlyWithSelectDropAction
     {
-        public ClassVarDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService)
+        public ClassVarDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService
+            , new DropActionConfiguration()
+            {
+                FormatExpression = "var %v% = new %f%();", Delimiter = "\n", SupportsMembers = false, 
+                SupportsDroppingIntoMethod=true, SupportsDroppingIntoClass = false, ShiftMustBeDown=true  }
+            )
         {
         }
-
-        protected override string GetFormatString()
-        {
-            return "var %v% = new %f%();\n";
-        }
+        
 
     }
 }

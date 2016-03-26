@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
 using VSDropAssist;
+using VSDropAssist.DropActions;
 
 namespace VSDropAssist
 {
@@ -55,9 +56,11 @@ namespace VSDropAssist
         public int SelectionStartInChars { get; set; }
         public int SelectionStartLine { get; set; }
     }
-    internal interface IDropAction
+
+    public interface IDropAction
     {
         IExecuteResult Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo);
+        int Match(DropQuery qry);
     }
 
     
