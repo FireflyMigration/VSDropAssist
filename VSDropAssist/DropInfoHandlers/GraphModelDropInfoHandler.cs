@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.GraphModel;
 using Microsoft.VisualStudio.GraphModel.CodeSchema;
 using Microsoft.VisualStudio.GraphModel.Schemas;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
+using VSDropAssist.Entities;
 
 namespace VSDropAssist.DropInfoHandlers
 {

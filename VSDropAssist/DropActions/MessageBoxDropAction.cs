@@ -4,6 +4,7 @@ using System.Windows;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
 using System.ComponentModel;
+using VSDropAssist.Entities;
 
 namespace VSDropAssist.DropActions
 {

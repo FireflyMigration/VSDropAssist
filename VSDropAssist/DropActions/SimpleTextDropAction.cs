@@ -5,28 +5,10 @@ using System.Linq;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
+using VSDropAssist.Entities;
 
 namespace VSDropAssist.DropActions
 {
-    public static class StringExtensions
-    {
-        public static int IndexOf<TSource>(this IEnumerable<TSource> source,
-    Func<TSource, bool> predicate)
-        {
-            int i = 0;
-
-            foreach (TSource element in source)
-            {
-                if (predicate(element))
-                    return i;
-
-                i++;
-            }
-
-            return -1;
-        }
-    }
-
     public abstract class SimpleTextDropAction : DropActionBase
     {
         protected readonly IFormatExpressionService _formatExpressionService;
@@ -80,7 +62,7 @@ namespace VSDropAssist.DropActions
                 cl.FormattedCode = string.Format("{0}{1}", indentText, cl.FormattedCode);
 
                 
-                if (cl.TokenStartPosition  > 0)
+                if (cl.TokenStartPosition  >= 0)
                 {
                     cl.TokenStartPosition += indent.Value; // offset the token start, as we've indented the code
 
@@ -128,6 +110,7 @@ namespace VSDropAssist.DropActions
 
         protected virtual int getSelectionWidth(IEnumerable<CodeLine> lines)
         {
+            if (lines==null || !lines.Any()) return 0;
             return lines.Max(x => x.TokenLength);
 
         }
@@ -154,14 +137,4 @@ namespace VSDropAssist.DropActions
         }
         
     }
-
-    public class CodeLine
-    {
-        public string FormatExpression { get; set; }
-        public string FormattedCode { get; set; }
-        public Node SourceNode { get; set; }
-        public int TokenStartPosition { get; set; }
-        public int TokenLength { get; set; }
-    }
-
 }

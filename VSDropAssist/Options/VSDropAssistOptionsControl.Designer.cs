@@ -1,4 +1,5 @@
-﻿using VSDropAssist.Settings;
+﻿using VSDropAssist.Entities;
+using VSDropAssist.Settings;
 
 namespace VSDropAssist.Options
 {
@@ -162,7 +163,7 @@ namespace VSDropAssist.Options
             // 
             // bsFormatExpressions
             // 
-            this.bsFormatExpressions.DataSource = typeof(VSDropAssist.DropActions.ExpressionItem);
+            this.bsFormatExpressions.DataSource = typeof(ExpressionItem);
             // 
             // panel1
             // 

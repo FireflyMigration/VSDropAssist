@@ -1,24 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
+using VSDropAssist.Entities;
 
-namespace VSDropAssist.DropActions
+namespace VSDropAssist
 {
-    public class ExpressionItem
-    {
-        public string Token { get; set; }
-        public string Description { get; set; }
-        public Func<Node, string, string> expr { get; set; }
-
-        public ExpressionItem(string token, string description, Func<Node, string, string > expr)
-        {
-            Token = token;
-            Description = description;
-            this.expr = expr;
-        }
-    }
     public class FormatExpressionService : IFormatExpressionService
     {
         private List<ExpressionItem> _expressionItems = new List<ExpressionItem>(); 

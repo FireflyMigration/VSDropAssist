@@ -5,6 +5,7 @@ using log4net;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
+using VSDropAssist.Entities;
 
 namespace VSDropAssist
 {

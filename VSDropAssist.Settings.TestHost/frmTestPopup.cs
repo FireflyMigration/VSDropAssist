@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VSDropAssist.DropActions;
+using VSDropAssist.Entities;
 
 namespace VSDropAssist.Settings.TestHost
 {

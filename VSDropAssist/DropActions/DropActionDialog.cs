@@ -8,7 +8,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using VSDropAssist.Annotations;
 using VSDropAssist.Options;
 using VSDropAssist.Settings;
 
@@ -42,12 +41,5 @@ namespace VSDropAssist.DropActions
         }
 
        
-    }
-
-    public class UserDropSetting
-    {
-        public string VariableName { get; set; }
-        public string FormatExpression { get; set; }
-        public DropSetting DropSetting { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using System.Collections.Specialized;
+using VSDropAssist.Entities;
 
-namespace VSDropAssist.DropActions
+namespace VSDropAssist
 {
     public interface IFormatExpressionService
     {

@@ -13,6 +13,7 @@ using Microsoft.VisualStudio.Text.Editor.DragDrop;
 using Microsoft.VisualStudio.Text.Operations;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
+using VSDropAssist.Entities;
 using VSDropAssist.Settings;
 
 namespace VSDropAssist.DropActions

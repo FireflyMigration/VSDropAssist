@@ -9,7 +9,7 @@ namespace VSDropAssist.DropActions
 
         public CommaDelimitedListDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService
             , new DropActionConfiguration() { FormatExpression = "%v%.%m%,", Delimiter="\n", SupportsClasses = false,
-                SupportsDroppingIntoClass = false,
+                SupportsDroppingIntoClass = false, SelectFirstLineOnly = false 
             })
         {
         }

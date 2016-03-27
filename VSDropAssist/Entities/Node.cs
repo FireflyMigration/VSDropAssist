@@ -1,8 +1,6 @@
-using System;
 using System.Linq;
-using Microsoft.VisualStudio.Shell.Interop;
 
-namespace VSDropAssist
+namespace VSDropAssist.Entities
 {
     public class Node
     {

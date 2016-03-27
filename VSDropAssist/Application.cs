@@ -55,14 +55,31 @@ namespace VSDropAssist
 
         public static VSDropSettings Settings { get; set; }
 
-        private static void initIoC()
+        
+        private static ContainerBuilder CreateContainerBuilder()
         {
             var builder = new ContainerBuilder();
+            registerDropActions(builder);
+            builder.RegisterType<DropActionProvider>().As<IDropActionProvider>();
             builder.RegisterType<SmartDropAction>().As<IDropAction>();
             builder.RegisterType<GraphModelDropInfoHandler>().As<IDropInfoHandler>();
             builder.RegisterType<DropHandler>().As<IDropHandler>();
             builder.RegisterType<ProjectItemDropInfoHandler>().As<IDropInfoHandler>();
             builder.RegisterType<FormatExpressionService>().As<IFormatExpressionService>();
+
+            return builder;
+        }
+
+        internal  static void registerDropActions(ContainerBuilder builder)
+        {
+            builder.RegisterAssemblyTypes(typeof (DropActionProvider).Assembly)
+                .AssignableTo<IConfigurableDropAction>().Except<ConfigurableDropAction>()
+                .As<IConfigurableDropAction>();
+        }
+
+        private static void initIoC()
+        {
+            var builder = CreateContainerBuilder();
 
             _container = builder.Build();
         }
