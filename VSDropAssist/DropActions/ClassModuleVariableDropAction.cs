@@ -8,8 +8,8 @@ namespace VSDropAssist.DropActions
 {
     internal class ClassModuleVariableDropAction:ClassOnlyWithSelectDropAction
     {
-        public ClassModuleVariableDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService
-            , new DropActionConfiguration() { FormatExpression= "public readonly %f% %v% = new %f%();\n" , SupportsMembers = false,ShiftMustBeDown=true  })
+        public ClassModuleVariableDropAction(IFormatExpressionService formatExpressionService, IIndentationService indentationService) : base(formatExpressionService
+            , new DropActionConfiguration() { FormatExpression= "public readonly %f% %v% = new %f%();\n" , SupportsMembers = false,ShiftMustBeDown=true  }, indentationService )
         {
         }
 

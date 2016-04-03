@@ -9,10 +9,10 @@ namespace VSDropAssist.DropActions
     {
 
 
-        public CommaDelimitedListDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService
+        public CommaDelimitedListDropAction(IFormatExpressionService formatExpressionService, IIndentationService indentationService) : base(formatExpressionService
             , new DropActionConfiguration() { FormatExpression = "%v%.%m%,", Delimiter="\n", SupportsClasses = false,
                 SupportsDroppingIntoClass = false, SelectFirstLineOnly = false 
-            })
+            }, indentationService )
         {
         }
 

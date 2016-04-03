@@ -11,9 +11,20 @@ namespace VSDropAssist.DropActions
         private readonly IDropActionConfiguration _configuration;
 
         public ConfigurableDropAction(IFormatExpressionService formatExpressionService,
-            IDropActionConfiguration configuration ) : base(formatExpressionService)
+            IDropActionConfiguration configuration, IIndentationService indentationService ) : base(formatExpressionService, indentationService)
         {
             _configuration = configuration;
+        }
+
+        protected override string getPrefix()
+        {
+            return _configuration.Prefix;
+        }
+
+        protected override string getSuffix()
+        {
+            return _configuration.Suffix;
+
         }
 
         public override int Match(IDropQuery qry)

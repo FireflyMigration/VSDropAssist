@@ -130,6 +130,7 @@
     <Compile Include="Properties\ValueProviderAttribute.cs" />
     <Compile Include="Properties\XamlItemBindingOfItemsControlAttribute.cs" />
     <Compile Include="Properties\XamlItemsControlAttribute.cs" />
+    <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VSDropAssist.Settings\VSDropAssist.Settings.csproj">

@@ -15,6 +15,8 @@ namespace VSDropAssist.Settings
         public bool SupportsDroppingIntoClass { get; set; }
         public string TokenToSelectAfterDrop { get; set; }
         public bool SelectFirstLineOnly { get;set; }
+        public string Prefix { get; set; }
+        public string Suffix { get; set; }
         public string Delimiter { get; set; }
         public string Name { get; set; }
         public DropActionConfiguration()
@@ -26,6 +28,7 @@ namespace VSDropAssist.Settings
             SelectAfterDrop = true;
             TokenToSelectAfterDrop = "%v%";
             Delimiter = "\n";
+            Prefix = "\n";
             SelectFirstLineOnly = true;
         }
 

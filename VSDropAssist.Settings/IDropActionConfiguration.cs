@@ -14,6 +14,7 @@ namespace VSDropAssist
         bool SupportsDroppingIntoClass { get;  }
         string TokenToSelectAfterDrop { get; }
         bool SelectFirstLineOnly { get;  }
-        
+        string Prefix { get; set; }
+        string Suffix { get; set; }
     }
 }

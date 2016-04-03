@@ -9,9 +9,9 @@ namespace VSDropAssist.DropActions
     internal  class ClassFullNameDropAction : ConfigurableDropAction
     {
         
-        public ClassFullNameDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService,
+        public ClassFullNameDropAction(IFormatExpressionService formatExpressionService, IIndentationService indentationService) : base(formatExpressionService,
              new DropActionConfiguration() { FormatExpression = "%f%", Delimiter = "\n",  TokenToSelectAfterDrop="%f%" ,
-                 SupportsMembers = false })
+                 SupportsMembers = false }, indentationService)
         {
         }
        

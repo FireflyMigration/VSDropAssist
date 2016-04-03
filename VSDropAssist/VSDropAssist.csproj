@@ -73,7 +73,6 @@
     <Compile Include="DropActions\MemberUpdateDropAction.cs" />
     <Compile Include="DropActions\NewClassInstanceDropAction.cs" />
     <Compile Include="DropActions\SimpleTextDropAction.cs" />
-    <Compile Include="StringExtensions.cs" />
     <Compile Include="DropHandler.cs" />
     <Compile Include="DropInfoHandlers\ProjectItemDropInfoHandler.cs" />
     <Compile Include="DropHandlerProvider.cs" />

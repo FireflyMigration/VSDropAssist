@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace VSDropAssist
+namespace VSDropAssist.Core
 {
     public static class StringExtensions
     {

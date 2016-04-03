@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Windows.Controls;
 using VSDropAssist.Core;
 using VSDropAssist.Core.Entities;
 
@@ -10,11 +12,13 @@ namespace VSDropAssist.DropActions
     public abstract class SimpleTextDropAction : DropActionBase
     {
         protected readonly IFormatExpressionService _formatExpressionService;
+        private readonly IIndentationService _indentationService;
         protected abstract string GetFormatString();
 
-        protected SimpleTextDropAction(IFormatExpressionService formatExpressionService)
+        protected SimpleTextDropAction(IFormatExpressionService formatExpressionService, IIndentationService indentationService)
         {
             _formatExpressionService = formatExpressionService;
+            _indentationService = indentationService;
         }
 
         public virtual bool getNodeFilter(Node n)
@@ -31,22 +35,9 @@ namespace VSDropAssist.DropActions
 
             var dropLine = dragDropInfo.GetDroppingLine();
             var lineBreak = dropLine.GetLineBreakText();
-            var indent = Application.SmartIndentationService.GetDesiredIndentation((Microsoft.VisualStudio.Text.Editor.ITextView)textView.Object, (Microsoft.VisualStudio.Text.ITextSnapshotLine)dropLine.RealObject);
-            if (indent == null || !indent.HasValue)
-            {
-                // calc indent from dropped line
-                var lineText = dropLine.GetText();
-
-                var firstNonWhitespace = lineText.IndexOf(c => !char.IsWhiteSpace(c));
-                indent = firstNonWhitespace;
-
-                // indent if char is a {
-                if (lineText[firstNonWhitespace] == '{')
-                {
-                    var indentSize = textView.GetIndentSize();
-                    indent += indentSize;
-                }
-            }
+            
+            int? indent = _indentationService.GetDesiredIndentation(textView, dropLine);
+            
 
             List<CodeLine> codeLines = null;
 
@@ -56,14 +47,18 @@ namespace VSDropAssist.DropActions
 
             foreach (var cl in codeLines)
             {
-                cl.FormatExpression = string.Format("{0}{1}", indentText, cl.FormatExpression);
-                cl.FormattedCode = string.Format("{0}{1}", indentText, cl.FormattedCode);
+                if (cl.Indent)
+                {
+                    cl.FormatExpression = string.Format("{0}{1}", indentText, cl.FormatExpression);
+                    cl.FormattedCode = string.Format("{0}{1}", indentText, cl.FormattedCode);
+                }
 
-                
                 if (cl.TokenStartPosition  >= 0)
                 {
-                    cl.TokenStartPosition += indent.Value; // offset the token start, as we've indented the code
-
+                    if (cl.Indent)
+                    {
+                        cl.TokenStartPosition += indent.Value; // offset the token start, as we've indented the code
+                    }
                     Debug.WriteLine("{0} variable starts at {1}\n{2}^", cl.FormattedCode, cl.TokenStartPosition,
                         new string(' ', cl.TokenStartPosition));
                 }
@@ -73,8 +68,10 @@ namespace VSDropAssist.DropActions
             {
                 var edit = textView.CreateEdit();
                 
-                var allText = string.Join(getDelimiter(), codeLines.Select(x => x.FormattedCode));
-                edit.Insert(dragDropInfo.GetStartPosition(), lineBreak  + allText);
+                var allText = getPrefix() +  string.Join(getDelimiter(), codeLines.Select(x => x.FormattedCode)) + getSuffix();
+                allText = allText.Replace("\n", lineBreak);
+
+                edit.Insert(dragDropInfo.GetStartPosition(), allText);
                 
                 edit.Apply();
                 
@@ -88,10 +85,18 @@ namespace VSDropAssist.DropActions
             var selectionWidthInChars = getSelectionWidth(codeLines );
             var selectionHeightInLines = getSelectionHeight(codeLines);
             var selectionStartInChars = getSelectionStart(codeLines);
-            var selectionStartRow = dropLine.LineNumber + 1;
+            var selectionStartRow = dropLine.LineNumber + getPrefix().Count(x => x == '\n');
+
             return new ExecuteResult(selectAfterDrop,selectionWidthInChars,selectionHeightInLines, DropActionResultEnum.AllowCopy, selectionStartInChars , selectionStartRow );
         }
-
+      protected virtual string getPrefix()
+      {
+          return "\n";
+      }
+        protected virtual string getSuffix()
+        {
+            return "";
+        }
         protected virtual string getDelimiter()
         {
             return "";

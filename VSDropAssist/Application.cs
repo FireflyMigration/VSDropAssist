@@ -71,6 +71,10 @@ namespace VSDropAssist
             builder.RegisterType<ProjectItemDropInfoHandler>().As<IDropInfoHandler>();
             builder.RegisterType<FormatExpressionService>().As<IFormatExpressionService>();
             builder.RegisterAssemblyTypes(typeof (VSLine).Assembly).AsImplementedInterfaces();
+            builder.Register(context =>
+            {
+                return Application.SmartIndentationService;
+            }).As<ISmartIndentationService>().InstancePerDependency();
 
             return builder;
         }

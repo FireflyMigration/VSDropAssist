@@ -18,7 +18,7 @@ namespace VSDropAssist.DropActions
         }
 
         
-        public ClassOnlyDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService)
+        public ClassOnlyDropAction(IFormatExpressionService formatExpressionService, IIndentationService indentationService) : base(formatExpressionService, indentationService)
         {
         }
     }

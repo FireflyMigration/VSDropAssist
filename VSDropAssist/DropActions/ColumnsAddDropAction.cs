@@ -12,8 +12,8 @@ namespace VSDropAssist.DropActions
 
         
 
-        public ColumnsAddDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService
-            , new DropActionConfiguration() {FormatExpression = "Columns.Add(%v%.%m%);", SupportsClasses = false, ShiftMustBeDown = true, SelectFirstLineOnly=false  })
+        public ColumnsAddDropAction(IFormatExpressionService formatExpressionService, IIndentationService indentationService) : base(formatExpressionService
+            , new DropActionConfiguration() {FormatExpression = "Columns.Add(%v%.%m%);", SupportsClasses = false, ShiftMustBeDown = true, SelectFirstLineOnly=false  }, indentationService )
         {
         }
     }

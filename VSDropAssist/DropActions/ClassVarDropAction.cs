@@ -8,11 +8,11 @@ namespace VSDropAssist.DropActions
 {
     internal class ClassVarDropAction : ClassOnlyWithSelectDropAction
     {
-        public ClassVarDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService
+        public ClassVarDropAction(IFormatExpressionService formatExpressionService, IIndentationService indentationService) : base(formatExpressionService
             , new DropActionConfiguration()
             {
                 FormatExpression = "var %v% = new %f%();", Delimiter = "\n", SupportsMembers = false, 
-                ShiftMustBeDown=true ,SelectFirstLineOnly=true, ControlMustBeDown=true   }
+                ShiftMustBeDown=true ,SelectFirstLineOnly=true, ControlMustBeDown=true   }, indentationService 
             )
         {
         }

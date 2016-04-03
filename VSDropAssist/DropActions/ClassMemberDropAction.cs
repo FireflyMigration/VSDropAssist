@@ -7,7 +7,7 @@ namespace VSDropAssist.DropActions
 {
     internal abstract class ClassMemberDropAction : SimpleTextDropAction
     {
-        public ClassMemberDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService)
+        public ClassMemberDropAction(IFormatExpressionService formatExpressionService, IIndentationService indentationService) : base(formatExpressionService, indentationService)
         {
         }
 
