@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using VSDropAssist.DropActions;
 using VSDropAssist.Settings;
+using VSDropAssist.Core;
 
 namespace VSDropAssist.Options
 {

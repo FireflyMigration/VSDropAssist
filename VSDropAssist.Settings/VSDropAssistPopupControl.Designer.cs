@@ -29,129 +29,331 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.OptionKeyControl = new System.Windows.Forms.ComboBox();
-            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.variableNameControl = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.FormatExpressionControl = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.ExampleControl = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
+            System.Windows.Forms.Label delimiterLabel;
+            System.Windows.Forms.Label formatExpressionLabel;
+            System.Windows.Forms.Label nameLabel;
+            System.Windows.Forms.Label tokenToSelectAfterDropLabel;
+            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.altMustBeDownCheckBox = new System.Windows.Forms.CheckBox();
+            this.controlMustBeDownCheckBox = new System.Windows.Forms.CheckBox();
+            this.delimiterTextBox = new System.Windows.Forms.TextBox();
+            this.formatExpressionTextBox = new System.Windows.Forms.TextBox();
+            this.nameTextBox = new System.Windows.Forms.TextBox();
+            this.selectAfterDropCheckBox = new System.Windows.Forms.CheckBox();
+            this.selectFirstLineOnlyCheckBox = new System.Windows.Forms.CheckBox();
+            this.shiftMustBeDownCheckBox = new System.Windows.Forms.CheckBox();
+            this.supportsClassesCheckBox = new System.Windows.Forms.CheckBox();
+            this.supportsDroppingIntoClassCheckBox = new System.Windows.Forms.CheckBox();
+            this.supportsDroppingIntoMethodCheckBox = new System.Windows.Forms.CheckBox();
+            this.supportsMembersCheckBox = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tokenToSelectAfterDropComboBox = new System.Windows.Forms.ComboBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            delimiterLabel = new System.Windows.Forms.Label();
+            formatExpressionLabel = new System.Windows.Forms.Label();
+            nameLabel = new System.Windows.Forms.Label();
+            tokenToSelectAfterDropLabel = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // OptionKeyControl
+            // settingsBindingSource
             // 
-            this.OptionKeyControl.DataSource = this.bindingSource1;
-            this.OptionKeyControl.DisplayMember = "Key";
-            this.OptionKeyControl.FormattingEnabled = true;
-            this.OptionKeyControl.Location = new System.Drawing.Point(119, 19);
-            this.OptionKeyControl.Name = "OptionKeyControl";
-            this.OptionKeyControl.Size = new System.Drawing.Size(180, 21);
-            this.OptionKeyControl.TabIndex = 0;
-            this.OptionKeyControl.ValueMember = "Key";
-            this.OptionKeyControl.SelectedIndexChanged += new System.EventHandler(this.OptionKeyControl_SelectedIndexChanged);
+            this.settingsBindingSource.DataSource = typeof(VSDropAssist.Settings.DropActionConfiguration);
             // 
-            // bindingSource1
+            // altMustBeDownCheckBox
             // 
-            this.bindingSource1.DataMember = "Settings";
-            this.bindingSource1.DataSource = typeof(VSDropAssist.Settings.VSDropSettings);
-            this.bindingSource1.CurrentChanged += new System.EventHandler(this.bindingSource1_CurrentChanged);
+            this.altMustBeDownCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("CheckState", this.settingsBindingSource, "AltMustBeDown", true));
+            this.altMustBeDownCheckBox.Location = new System.Drawing.Point(205, 19);
+            this.altMustBeDownCheckBox.Name = "altMustBeDownCheckBox";
+            this.altMustBeDownCheckBox.Size = new System.Drawing.Size(104, 24);
+            this.altMustBeDownCheckBox.TabIndex = 1;
+            this.altMustBeDownCheckBox.Text = "Alt";
+            this.altMustBeDownCheckBox.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // controlMustBeDownCheckBox
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 22);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Select format:";
+            this.controlMustBeDownCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("CheckState", this.settingsBindingSource, "ControlMustBeDown", true));
+            this.controlMustBeDownCheckBox.Location = new System.Drawing.Point(17, 49);
+            this.controlMustBeDownCheckBox.Name = "controlMustBeDownCheckBox";
+            this.controlMustBeDownCheckBox.Size = new System.Drawing.Size(104, 24);
+            this.controlMustBeDownCheckBox.TabIndex = 2;
+            this.controlMustBeDownCheckBox.Text = "Control";
+            this.controlMustBeDownCheckBox.UseVisualStyleBackColor = true;
             // 
-            // variableNameControl
+            // delimiterLabel
             // 
-            this.variableNameControl.Location = new System.Drawing.Point(119, 47);
-            this.variableNameControl.Name = "variableNameControl";
-            this.variableNameControl.Size = new System.Drawing.Size(180, 20);
-            this.variableNameControl.TabIndex = 2;
-            this.variableNameControl.TextChanged += new System.EventHandler(this.variableNameControl_TextChanged);
+            delimiterLabel.AutoSize = true;
+            delimiterLabel.Location = new System.Drawing.Point(8, 141);
+            delimiterLabel.Name = "delimiterLabel";
+            delimiterLabel.Size = new System.Drawing.Size(50, 13);
+            delimiterLabel.TabIndex = 4;
+            delimiterLabel.Text = "Delimiter:";
             // 
-            // label2
+            // delimiterTextBox
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 50);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(104, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Enter variable name:";
+            this.delimiterTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "Delimiter", true));
+            this.delimiterTextBox.Location = new System.Drawing.Point(130, 138);
+            this.delimiterTextBox.Name = "delimiterTextBox";
+            this.delimiterTextBox.Size = new System.Drawing.Size(168, 20);
+            this.delimiterTextBox.TabIndex = 1;
+            this.toolTip1.SetToolTip(this.delimiterTextBox, "Text to insert between dropped items");
             // 
-            // label3
+            // formatExpressionLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 79);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(95, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Format expression:";
+            formatExpressionLabel.AutoSize = true;
+            formatExpressionLabel.Location = new System.Drawing.Point(4, 215);
+            formatExpressionLabel.Name = "formatExpressionLabel";
+            formatExpressionLabel.Size = new System.Drawing.Size(54, 13);
+            formatExpressionLabel.TabIndex = 6;
+            formatExpressionLabel.Text = "Template:";
             // 
-            // FormatExpressionControl
+            // formatExpressionTextBox
             // 
-            this.FormatExpressionControl.AutoSize = true;
-            this.FormatExpressionControl.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, "FormatExpression", true));
-            this.FormatExpressionControl.Location = new System.Drawing.Point(116, 79);
-            this.FormatExpressionControl.Name = "FormatExpressionControl";
-            this.FormatExpressionControl.Size = new System.Drawing.Size(46, 13);
-            this.FormatExpressionControl.TabIndex = 4;
-            this.FormatExpressionControl.Text = "{x} = {c}";
+            this.formatExpressionTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "FormatExpression", true));
+            this.formatExpressionTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.formatExpressionTextBox.Location = new System.Drawing.Point(0, 0);
+            this.formatExpressionTextBox.Multiline = true;
+            this.formatExpressionTextBox.Name = "formatExpressionTextBox";
+            this.formatExpressionTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.formatExpressionTextBox.Size = new System.Drawing.Size(774, 196);
+            this.formatExpressionTextBox.TabIndex = 0;
             // 
-            // label4
+            // nameLabel
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 102);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(95, 13);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Format expression:";
+            nameLabel.AutoSize = true;
+            nameLabel.Location = new System.Drawing.Point(2, 8);
+            nameLabel.Name = "nameLabel";
+            nameLabel.Size = new System.Drawing.Size(38, 13);
+            nameLabel.TabIndex = 8;
+            nameLabel.Text = "Name:";
             // 
-            // ExampleControl
+            // nameTextBox
             // 
-            this.ExampleControl.AutoSize = true;
-            this.ExampleControl.Location = new System.Drawing.Point(116, 102);
-            this.ExampleControl.Name = "ExampleControl";
-            this.ExampleControl.Size = new System.Drawing.Size(40, 13);
-            this.ExampleControl.TabIndex = 4;
-            this.ExampleControl.Text = "sample";
+            this.nameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "Name", true));
+            this.nameTextBox.Location = new System.Drawing.Point(67, 5);
+            this.nameTextBox.Name = "nameTextBox";
+            this.nameTextBox.Size = new System.Drawing.Size(317, 20);
+            this.nameTextBox.TabIndex = 0;
+            // 
+            // selectAfterDropCheckBox
+            // 
+            this.selectAfterDropCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("CheckState", this.settingsBindingSource, "SelectAfterDrop", true));
+            this.selectAfterDropCheckBox.Location = new System.Drawing.Point(20, 19);
+            this.selectAfterDropCheckBox.Name = "selectAfterDropCheckBox";
+            this.selectAfterDropCheckBox.Size = new System.Drawing.Size(102, 24);
+            this.selectAfterDropCheckBox.TabIndex = 0;
+            this.selectAfterDropCheckBox.Text = "Select text";
+            this.selectAfterDropCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // selectFirstLineOnlyCheckBox
+            // 
+            this.selectFirstLineOnlyCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("CheckState", this.settingsBindingSource, "SelectFirstLineOnly", true));
+            this.selectFirstLineOnlyCheckBox.Location = new System.Drawing.Point(149, 19);
+            this.selectFirstLineOnlyCheckBox.Name = "selectFirstLineOnlyCheckBox";
+            this.selectFirstLineOnlyCheckBox.Size = new System.Drawing.Size(121, 24);
+            this.selectFirstLineOnlyCheckBox.TabIndex = 1;
+            this.selectFirstLineOnlyCheckBox.Text = "first line only";
+            this.selectFirstLineOnlyCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // shiftMustBeDownCheckBox
+            // 
+            this.shiftMustBeDownCheckBox.Checked = true;
+            this.shiftMustBeDownCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.shiftMustBeDownCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("CheckState", this.settingsBindingSource, "ShiftMustBeDown", true));
+            this.shiftMustBeDownCheckBox.Location = new System.Drawing.Point(17, 19);
+            this.shiftMustBeDownCheckBox.Name = "shiftMustBeDownCheckBox";
+            this.shiftMustBeDownCheckBox.Size = new System.Drawing.Size(104, 24);
+            this.shiftMustBeDownCheckBox.TabIndex = 0;
+            this.shiftMustBeDownCheckBox.Text = "Shift";
+            this.shiftMustBeDownCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // supportsClassesCheckBox
+            // 
+            this.supportsClassesCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("CheckState", this.settingsBindingSource, "SupportsClasses", true));
+            this.supportsClassesCheckBox.Location = new System.Drawing.Point(18, 49);
+            this.supportsClassesCheckBox.Name = "supportsClassesCheckBox";
+            this.supportsClassesCheckBox.Size = new System.Drawing.Size(104, 24);
+            this.supportsClassesCheckBox.TabIndex = 1;
+            this.supportsClassesCheckBox.Text = "Classes";
+            this.supportsClassesCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // supportsDroppingIntoClassCheckBox
+            // 
+            this.supportsDroppingIntoClassCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("CheckState", this.settingsBindingSource, "SupportsDroppingIntoClass", true));
+            this.supportsDroppingIntoClassCheckBox.Location = new System.Drawing.Point(6, 19);
+            this.supportsDroppingIntoClassCheckBox.Name = "supportsDroppingIntoClassCheckBox";
+            this.supportsDroppingIntoClassCheckBox.Size = new System.Drawing.Size(104, 24);
+            this.supportsDroppingIntoClassCheckBox.TabIndex = 0;
+            this.supportsDroppingIntoClassCheckBox.Text = "into a class";
+            this.supportsDroppingIntoClassCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // supportsDroppingIntoMethodCheckBox
+            // 
+            this.supportsDroppingIntoMethodCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("CheckState", this.settingsBindingSource, "SupportsDroppingIntoMethod", true));
+            this.supportsDroppingIntoMethodCheckBox.Location = new System.Drawing.Point(6, 49);
+            this.supportsDroppingIntoMethodCheckBox.Name = "supportsDroppingIntoMethodCheckBox";
+            this.supportsDroppingIntoMethodCheckBox.Size = new System.Drawing.Size(104, 24);
+            this.supportsDroppingIntoMethodCheckBox.TabIndex = 1;
+            this.supportsDroppingIntoMethodCheckBox.Text = "into a method";
+            this.supportsDroppingIntoMethodCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // supportsMembersCheckBox
+            // 
+            this.supportsMembersCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("CheckState", this.settingsBindingSource, "SupportsMembers", true));
+            this.supportsMembersCheckBox.Location = new System.Drawing.Point(18, 19);
+            this.supportsMembersCheckBox.Name = "supportsMembersCheckBox";
+            this.supportsMembersCheckBox.Size = new System.Drawing.Size(104, 24);
+            this.supportsMembersCheckBox.TabIndex = 0;
+            this.supportsMembersCheckBox.Text = "Members";
+            this.supportsMembersCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.supportsMembersCheckBox);
+            this.groupBox1.Controls.Add(this.supportsClassesCheckBox);
+            this.groupBox1.Location = new System.Drawing.Point(362, 43);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(179, 81);
+            this.groupBox1.TabIndex = 26;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Available when the user selects";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.shiftMustBeDownCheckBox);
+            this.groupBox2.Controls.Add(this.controlMustBeDownCheckBox);
+            this.groupBox2.Controls.Add(this.altMustBeDownCheckBox);
+            this.groupBox2.Location = new System.Drawing.Point(5, 43);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(336, 81);
+            this.groupBox2.TabIndex = 27;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Hotkeys the user must press";
+            // 
+            // tokenToSelectAfterDropLabel
+            // 
+            tokenToSelectAfterDropLabel.AutoSize = true;
+            tokenToSelectAfterDropLabel.Location = new System.Drawing.Point(17, 57);
+            tokenToSelectAfterDropLabel.Name = "tokenToSelectAfterDropLabel";
+            tokenToSelectAfterDropLabel.Size = new System.Drawing.Size(141, 13);
+            tokenToSelectAfterDropLabel.TabIndex = 27;
+            tokenToSelectAfterDropLabel.Text = "Token To Select After Drop:";
+            // 
+            // tokenToSelectAfterDropComboBox
+            // 
+            this.tokenToSelectAfterDropComboBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "TokenToSelectAfterDrop", true));
+            this.tokenToSelectAfterDropComboBox.FormattingEnabled = true;
+            this.tokenToSelectAfterDropComboBox.Location = new System.Drawing.Point(164, 54);
+            this.tokenToSelectAfterDropComboBox.Name = "tokenToSelectAfterDropComboBox";
+            this.tokenToSelectAfterDropComboBox.Size = new System.Drawing.Size(121, 21);
+            this.tokenToSelectAfterDropComboBox.TabIndex = 2;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.supportsDroppingIntoClassCheckBox);
+            this.groupBox3.Controls.Add(this.supportsDroppingIntoMethodCheckBox);
+            this.groupBox3.Location = new System.Drawing.Point(562, 43);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(200, 81);
+            this.groupBox3.TabIndex = 29;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Available when the user is dropping";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.selectAfterDropCheckBox);
+            this.groupBox4.Controls.Add(this.selectFirstLineOnlyCheckBox);
+            this.groupBox4.Controls.Add(this.tokenToSelectAfterDropComboBox);
+            this.groupBox4.Controls.Add(tokenToSelectAfterDropLabel);
+            this.groupBox4.Location = new System.Drawing.Point(362, 141);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(400, 87);
+            this.groupBox4.TabIndex = 30;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "After inserting code";
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(nameLabel);
+            this.splitContainer1.Panel1.Controls.Add(this.groupBox4);
+            this.splitContainer1.Panel1.Controls.Add(this.nameTextBox);
+            this.splitContainer1.Panel1.Controls.Add(this.groupBox3);
+            this.splitContainer1.Panel1.Controls.Add(formatExpressionLabel);
+            this.splitContainer1.Panel1.Controls.Add(this.groupBox2);
+            this.splitContainer1.Panel1.Controls.Add(this.delimiterTextBox);
+            this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
+            this.splitContainer1.Panel1.Controls.Add(delimiterLabel);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.formatExpressionTextBox);
+            this.splitContainer1.Size = new System.Drawing.Size(774, 434);
+            this.splitContainer1.SplitterDistance = 234;
+            this.splitContainer1.TabIndex = 31;
             // 
             // VSDropAssistPopupControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.ExampleControl);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.FormatExpressionControl);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.variableNameControl);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.OptionKeyControl);
+            this.Controls.Add(this.splitContainer1);
             this.Name = "VSDropAssistPopupControl";
-            this.Size = new System.Drawing.Size(476, 205);
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
+            this.Size = new System.Drawing.Size(774, 434);
+            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ComboBox OptionKeyControl;
-        private System.Windows.Forms.BindingSource bindingSource1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox variableNameControl;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label FormatExpressionControl;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label ExampleControl;
+        private System.Windows.Forms.BindingSource settingsBindingSource;
+        private System.Windows.Forms.CheckBox altMustBeDownCheckBox;
+        private System.Windows.Forms.CheckBox controlMustBeDownCheckBox;
+        private System.Windows.Forms.TextBox delimiterTextBox;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.TextBox formatExpressionTextBox;
+        private System.Windows.Forms.TextBox nameTextBox;
+        private System.Windows.Forms.CheckBox selectAfterDropCheckBox;
+        private System.Windows.Forms.CheckBox selectFirstLineOnlyCheckBox;
+        private System.Windows.Forms.CheckBox shiftMustBeDownCheckBox;
+        private System.Windows.Forms.CheckBox supportsClassesCheckBox;
+        private System.Windows.Forms.CheckBox supportsDroppingIntoClassCheckBox;
+        private System.Windows.Forms.CheckBox supportsDroppingIntoMethodCheckBox;
+        private System.Windows.Forms.CheckBox supportsMembersCheckBox;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ComboBox tokenToSelectAfterDropComboBox;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }

@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.vsDropAssistOptionsControl1 = new VSDropAssist.Settings.VSDropAssistOptionsControl();
+            this.vsDropAssistOptionsControl1 = new VSDropAssist.Settings.VSDropAssistOptionsList();
             this.SaveControl = new System.Windows.Forms.Button();
             this.LoadControl = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -77,7 +77,7 @@
 
         #endregion
 
-        private VSDropAssistOptionsControl vsDropAssistOptionsControl1;
+        private VSDropAssistOptionsList vsDropAssistOptionsControl1;
         private System.Windows.Forms.Button SaveControl;
         private System.Windows.Forms.Button LoadControl;
     }

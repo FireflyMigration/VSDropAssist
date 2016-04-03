@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="418b3e5f-dcaa-4cfa-85ea-9b26f18319b3" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/LayerDesigner">
+  <layers>
+    <layer Id="57a927e8-211d-4bfb-9a89-bb3f01d82edc" name="Main">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="b913c16e-fadb-4bea-ba1c-e0c15e529ca5" direction="Forward">
+          <layerMoniker Id="2621c702-d2f8-4c9e-a67b-db3bab7d0ad0" />
+        </dependencyFromLayerToLayer>
+        <dependencyFromLayerToLayer Id="23372f2a-f81c-4db7-86b0-aabfbcb65590" direction="Forward">
+          <layerMoniker Id="ec00fdf2-b2a3-43d8-b6e2-8056b371cd13" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+      <references>
+        <reference Id="c41cd6b8-d150-48d9-804f-3b999f387b52" name="VSDropAssist">
+          <ArtifactNode Label="VSDropAssist" Category="CodeSchema_Project" Id="(Assembly=../VSDropAssist/VSDropAssist.csproj)">
+            <Category Ref="File" />
+          </ArtifactNode>
+          <ExpandedNode Id="(Assembly=VSDropAssist)" Label="VSDropAssist.dll" Category="CodeSchema_Assembly">
+            <Category Ref="FileSystem.Category.FileOfType.dll" />
+            <LinkCategory Ref="Produces" />
+            <LinkCategory Ref="Represents" />
+          </ExpandedNode>
+        </reference>
+      </references>
+    </layer>
+    <layer Id="ec00fdf2-b2a3-43d8-b6e2-8056b371cd13" name="Core">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="0ae56a59-e72d-4b88-ab3f-c803dad46ebf" direction="Forward">
+          <layerMoniker Id="2621c702-d2f8-4c9e-a67b-db3bab7d0ad0" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+      <references>
+        <reference Id="0bfc39e4-1b05-436d-8c58-99bd27859b69" name="VSDropAssist.Core">
+          <ArtifactNode Label="VSDropAssist.Core" Category="CodeSchema_Project" Id="(Assembly=../VSDropAssist.Core/VSDropAssist.Core.csproj)">
+            <Category Ref="File" />
+          </ArtifactNode>
+          <ExpandedNode Id="(Assembly=VSDropAssist.Core)" Label="VSDropAssist.Core.dll" Category="CodeSchema_Assembly">
+            <Category Ref="FileSystem.Category.FileOfType.dll" />
+            <LinkCategory Ref="Produces" />
+            <LinkCategory Ref="Represents" />
+          </ExpandedNode>
+        </reference>
+      </references>
+    </layer>
+    <layer Id="2621c702-d2f8-4c9e-a67b-db3bab7d0ad0" name="Settings">
+      <references>
+        <reference Id="57d3acd2-046c-4f7d-95da-a788313ff063" name="VSDropAssist.Settings">
+          <ArtifactNode Label="VSDropAssist.Settings" Category="CodeSchema_Project" Id="(Assembly=../VSDropAssist.Settings/VSDropAssist.Settings.csproj)">
+            <Category Ref="File" />
+          </ArtifactNode>
+          <ExpandedNode Id="(Assembly=VSDropAssist.Settings)" Label="VSDropAssist.Settings.dll" Category="CodeSchema_Assembly">
+            <Category Ref="FileSystem.Category.FileOfType.dll" />
+            <LinkCategory Ref="Produces" />
+            <LinkCategory Ref="Represents" />
+          </ExpandedNode>
+        </reference>
+      </references>
+    </layer>
+  </layers>
+</layerModel>

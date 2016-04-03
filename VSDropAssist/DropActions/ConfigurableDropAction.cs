@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VSDropAssist.Entities;
+using VSDropAssist.Core;
+using VSDropAssist.Core.Entities;
 
 namespace VSDropAssist.DropActions
 {
@@ -15,7 +16,7 @@ namespace VSDropAssist.DropActions
             _configuration = configuration;
         }
 
-        public override int Match(DropQuery qry)
+        public override int Match(IDropQuery qry)
         {
             return qry.Match(_configuration);
         }

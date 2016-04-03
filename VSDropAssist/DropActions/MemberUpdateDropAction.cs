@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
+using VSDropAssist.Core;
 using VSDropAssist.Settings;
 
 namespace VSDropAssist.DropActions

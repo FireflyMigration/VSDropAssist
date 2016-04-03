@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using VSDropAssist.Entities;
+using VSDropAssist.Core;
+using VSDropAssist.Core.Entities;
 
 namespace VSDropAssist.DropActions
 {

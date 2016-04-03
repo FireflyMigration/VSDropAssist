@@ -1,3 +1,5 @@
+using VSDropAssist.Core;
+
 namespace VSDropAssist.DropActions
 {
     internal abstract class ClassOnlyWithSelectDropAction : ConfigurableDropAction

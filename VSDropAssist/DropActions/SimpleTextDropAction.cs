@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.Text.Editor.DragDrop;
-using VSDropAssist.Entities;
+using VSDropAssist.Core;
+using VSDropAssist.Core.Entities;
 
 namespace VSDropAssist.DropActions
 {
@@ -26,14 +24,14 @@ namespace VSDropAssist.DropActions
         }
 
        
-        public override IExecuteResult Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo)
+        public override IExecuteResult Execute(IEnumerable<Node> nodes, Core.ITextView textView, IDragDropInfo dragDropInfo)
         {
             var filteredNodes = nodes.Where(x => getNodeFilter(x));
 
-       
-            var dropLine = dragDropInfo.VirtualBufferPosition.Position.GetContainingLine();
+
+            var dropLine = dragDropInfo.GetDroppingLine();
             var lineBreak = dropLine.GetLineBreakText();
-            var indent = Application.SmartIndentationService.GetDesiredIndentation(textView, dropLine );
+            var indent = Application.SmartIndentationService.GetDesiredIndentation((Microsoft.VisualStudio.Text.Editor.ITextView)textView.Object, (Microsoft.VisualStudio.Text.ITextSnapshotLine)dropLine.RealObject);
             if (indent == null || !indent.HasValue)
             {
                 // calc indent from dropped line
@@ -45,7 +43,7 @@ namespace VSDropAssist.DropActions
                 // indent if char is a {
                 if (lineText[firstNonWhitespace] == '{')
                 {
-                    var indentSize = textView.Options.GetOptionValue<int>("Tabs/IndentSize");
+                    var indentSize = textView.GetIndentSize();
                     indent += indentSize;
                 }
             }
@@ -73,11 +71,10 @@ namespace VSDropAssist.DropActions
 
             try
             {
-                var edit = textView.TextBuffer.CreateEdit();
-
+                var edit = textView.CreateEdit();
                 
                 var allText = string.Join(getDelimiter(), codeLines.Select(x => x.FormattedCode));
-                edit.Insert(dragDropInfo.VirtualBufferPosition.Position.GetContainingLine().End, lineBreak  + allText);
+                edit.Insert(dragDropInfo.GetStartPosition(), lineBreak  + allText);
                 
                 edit.Apply();
                 

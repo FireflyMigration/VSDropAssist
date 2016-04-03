@@ -9,6 +9,7 @@ using NUnit.Framework;
 using NUnit.Framework.Constraints;
 using VSDropAssist.DropActions;
 using VSDropAssist.Settings;
+using VSDropAssist.Core;
 
 namespace VSDropAssist.Tests
 {
@@ -121,7 +122,7 @@ namespace VSDropAssist.Tests
                 DroppingIntoMethod = true ,
                 DroppingIntoClass = true
             };
-
+            
             var actual = svc.GetAction(query);
 
             Assert.IsNotNull(actual);

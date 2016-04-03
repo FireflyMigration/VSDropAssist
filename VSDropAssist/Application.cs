@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Autofac;
+using Autofac.Core;
 using EnvDTE;
 using log4net;
 using log4net.Config;
@@ -13,6 +15,8 @@ using VSDropAssist.DropActions;
 using VSDropAssist.DropInfoHandlers;
 using VSDropAssist.Options;
 using VSDropAssist.Settings;
+using VSDropAssist.Core;
+using VSDropAssist.VisualStudio;
 
 namespace VSDropAssist
 {
@@ -66,8 +70,23 @@ namespace VSDropAssist
             builder.RegisterType<DropHandler>().As<IDropHandler>();
             builder.RegisterType<ProjectItemDropInfoHandler>().As<IDropInfoHandler>();
             builder.RegisterType<FormatExpressionService>().As<IFormatExpressionService>();
+            builder.RegisterAssemblyTypes(typeof (VSLine).Assembly).AsImplementedInterfaces();
 
             return builder;
+        }
+
+        internal static T ResolveView<T>(IWpfTextView view)
+        {
+            var typedParameters = new TypedParameter(typeof (IWpfTextView), view);
+            return _container.Resolve<T>(typedParameters);
+        }
+        internal static T Resolve<T>(params object[] args )
+        {
+            
+            var typedParameters = args.Select(x => new TypedParameter(x.GetType(), x)).ToArray();
+            return _container.Resolve<T>(typedParameters);
+
+        
         }
 
         internal  static void registerDropActions(ContainerBuilder builder)

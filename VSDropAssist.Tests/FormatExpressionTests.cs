@@ -1,6 +1,6 @@
 using NUnit.Framework;
+using VSDropAssist.Core.Entities;
 using VSDropAssist.DropActions;
-using VSDropAssist.Entities;
 
 namespace VSDropAssist.Tests
 {

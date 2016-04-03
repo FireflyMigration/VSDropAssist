@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSDropAssist", "VSDropAssist\VSDropAssist.csproj", "{C3633A05-E6E8-4417-95D7-8CEB2400170B}"
 EndProject
@@ -18,6 +18,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		readme.html = readme.html
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSDropAssist.Core", "VSDropAssist.Core\VSDropAssist.Core.csproj", "{CB5F04BA-D754-4431-9C6E-EF43B6A0C114}"
+EndProject
+Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "VSDropAssist.Modelling", "VSDropAssist.Modelling\VSDropAssist.Modelling.modelproj", "{2E4694F0-1E4F-46C9-9A90-2E71719888CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSDropAssist.VisualStudio", "VSDropAssist.VisualStudio\VSDropAssist.VisualStudio.csproj", "{4F003932-B248-494B-8C04-48C786FA9635}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +51,18 @@ Global
 		{22CE5512-28D9-404D-B925-95CC00060674}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22CE5512-28D9-404D-B925-95CC00060674}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22CE5512-28D9-404D-B925-95CC00060674}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB5F04BA-D754-4431-9C6E-EF43B6A0C114}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB5F04BA-D754-4431-9C6E-EF43B6A0C114}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB5F04BA-D754-4431-9C6E-EF43B6A0C114}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB5F04BA-D754-4431-9C6E-EF43B6A0C114}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E4694F0-1E4F-46C9-9A90-2E71719888CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E4694F0-1E4F-46C9-9A90-2E71719888CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E4694F0-1E4F-46C9-9A90-2E71719888CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E4694F0-1E4F-46C9-9A90-2E71719888CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F003932-B248-494B-8C04-48C786FA9635}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F003932-B248-494B-8C04-48C786FA9635}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F003932-B248-494B-8C04-48C786FA9635}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F003932-B248-494B-8C04-48C786FA9635}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

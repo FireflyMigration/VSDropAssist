@@ -1,4 +1,5 @@
-﻿using VSDropAssist.Entities;
+﻿
+using VSDropAssist.Core.Entities;
 using VSDropAssist.Settings;
 
 namespace VSDropAssist.Options

@@ -27,7 +27,7 @@ namespace VSDropAssist
             }
             catch (Exception e)
             {
-                Debug.WriteLine("Failed to get Name");
+                Debug.WriteLine("Failed to get Name:" + e.ToString());
             }
             return null;
         }
@@ -44,7 +44,7 @@ namespace VSDropAssist
             }
             catch (Exception e )
             {
-                Debug.WriteLine("Failed to parse kind");
+                Debug.WriteLine("Failed to parse kind:" + e.ToString() );
             }
             return null;
         }

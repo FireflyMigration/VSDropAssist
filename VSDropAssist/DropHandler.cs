@@ -5,7 +5,12 @@ using log4net;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
-using VSDropAssist.Entities;
+
+using VSDropAssist.Core;
+using VSDropAssist.Core.Entities;
+using VSDropAssist.VisualStudio;
+using ITextView = VSDropAssist.Core.ITextView;
+
 
 namespace VSDropAssist
 {
@@ -50,7 +55,10 @@ namespace VSDropAssist
         public DragDropPointerEffects HandleDataDropped(DragDropInfo dragDropInfo)
         {
             //dump(dragDropInfo);
-            var nodes = getNodesfromDropInfo(dragDropInfo);
+            
+            var vSDragDropInfo = Application.Resolve<IDragDropInfo>(dragDropInfo);
+
+            var nodes = getNodesfromDropInfo(vSDragDropInfo);
 
             if (nodes == null)
             {
@@ -64,7 +72,7 @@ namespace VSDropAssist
             }
 
 
-            var result = _dropAction.Execute(nodes, _tgt, dragDropInfo);
+            var result = _dropAction.Execute(nodes,Application.ResolveView<ITextView>(_tgt ), vSDragDropInfo);
             if (result.DropActionResultEnum  == DropActionResultEnum.AllowCopy) return DragDropPointerEffects.Copy;
 
             return DragDropPointerEffects.None;
@@ -81,7 +89,7 @@ namespace VSDropAssist
             // ignore it
         }
 
-        private IEnumerable<Node> getNodesfromDropInfo(DragDropInfo dragDropInfo)
+        private IEnumerable<Node> getNodesfromDropInfo(IDragDropInfo dragDropInfo)
         {
             try
             {

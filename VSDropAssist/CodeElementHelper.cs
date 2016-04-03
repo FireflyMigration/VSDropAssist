@@ -31,7 +31,7 @@ namespace VSDropAssist
                 try
                 {
                     _log.Debug("Searching " + ce.Name);
-                    Debug.WriteLine(string.Format("Searching {0}:{1}", ce.Kind.ToString(), ce.Name));
+                    Debug.WriteLine(string.Format("Searching {0}:{1}", ce.Kind, ce.Name));
                 }
                 catch (Exception e)
                 {

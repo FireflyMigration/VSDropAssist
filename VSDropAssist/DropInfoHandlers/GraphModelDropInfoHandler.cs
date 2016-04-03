@@ -7,7 +7,8 @@ using Microsoft.VisualStudio.GraphModel;
 using Microsoft.VisualStudio.GraphModel.CodeSchema;
 using Microsoft.VisualStudio.GraphModel.Schemas;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
-using VSDropAssist.Entities;
+using VSDropAssist.Core.Entities;
+using VSDropAssist.Core;
 
 namespace VSDropAssist.DropInfoHandlers
 {
@@ -16,12 +17,12 @@ namespace VSDropAssist.DropInfoHandlers
         private const string DATAFORMAT = "DGML";
         private ILog _log = LogManager.GetLogger(typeof (DGMLDropInfoHandler));
 
-        public bool CanUnderstand(DragDropInfo dragDropInfo)
+        public bool CanUnderstand(IDragDropInfo dragDropInfo)
         {
-            return dragDropInfo.Data.GetDataPresent(DATAFORMAT);
+            return dragDropInfo.GetDataPresent(DATAFORMAT);
         }
 
-        public IEnumerable<Node> GetNodes(DragDropInfo dragDropInfo)
+        public IEnumerable<Node> GetNodes(IDragDropInfo dragDropInfo)
         {
             throw new NotImplementedException();
         }
@@ -31,24 +32,24 @@ namespace VSDropAssist.DropInfoHandlers
         private const string GRAPHMODELFORMAT = "Microsoft.VisualStudio.GraphModel.Graph";
         private readonly ILog _log = LogManager.GetLogger(typeof (GraphModelDropInfoHandler));
 
-        public bool CanUnderstand(DragDropInfo dragDropInfo)
+        public bool CanUnderstand(IDragDropInfo dragDropInfo)
         {
-            return (dragDropInfo.Data.GetDataPresent(GRAPHMODELFORMAT));
+            return (dragDropInfo.GetDataPresent(GRAPHMODELFORMAT));
 
         }
 
-        public IEnumerable<Node> GetNodes(DragDropInfo dragDropInfo)
+        public IEnumerable<Node> GetNodes(IDragDropInfo dragDropInfo)
         {
             try
             {
-                if (!dragDropInfo.Data.GetDataPresent(GRAPHMODELFORMAT))
+                if (!dragDropInfo.GetDataPresent(GRAPHMODELFORMAT))
                 {
                     _log.Debug("GraphModel not found in dragdrop");
                     return null;
                 }
                 var ret = new List<Node>();
 
-                var gm = (Graph) dragDropInfo.Data.GetData(GRAPHMODELFORMAT);
+                var gm = (Graph) dragDropInfo.GetData(GRAPHMODELFORMAT);
                 if (gm != null)
                 {
                     _log.Debug("Found a GraphModel");
@@ -92,7 +93,7 @@ namespace VSDropAssist.DropInfoHandlers
                         }
                         catch (Exception e)
                         {
-                            _log.Error("Failed to get node sourcecode location: " + member );
+                            _log.Error("Failed to get node sourcecode location: " + member + "(" + e.ToString() + ")" );
                         }
 
                         if (!string.IsNullOrEmpty(type))

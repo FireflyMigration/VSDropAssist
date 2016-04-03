@@ -4,14 +4,16 @@ using System.Windows;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
 using System.ComponentModel;
-using VSDropAssist.Entities;
+
+using VSDropAssist.Core.Entities;
+using VSDropAssist.Core;
 
 namespace VSDropAssist.DropActions
 {
     internal class MessageBoxDropAction : DropActionBase
     {
-        public override IExecuteResult Execute(IEnumerable<Node> nodes, IWpfTextView textView,
-            DragDropInfo dragDropInfo)
+        public override IExecuteResult Execute(IEnumerable<Node> nodes, Core.ITextView textView,
+            IDragDropInfo dragDropInfo)
         {
             var msg = string.Format("You dropped:\n{0}",
                 string.Join("\n",

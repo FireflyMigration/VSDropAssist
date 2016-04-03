@@ -2,6 +2,7 @@ using System;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
 using VSDropAssist.Settings;
+using VSDropAssist.Core;
 
 namespace VSDropAssist.DropActions
 {

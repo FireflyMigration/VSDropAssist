@@ -6,8 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VSDropAssist.Core;
 using VSDropAssist.DropActions;
-using VSDropAssist.Entities;
+
 
 namespace VSDropAssist.Settings.TestHost
 {
@@ -25,14 +26,7 @@ namespace VSDropAssist.Settings.TestHost
         private void OnSettingUpdate(object sender, VSDropAssistPopupControl.SettingUpdateEventArgs args)
         {
 
-            var nodes = new List<Node>();
-            for(var i=0; i<5; i++)
-            {
-                nodes.Add(new Node() {Assembly = $"assembly{i}", Member = $"member{i}", Namespace = $"ns{i}", Type = $"type{i}"});
-
-            }
-
-            args.Example = _formatExpressionService.ReplaceText( nodes.FirstOrDefault(), args.SelectedSetting.FormatExpression);
+            
         }
 
         private void frmTestPopup_Load(object sender, EventArgs e)
@@ -47,7 +41,7 @@ namespace VSDropAssist.Settings.TestHost
             for(var i=0; i<10; i++)
             s.Settings.Add(new DropActionConfiguration() { Name=$"Item{i}" });
 
-            this.vsDropAssistPopupControl1.Data = s;
+            this.vsDropAssistPopupControl1.Data = s.Settings.First();
 
         }
 

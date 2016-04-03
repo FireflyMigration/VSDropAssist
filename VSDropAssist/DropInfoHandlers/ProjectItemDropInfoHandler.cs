@@ -10,7 +10,8 @@ using log4net;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
-using VSDropAssist.Entities;
+using VSDropAssist.Core;
+using VSDropAssist.Core.Entities;
 
 namespace VSDropAssist.DropInfoHandlers
 {
@@ -36,10 +37,9 @@ namespace VSDropAssist.DropInfoHandlers
             /// Very arcane method to decode an IDataObject from Solution Explorer.
             /// </summary>
             /// <param name="data">The data object.</param>
-            /// <param name="streamKey">The key to get the memory stream  from data</param>
             /// <param name="nodeIsProject">True if the given node is a project node.</param>
             /// <returns>A list of SolutionExplorerNodeData objects.</returns>
-            internal static IList<SolutionExplorerNodeData> DecodeProjectItemData(IDataObject data, bool nodeIsProject)
+            public  static IList<SolutionExplorerNodeData> DecodeProjectItemData(IDataObject data, bool nodeIsProject)
             {
                 /*
                  This function reads the memory stream in the data object and parses the data.
@@ -290,12 +290,14 @@ namespace VSDropAssist.DropInfoHandlers
                         (data1.FileName == data2.FileName) &&
                         (data1.ProjectFileName == data2.ProjectFileName));
             }
+
+           
             #endregion
         }
         
-        public bool CanUnderstand(DragDropInfo dragDropInfo)
+        public bool CanUnderstand(IDragDropInfo dragDropInfo)
         {
-            if (!dragDropInfo.Data.GetDataPresent(PROJECTITEMFORMAT))
+            if (!dragDropInfo.GetDataPresent(PROJECTITEMFORMAT))
             {
                 return false;
             }
@@ -303,23 +305,23 @@ namespace VSDropAssist.DropInfoHandlers
 
         }
 
-        public IEnumerable<Node> GetNodes(DragDropInfo dragDropInfo)
+        public IEnumerable<Node> GetNodes(IDragDropInfo dragDropInfo)
         {
             try
             {
-                if (!dragDropInfo.Data.GetDataPresent(PROJECTITEMFORMAT))
+                if (!dragDropInfo.GetDataPresent(PROJECTITEMFORMAT))
                 {
                     _log.Debug("Data not found");
                     return null;
                 }
                 
                 // create nodes from the projectitems
-                var data = dragDropInfo.Data.GetData(PROJECTITEMFORMAT);
+                var data = dragDropInfo.GetData(PROJECTITEMFORMAT);
                 var nodeIsProject = false;
-                var droppedData = SolutionExplorerNodeData.DecodeProjectItemData(dragDropInfo.Data, nodeIsProject);
+                var droppedData = SolutionExplorerNodeData.DecodeProjectItemData((System.Windows.IDataObject)dragDropInfo.GetDataObject(), nodeIsProject);
 
                 // find the nodes in the solution
-                var solutionItems = findSolutionItems(droppedData);
+                var solutionItems = findSolutionItems((System.Collections.Generic.IList<VSDropAssist.DropInfoHandlers.ProjectItemDropInfoHandler.SolutionExplorerNodeData>)droppedData);
                 if (solutionItems != null) return solutionItems;
 
                 _log.Debug("FAiled to find items in IVSHierarchy. Generating items based on filename only");
@@ -333,7 +335,7 @@ namespace VSDropAssist.DropInfoHandlers
                 throw new Exception("GetNodes failed", e);
             }
 
-            return null;
+            
         }
 
         private IEnumerable<Node > findSolutionItems(IList<SolutionExplorerNodeData> droppedData)

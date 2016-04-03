@@ -1,3 +1,5 @@
+using VSDropAssist.Core;
+
 namespace VSDropAssist
 {
     public class DropQuery : IDropQuery

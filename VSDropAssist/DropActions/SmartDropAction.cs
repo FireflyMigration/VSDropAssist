@@ -11,7 +11,8 @@ using Microsoft.VisualStudio.Imaging.Interop;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
-using VSDropAssist.Entities;
+using VSDropAssist.Core;
+using VSDropAssist.Core.Entities;
 
 namespace VSDropAssist.DropActions
 {
@@ -27,7 +28,7 @@ namespace VSDropAssist.DropActions
             _dropActionProvider = dropActionProvider;
         }
 
-        public IExecuteResult  Execute(IEnumerable<Node> enodes, IWpfTextView textView, DragDropInfo dragDropInfo)
+        public IExecuteResult  Execute(IEnumerable<Node> enodes, Core.ITextView textView, IDragDropInfo dragDropInfo)
         {
             var dropLocation = GetDropLocation();
             var nodes = new List<Node>(enodes);
@@ -38,7 +39,7 @@ namespace VSDropAssist.DropActions
             if (dropAction != null)
             {
                 // store the start buffer position
-                var droppedPosition = dragDropInfo.VirtualBufferPosition.Position.Position;
+                var droppedPosition = dragDropInfo.GetStartPosition();
            
                 var result =  dropAction.Execute(nodes, textView, dragDropInfo);
 
@@ -46,38 +47,41 @@ namespace VSDropAssist.DropActions
                 {
                     
                
-                    var startLine = textView.TextSnapshot.GetLineFromPosition(droppedPosition);
+                    var startLine = textView.GetLineFromPosition(droppedPosition);
                     if (result.SelectionStartLine > 0)
                     {
-                        startLine = textView.TextSnapshot.GetLineFromLineNumber(result.SelectionStartLine);
+                        
+                        startLine = textView.GetLineFromLineNumber(result.SelectionStartLine);
                     }
-                    var start = new VirtualSnapshotPoint(startLine,Math.Max(0,  result.SelectionStartInChars));
 
+                    var startPos = Math.Max(0, result.SelectionStartInChars);
+                    
                     var endLine = startLine;
                     if (result.SelectionHeightInLines > 1)
-                       endLine= textView.TextSnapshot.GetLineFromLineNumber(startLine.LineNumber +
+                       endLine= textView.GetLineFromLineNumber(startLine.LineNumber +
                                                                     result.SelectionHeightInLines - 1);
-                            
-                    var end = new VirtualSnapshotPoint(endLine, result.SelectionWidthInChars + result.SelectionStartInChars );
-                    textView.Selection.Mode = TextSelectionMode.Box;
-
-                    textView.Selection.Select(start, end);
+                    
+                    var endPos = result.SelectionWidthInChars + result.SelectionStartInChars;
+                    
+                    textView.SelectBox(startLine, startPos, endLine, endPos);
+                    
                 }
-                textView.Caret.MoveTo(textView.Selection.End);
+                
+                textView.MoveCaretToEndOfSelection();
 
             }
             return ExecuteResult.None ;
 
         }
 
-        public virtual int Match(DropQuery qry)
+        public virtual int Match(IDropQuery qry)
         {
             return 1;
         }
 
         private void normaliseNamespaces(DropLocation dropLocation , List<Node> nodes)
         {
-            List<NamespaceDeclaration> namespaces = new List<NamespaceDeclaration>(dropLocation.Namespaces);
+            var namespaces = new List<NamespaceDeclaration>(dropLocation.Namespaces);
             if (Application.Settings.NormaliseProjectNamespace)
             {
                 var defaultNS = dropLocation.ProjectDefaultNamespace;
@@ -250,13 +254,13 @@ namespace VSDropAssist.DropActions
             return ret;
         }
 
-        private IDropAction getDropAction(IEnumerable<Node> nodes, DragDropInfo dragDropInfo, DropLocation dropLocation )
+        private IDropAction getDropAction(IEnumerable<Node> nodes, IDragDropInfo dragDropInfo, DropLocation dropLocation )
         {
             var qry = new DropQuery()
             {
-                AltDown = ((dragDropInfo.KeyStates & DragDropKeyStates.AltKey) != 0),
-                ShiftDown = ((dragDropInfo.KeyStates & DragDropKeyStates.ShiftKey) != 0),
-                ControlDown = ((dragDropInfo.KeyStates & DragDropKeyStates.ControlKey) != 0),
+                AltDown = dragDropInfo.KeyStates.AltKeyDown, // ((dragDropInfo.KeyStates & DragDropKeyStates.AltKey) != 0),
+                ShiftDown =dragDropInfo.KeyStates.ShiftKeyDown, // ((dragDropInfo.KeyStates & DragDropKeyStates.ShiftKey) != 0),
+                ControlDown =dragDropInfo.KeyStates.ControlKeyDown, // ((dragDropInfo.KeyStates & DragDropKeyStates.ControlKey) != 0),
                 ContainsClasses = (nodes.Any(x => x.IsClass)),
                 ContainsMembers = (nodes.Any(x => !x.IsClass)),
                 DroppingIntoClass = dropLocation.Class != null,

@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using log4net;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
-using VSDropAssist.Entities;
+using VSDropAssist.Core.Entities;
+using VSDropAssist.Core;
 
 namespace VSDropAssist.DropActions
 {
@@ -15,10 +16,10 @@ namespace VSDropAssist.DropActions
             _log = LogManager.GetLogger(GetType());
         }
 
-        public abstract IExecuteResult  Execute(IEnumerable<Node> nodes, IWpfTextView textView,
-            DragDropInfo dragDropInfo);
+        public abstract IExecuteResult  Execute(IEnumerable<Node> nodes, Core.ITextView textView,
+            IDragDropInfo dragDropInfo);
 
-        public virtual int Match(DropQuery qry)
+        public virtual int Match(IDropQuery qry)
         {
             return 1;
         }
