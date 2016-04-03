@@ -46,34 +46,6 @@ namespace VSDropAssist
             return DragDropPointerEffects.Copy;
         }
 
-        private string getIndent(ITextView textView, VirtualSnapshotPoint virtualSnapshotPoint, ITextSnapshotLine line )
-        {
-            if (Application.EditorOperationsFactoryService == null)
-            {
-                _log.Debug("Failed to connect to EditorOperationsFactorySevice. Whitespace cannot be identifier");
-             
-            }
-            else
-            {
-
-                var editorOperations = Application.EditorOperationsFactoryService.GetEditorOperations(textView);
-
-                var whitespace = editorOperations.GetWhitespaceForVirtualSpace(virtualSnapshotPoint);
-
-                if (whitespace.Length > 0) return whitespace;
-            }
-            if (Application.SmartIndentationService == null)
-            {
-                _log.Debug("SmartIndentService unavailable");
-            }
-            else
-            {
-                var ws = Application.SmartIndentationService.GetDesiredIndentation(textView, line);
-
-                if (ws.HasValue) return new string( ' ',ws.Value);
-            }
-            return null;
-        }
 
         public DragDropPointerEffects HandleDataDropped(DragDropInfo dragDropInfo)
         {
@@ -91,11 +63,6 @@ namespace VSDropAssist
                 return DragDropPointerEffects.None;
             }
 
-            // store the start buffer position
-        
-            var droppedLine = dragDropInfo.VirtualBufferPosition.Position.GetContainingLine();
-
-            var indentText = getIndent(_tgt, dragDropInfo.VirtualBufferPosition, droppedLine ) ?? "";
 
             var result = _dropAction.Execute(nodes, _tgt, dragDropInfo);
             if (result.DropActionResultEnum  == DropActionResultEnum.AllowCopy) return DragDropPointerEffects.Copy;

@@ -10,7 +10,7 @@ namespace VSDropAssist.DropActions
             , new DropActionConfiguration()
             {
                 FormatExpression = "var %v% = new %f%();", Delimiter = "\n", SupportsMembers = false, 
-                SupportsDroppingIntoMethod=true, SupportsDroppingIntoClass = false, ShiftMustBeDown=true ,SelectFirstLineOnly=true  }
+                ShiftMustBeDown=true ,SelectFirstLineOnly=true, ControlMustBeDown=true   }
             )
         {
         }

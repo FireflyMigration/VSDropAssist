@@ -1,5 +1,8 @@
+using System.Xml.Serialization;
+
 namespace VSDropAssist.DropActions
 {
+    [XmlRoot("DropActionConfiguration")]
     public class DropActionConfiguration : IDropActionConfiguration {
         public bool ShiftMustBeDown { get; set; }
         public bool ControlMustBeDown { get; set; }

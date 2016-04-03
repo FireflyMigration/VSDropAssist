@@ -78,7 +78,9 @@ namespace VSDropAssist.DropActions
                 
                 var allText = string.Join(getDelimiter(), codeLines.Select(x => x.FormattedCode));
                 edit.Insert(dragDropInfo.VirtualBufferPosition.Position.GetContainingLine().End, lineBreak  + allText);
+                
                 edit.Apply();
+                
             }
             catch (Exception e)
             {

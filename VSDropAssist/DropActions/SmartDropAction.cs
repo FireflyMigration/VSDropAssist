@@ -176,9 +176,10 @@ namespace VSDropAssist.DropActions
             ret.AddNamespace( getImportStatements(activeDocument));
             if (sel != null)
             {
+
                 droppedClass = sel.ActivePoint.CodeElement[vsCMElement.vsCMElementClass];
                 droppedMethod = sel.ActivePoint.CodeElement[vsCMElement.vsCMElementFunction];
-                
+             
                 try
                 {
                     if (droppedMethod != null)

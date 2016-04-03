@@ -9,28 +9,14 @@ namespace VSDropAssist.Settings
     [XmlRoot("options")]
     public class VSDropSettings
     {
-        public const string CONTROL = "control";
-        public const string ALT = "alt";
+      
 
         public VSDropSettings()
         {
             this.Settings = new List<DropSetting>();
             this.NormaliseProjectNamespace = true;
         }
-        public string GetControlFormatExpression()
-        {
-            var setting= this.Settings.FirstOrDefault(x => x.Key.Equals(CONTROL, StringComparison.CurrentCultureIgnoreCase));
-            if (setting != null) return setting.FormatExpression;
-            return null;
-        }
-
-        public string GetAltFormatExpression()
-        {
-
-            var setting = this.Settings.FirstOrDefault(x => x.Key.Equals(ALT, StringComparison.CurrentCultureIgnoreCase));
-            if (setting != null) return setting.FormatExpression;
-            return null;
-        }
+      
         public string ToXml()
         {
             var xs = new XmlSerializer(GetType()) ;
