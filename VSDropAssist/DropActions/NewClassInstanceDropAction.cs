@@ -1,3 +1,5 @@
+using VSDropAssist.Settings;
+
 namespace VSDropAssist.DropActions
 {
     internal class NewClassInstanceDropAction : ConfigurableDropAction

@@ -45,7 +45,7 @@ namespace VSDropAssist.Settings.TestHost
             var s = new VSDropSettings();
 
             for(var i=0; i<10; i++)
-            s.Settings.Add(new DropSetting($"Key{i}", $"Columns.Add(%v%.%m%{i});\n"));
+            s.Settings.Add(new DropActionConfiguration() { Name=$"Item{i}" });
 
             this.vsDropAssistPopupControl1.Data = s;
 

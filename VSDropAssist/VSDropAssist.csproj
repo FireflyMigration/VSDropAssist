@@ -64,22 +64,13 @@
     <Compile Include="Entities\CodeLine.cs" />
     <Compile Include="DropActions\CommaDelimitedListDropAction.cs" />
     <Compile Include="DropActions\ConfigurableDropAction.cs" />
-    <Compile Include="DropActions\DialogDropAction.cs" />
     <Compile Include="DropActions\DropActionBase.cs" />
     <Compile Include="DropActionResultEnum.cs" />
-    <Compile Include="DropActions\DropActionConfiguration.cs" />
-    <Compile Include="DropActions\DropActionDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DropActions\DropActionDialog.Designer.cs">
-      <DependentUpon>DropActionDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="DropActionProvider.cs" />
     <Compile Include="DropQuery.cs" />
     <Compile Include="Entities\ExpressionItem.cs" />
     <Compile Include="FormatExpressionService.cs" />
     <Compile Include="IConfigurableDropAction.cs" />
-    <Compile Include="IDropActionConfiguration.cs" />
     <Compile Include="IDropActionProvider.cs" />
     <Compile Include="IDropQuery.cs" />
     <Compile Include="IFormatExpressionService.cs" />
@@ -88,7 +79,6 @@
     <Compile Include="DropActions\NewClassInstanceDropAction.cs" />
     <Compile Include="DropActions\SimpleTextDropAction.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="UserDropSetting.cs" />
     <Compile Include="DropHandler.cs" />
     <Compile Include="DropInfoHandlers\ProjectItemDropInfoHandler.cs" />
     <Compile Include="Entities\Node.cs" />
@@ -285,9 +275,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DropActions\DropActionDialog.resx">
-      <DependentUpon>DropActionDialog.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Options\VSDropAssistOptionsControl.resx">
       <DependentUpon>VSDropAssistOptionsControl.cs</DependentUpon>
     </EmbeddedResource>

@@ -14,10 +14,10 @@ namespace VSDropAssist.Settings
     {
         public class SettingUpdateEventArgs : EventArgs
         {
-            public DropSetting SelectedSetting { get; private set; }
+            public DropActionConfiguration SelectedSetting { get; private set; }
             public string Example { get; set; }
             public string VariableName { get; private set; }
-            public SettingUpdateEventArgs(DropSetting selectedSetting, string variableName) : base()
+            public SettingUpdateEventArgs(DropActionConfiguration selectedSetting, string variableName) : base()
             {
                 VariableName = variableName;
                 Example = string.Empty;
@@ -44,11 +44,11 @@ namespace VSDropAssist.Settings
             set { this.bindingSource1.DataSource = value; }
         }
 
-        public DropSetting SelectedItem
+        public DropActionConfiguration SelectedItem
         {
             get
             {
-                return (DropSetting) this.bindingSource1.Current;
+                return (DropActionConfiguration) this.bindingSource1.Current;
                 
             }
         }
@@ -64,14 +64,7 @@ public string FormatExpression {  get { return this.FormatExpressionControl.Text
 
         private void refreshExample()
         {
-            var o = this.OnSettingUpdate;
-            if (o != null)
-            {
-                var args = new SettingUpdateEventArgs((DropSetting) this.bindingSource1.Current, this.variableNameControl.Text);
-                o.Invoke(this, args);
-
-                this.ExampleControl.Text = args.Example;
-            }
+           throw new NotImplementedException();
         }
 
         private void variableNameControl_TextChanged(object sender, EventArgs e)

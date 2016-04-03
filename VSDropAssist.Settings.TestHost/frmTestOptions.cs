@@ -26,7 +26,7 @@ namespace VSDropAssist.Settings.TestHost
             _settings = new VSDropSettings();
             foreach (var i in Enumerable.Range(1,5))
             {
-                _settings.Settings.Add(new DropSetting("Key" + i, "expr" + i ));
+                _settings.Settings.Add(new DropActionConfiguration() {Name= $"item {i}"});
             }
             
         }

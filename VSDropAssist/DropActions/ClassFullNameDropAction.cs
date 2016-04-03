@@ -1,6 +1,7 @@
 using System;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
+using VSDropAssist.Settings;
 
 namespace VSDropAssist.DropActions
 {

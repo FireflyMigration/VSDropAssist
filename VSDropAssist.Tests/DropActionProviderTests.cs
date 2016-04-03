@@ -8,6 +8,7 @@ using Moq;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
 using VSDropAssist.DropActions;
+using VSDropAssist.Settings;
 
 namespace VSDropAssist.Tests
 {
@@ -20,8 +21,8 @@ namespace VSDropAssist.Tests
             var c = new DropActionConfiguration() { SupportsClasses = true };
             var qry = new DropQuery() { ContainsClasses = true };
 
-            Assert.AreEqual(1, c.Match(qry));
-            Assert.AreEqual(0, c.Match(new DropQuery()));
+            Assert.AreEqual(1, qry.Match(c));
+            Assert.AreEqual(0, new DropQuery().Match(c));
         }
         [Test]
         public void match_compares_members()
@@ -29,8 +30,8 @@ namespace VSDropAssist.Tests
             var c = new DropActionConfiguration() { SupportsMembers = true };
             var qry = new DropQuery() { ContainsMembers = true };
 
-            Assert.AreEqual(1, c.Match(qry));
-            Assert.AreEqual(0, c.Match(new DropQuery()));
+            Assert.AreEqual(1, qry.Match(c));
+            Assert.AreEqual(0, new DropQuery().Match(c));
         }
         [Test]
         public void match_compares_dropping_into_class()
@@ -38,10 +39,10 @@ namespace VSDropAssist.Tests
             var c = new DropActionConfiguration() { SupportsDroppingIntoClass = true };
             var qry = new DropQuery() { DroppingIntoClass=true  };
 
-            Assert.AreEqual(1, c.Match(qry));
-
+            Assert.AreEqual(1, qry.Match(c));
+            
             c = new DropActionConfiguration() { SupportsDroppingIntoClass = false  };
-            Assert.AreEqual(0, c.Match(new DropQuery()));
+            Assert.AreEqual(0, new DropQuery().Match(c));
         }
 
         [Test]
@@ -50,8 +51,8 @@ namespace VSDropAssist.Tests
             var c = new DropActionConfiguration() { AltMustBeDown = true };
             var qry = new DropQuery() {AltDown = true};
 
-            Assert.AreEqual(1, c.Match(qry ));
-            Assert.AreEqual(0, c.Match(new DropQuery()));
+            Assert.AreEqual(1, qry.Match(c));
+            Assert.AreEqual(0, new DropQuery().Match(c));
 
         }
         [Test]
@@ -60,8 +61,8 @@ namespace VSDropAssist.Tests
             var c = new DropActionConfiguration() { ControlMustBeDown = true };
             var qry = new DropQuery() { ControlDown = true };
 
-            Assert.AreEqual(1, c.Match(qry));
-            Assert.AreEqual(0, c.Match(new DropQuery()));
+            Assert.AreEqual(1, qry.Match(c));
+            Assert.AreEqual(0, new DropQuery().Match(c));
 
         }
 
@@ -71,9 +72,8 @@ namespace VSDropAssist.Tests
             var c = new DropActionConfiguration() { ShiftMustBeDown = true };
             var qry = new DropQuery() { ShiftDown = true };
 
-            Assert.AreEqual(1, c.Match(qry));
-            Assert.AreEqual(0, c.Match(new DropQuery()));
-
+            Assert.AreEqual(1, qry.Match(c));
+            Assert.AreEqual(0, new DropQuery().Match(c));
         }
 
         [Test]
@@ -82,9 +82,8 @@ namespace VSDropAssist.Tests
             var c = new DropActionConfiguration() { ShiftMustBeDown = true, AltMustBeDown=true  };
             var qry = new DropQuery() { ShiftDown = true, AltDown=true  };
 
-            Assert.AreEqual(2, c.Match(qry));
-            Assert.AreEqual(0, c.Match(new DropQuery()));
-
+            Assert.AreEqual(2, qry.Match(c));
+            Assert.AreEqual(0, new DropQuery().Match(c));
         }
 
 
@@ -94,9 +93,8 @@ namespace VSDropAssist.Tests
             var c = new DropActionConfiguration() { ShiftMustBeDown = true, AltMustBeDown = true, ControlMustBeDown=true  };
             var qry = new DropQuery() { ShiftDown = true, AltDown = true, ControlDown=true  };
 
-            Assert.AreEqual(3, c.Match(qry));
-            Assert.AreEqual(0, c.Match(new DropQuery()));
-
+            Assert.AreEqual(3, qry.Match(c));
+            Assert.AreEqual(0, new DropQuery().Match(c));
         }
 
     }

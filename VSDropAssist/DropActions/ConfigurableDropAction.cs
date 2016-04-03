@@ -17,7 +17,7 @@ namespace VSDropAssist.DropActions
 
         public override int Match(DropQuery qry)
         {
-            return _configuration.Match(qry);
+            return qry.Match(_configuration);
         }
 
         protected override string getDelimiter()

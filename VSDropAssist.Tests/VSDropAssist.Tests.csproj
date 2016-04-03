@@ -71,6 +71,10 @@
       <Project>{22ce5512-28d9-404d-b925-95cc00060674}</Project>
       <Name>FireflyCommunity.Core.Logging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\VSDropAssist.Settings\VSDropAssist.Settings.csproj">
+      <Project>{15BC08F0-530E-404D-B286-0F127E3CA766}</Project>
+      <Name>VSDropAssist.Settings</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VSDropAssist\VSDropAssist.csproj">
       <Project>{C3633A05-E6E8-4417-95D7-8CEB2400170B}</Project>
       <Name>VSDropAssist</Name>

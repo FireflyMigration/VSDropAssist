@@ -13,7 +13,7 @@ namespace VSDropAssist.Settings
 
         public VSDropSettings()
         {
-            this.Settings = new List<DropSetting>();
+            this.Settings = new List<DropActionConfiguration>();
             this.NormaliseProjectNamespace = true;
         }
       
@@ -41,21 +41,10 @@ namespace VSDropAssist.Settings
       
 
         [XmlArray("SETTINGS")]
-        [XmlArrayItem("SETTING", typeof(DropSetting))]
-        public List<DropSetting> Settings { get; set; }
+        [XmlArrayItem("SETTING", typeof(DropActionConfiguration))]
+        public List<DropActionConfiguration> Settings { get; set; }
 
-        public static VSDropSettings Default
-        {
-            get
-            {
-                var ret = new VSDropSettings();
-                ret.Settings.Add(new DropSetting(CONTROL, "{v}.{m}.Value = new{m};\n"));
-                ret.Settings.Add(new DropSetting(ALT, "Columns.Add({v}.{m});\n"));
-                ret.NormaliseProjectNamespace = true;
-                return ret;
-            }
-        }
-
+        
         public bool NormaliseProjectNamespace { get; set; }
     }
 }

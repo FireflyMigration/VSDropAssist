@@ -9,5 +9,7 @@ namespace VSDropAssist
         bool ContainsMembers { get; }
         bool DroppingIntoMethod { get;  }
         bool DroppingIntoClass { get; }
+
+        int Match(IDropActionConfiguration tgt);
     }
 }

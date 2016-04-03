@@ -48,7 +48,7 @@ namespace VSDropAssist
             Settings = SettingsHelper.LoadSettingsFromStorage();
             if (Settings == null)
             {
-                Settings = VSDropSettings.Default;
+                Settings = new VSDropSettings();
                 
             }
         }
@@ -116,7 +116,7 @@ namespace VSDropAssist
 
         public static void ResetSettings()
         {
-            Settings = VSDropSettings.Default;
+            Settings = new VSDropSettings();
             SettingsHelper.SaveToStorage(Settings);
 
         }
