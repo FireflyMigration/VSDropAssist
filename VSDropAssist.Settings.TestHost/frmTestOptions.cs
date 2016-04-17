@@ -17,18 +17,19 @@ namespace VSDropAssist.Settings.TestHost
         {
             InitializeComponent();
             initSettings();
-
-            this.vsDropAssistOptionsControl1.Init(this );
+            
         }
 
         private void initSettings()
         {
             _settings = new VSDropSettings();
-            foreach (var i in Enumerable.Range(1,5))
+            foreach (var i in Enumerable.Range(1,50))
             {
                 _settings.Settings.Add(new DropActionConfiguration() {Name= $"item {i}"});
             }
-            
+
+            this.vsDropAssistList1.Data = _settings;
+
         }
 
         private void SaveControl_Click(object sender, EventArgs e)
@@ -45,6 +46,24 @@ namespace VSDropAssist.Settings.TestHost
         public void ResetSettings()
         {
             initSettings();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ResetSettings();
+        }
+
+        private void editControl_Click(object sender, EventArgs e)
+        {
+            var selected = this.vsDropAssistList1.SelectedItem;
+            if (selected == null)
+            {
+                MessageBox.Show("You must select a setting to edit");
+                return;
+            }
+
+            var dlg = new frmTestPopup(selected);
+            var result = dlg.ShowDialog();
         }
     }
 }

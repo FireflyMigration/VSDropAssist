@@ -14,19 +14,26 @@ namespace VSDropAssist.Settings.TestHost
 {
     public partial class frmTestPopup : Form
     {
-        private IFormatExpressionService _formatExpressionService;
+        private IDropActionConfiguration _dataItem;
+
 
         public frmTestPopup()
         {
             InitializeComponent();
             this.vsDropAssistPopupControl1.OnSettingUpdate += OnSettingUpdate;
-            _formatExpressionService = new FormatExpressionService();
+        }
+        public frmTestPopup(IDropActionConfiguration item):this()
+        {
+            
+            _dataItem = item;
+            
+            
         }
 
         private void OnSettingUpdate(object sender, VSDropAssistPopupControl.SettingUpdateEventArgs args)
         {
+              
 
-            
         }
 
         private void frmTestPopup_Load(object sender, EventArgs e)
@@ -36,17 +43,21 @@ namespace VSDropAssist.Settings.TestHost
 
         private void initData()
         {
-            var s = new VSDropSettings();
 
-            for(var i=0; i<10; i++)
-            s.Settings.Add(new DropActionConfiguration() { Name=$"Item{i}" });
-
-            this.vsDropAssistPopupControl1.Data = s.Settings.First();
+            this.vsDropAssistPopupControl1.Data = _dataItem;
 
         }
 
         private void vsDropAssistPopupControl1_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void saveControl_Click(object sender, EventArgs e)
+        {
+            var finished = this.vsDropAssistPopupControl1.Data;
+
+            MessageBox.Show(finished.ToString());
 
         }
     }

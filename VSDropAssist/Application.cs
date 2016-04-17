@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Autofac;
@@ -28,6 +29,8 @@ namespace VSDropAssist
         public static Lazy<DTE> DTE;
         public static IEditorOperationsFactoryService EditorOperationsFactoryService;
         public static ISmartIndentationService SmartIndentationService;
+        private static VSDropSettings _settings;
+        private static DropActionProvider _configureddropActionProvider;
 
         static Application()
         {
@@ -53,19 +56,43 @@ namespace VSDropAssist
             if (Settings == null)
             {
                 Settings = new VSDropSettings();
-                
+            }
+            if(Settings.Settings == null || !Settings.Settings.Any()) { 
+            Settings.Settings = new List<DropActionConfiguration>(getDefaultConfigurations()) ;
+                SettingsHelper.SaveToStorage(Settings);
             }
         }
 
-        public static VSDropSettings Settings { get; set; }
+        private static IEnumerable<DropActionConfiguration> getDefaultConfigurations()
+        {
+            var ret = new List<DropActionConfiguration>();
 
-        
+            ret.Add(new DropActionConfiguration() { Name="test1"});
+            return ret;
+        }
+
+        public static VSDropSettings Settings
+        {
+            get { return _settings; }
+            private set
+            {
+                _settings = value;
+                resetDropActionProvider();
+            }
+        }
+
+        private static void resetDropActionProvider()
+        {
+            _configureddropActionProvider = null;
+        }
+
+
         private static ContainerBuilder CreateContainerBuilder()
         {
             var builder = new ContainerBuilder();
             registerDropActions(builder);
-            builder.RegisterType<DropActionProvider>().As<IDropActionProvider>();
-            builder.RegisterType<SmartDropAction>().As<IDropAction>();
+            builder.Register(cfg => getDropActionProvider(cfg)).As<IDropActionProvider>();
+           builder.RegisterType<SmartDropAction>().As<IDropAction>();
             builder.RegisterType<GraphModelDropInfoHandler>().As<IDropInfoHandler>();
             builder.RegisterType<DropHandler>().As<IDropHandler>();
             builder.RegisterType<ProjectItemDropInfoHandler>().As<IDropInfoHandler>();
@@ -77,6 +104,30 @@ namespace VSDropAssist
             }).As<ISmartIndentationService>().InstancePerDependency();
 
             return builder;
+        }
+
+        
+        private static IDropActionProvider getDropActionProvider(IComponentContext componentContext)
+        {
+            if (_configureddropActionProvider == null)
+            {
+
+                _configureddropActionProvider = new DropActionProvider(createDropActionsFromSettings());
+            }
+            return _configureddropActionProvider;
+        }
+
+        private static IEnumerable<IConfigurableDropAction> createDropActionsFromSettings()
+        {
+            var settings = Application.Settings;
+            if (settings != null && settings.Settings!=null)
+            {
+                IFormatExpressionService formatExpressionService = Application.Resolve<IFormatExpressionService>();
+                IIndentationService indentationService = Application.Resolve<IIndentationService>();
+                return settings.Settings.Select(x => new ConfigurableDropAction(formatExpressionService, x, indentationService));
+
+            }
+            return null;
         }
 
         internal static T ResolveView<T>(IWpfTextView view)
@@ -142,6 +193,24 @@ namespace VSDropAssist
             Settings = new VSDropSettings();
             SettingsHelper.SaveToStorage(Settings);
 
+        }
+
+        public static void SaveSettingsToStorage()
+        {
+            SettingsHelper.SaveToStorage(Application.Settings);
+
+        }
+
+        public static void LoadSettingsFromStorage()
+        {
+            var tempSettinsg= SettingsHelper.LoadSettingsFromStorage();
+
+            if (Application.Settings == null) Application.Settings = tempSettinsg;
+            else
+            {
+                // merge the settings;
+
+            }
         }
     }
 }

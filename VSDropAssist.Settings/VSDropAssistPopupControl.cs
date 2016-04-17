@@ -14,10 +14,10 @@ namespace VSDropAssist.Settings
     {
         public class SettingUpdateEventArgs : EventArgs
         {
-            public DropActionConfiguration SelectedSetting { get; private set; }
+            public IDropActionConfiguration SelectedSetting { get; private set; }
             public string ExampleText { get; set; }
 
-            public SettingUpdateEventArgs(DropActionConfiguration selectedSetting) 
+            public SettingUpdateEventArgs(IDropActionConfiguration selectedSetting) 
             {
                 
                 SelectedSetting = selectedSetting;
@@ -29,14 +29,44 @@ namespace VSDropAssist.Settings
         public VSDropAssistPopupControl()
         {
             InitializeComponent();
-        }
-        
-        public DropActionConfiguration Data
-        {
-            get { return (DropActionConfiguration)this.settingsBindingSource.DataSource; } 
-            set { this.settingsBindingSource.DataSource = value; }
+
+            
         }
 
-        
+      
+
+        public IDropActionConfiguration Data
+        {
+            get
+            {
+                this.settingsBindingSource.EndEdit();
+                return (IDropActionConfiguration )this.settingsBindingSource.DataSource;
+            }
+            set
+            {
+                this.settingsBindingSource.DataSource = value;
+                var ipn = value as INotifyPropertyChanged;
+                if (ipn != null)
+                {
+                    ipn.PropertyChanged += OnDataPropertyChanged;
+                }
+                   
+            }
+        }
+
+        private void OnDataPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            fireOnSettingUpdate();
+        }
+
+        private void fireOnSettingUpdate()
+        {
+            var f = this.OnSettingUpdate;
+            if (f != null)
+            {
+                f.Invoke(this, new SettingUpdateEventArgs(this.Data ));
+
+            }
+        }
     }
 }

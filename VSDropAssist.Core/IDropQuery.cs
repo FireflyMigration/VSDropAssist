@@ -1,3 +1,5 @@
+using VSDropAssist.Settings;
+
 namespace VSDropAssist.Core
 {
     public interface IDropQuery

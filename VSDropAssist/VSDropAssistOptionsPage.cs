@@ -8,38 +8,32 @@ namespace VSDropAssist
     public class VSDropAssistOptionsPage : DialogPage, IOptionsOwner
     {
        
-        private VSDropSettings _settings;
-
-        public VSDropAssistOptionsPage()
-        {
-            _settings = Application.Settings;
-
-        }
-
+    
+    
        
 
         public VSDropSettings Settings
         {
             get
             {
-                Application.ResetSettings();
-                _settings = Application.Settings;
-                return _settings;
+                
+                
+                return Application.Settings;
             }
         }
 
         public override void SaveSettingsToStorage()
         {
             base.SaveSettingsToStorage();
-            
-            SettingsHelper.SaveToStorage(this.Settings);
+
+            Application.SaveSettingsToStorage();
 
         }
         public override void LoadSettingsFromStorage()
         {
             base.LoadSettingsFromStorage();
 
-            _settings = SettingsHelper.LoadSettingsFromStorage();
+            Application.LoadSettingsFromStorage();
 
         }
 

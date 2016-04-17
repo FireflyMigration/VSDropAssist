@@ -1,4 +1,4 @@
-namespace VSDropAssist
+namespace VSDropAssist.Settings
 {
     public interface IDropActionConfiguration
     {
@@ -16,5 +16,7 @@ namespace VSDropAssist
         bool SelectFirstLineOnly { get;  }
         string Prefix { get; set; }
         string Suffix { get; set; }
+        IDropActionConfiguration Clone();
+        void CopyFrom(IDropActionConfiguration src);
     }
 }

@@ -57,7 +57,11 @@ namespace VSDropAssist
 
             var xmlData = userSettingsStore.GetString(collectionName, nameof(VSDropSettings));
 
-            if (!string.IsNullOrEmpty(xmlData)) return VSDropSettings.FromXml(xmlData);
+            if (!string.IsNullOrEmpty(xmlData))
+            {
+                return VSDropSettings.FromXml(xmlData);
+            }
+           
 
             return null;
         }
@@ -113,22 +117,10 @@ namespace VSDropAssist
         protected override void Initialize()
         {
             base.Initialize();
-            setupVSDRopAssistDefaults();
           
         }
 
 
-        private void setupVSDRopAssistDefaults()
-        {
-            var options = GetDialogPage(typeof (VSDropAssistOptionsPage)) as VSDropAssistOptionsPage;
-            if (options != null)
-            {
-                if (options.Settings != null)
-                {
-                    Debug.WriteLine("Found some settings!");
-                }
-            }
-        }
 
         #endregion
     }

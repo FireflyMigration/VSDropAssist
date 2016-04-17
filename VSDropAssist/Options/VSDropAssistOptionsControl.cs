@@ -25,29 +25,36 @@ namespace VSDropAssist.Options
         public void Init(IOptionsOwner owner)
         {
             _owner = owner;
-
-            // show the settings
-            this.bsDropSettings.DataSource = _owner.Settings;
-
-            showFormatTokens();
+            if (_owner != null)
+            {
+                // show the settings
+                this.DataSource = _owner?.Settings;
+            }
+        
         }
 
-        private void showFormatTokens()
+        private VSDropSettings DataSource
         {
-            var s = Application.Resolve<IFormatExpressionService>();
-
-            this.bsFormatExpressions.DataSource  = s.GetExpressionItems();
-
+            get { return this.vsDropAssistList1.Data; }
+            set { this.vsDropAssistList1.Data = value; }
         }
 
-        private void ResetControl_Click(object sender, EventArgs e)
+        private void ViewControl_Click(object sender, EventArgs e)
         {
-            this.bsDropSettings.EndEdit();
+            var selected = this.vsDropAssistList1.SelectedItem;
+            if (selected != null)
+            {
+                var clone = selected.Clone();
+                var dlg = new EditOptionsPopup(clone  );
 
-            if (MessageBox.Show("Warning. This will remove all custom settings and revert to defaults", "Reset", MessageBoxButtons.OKCancel) != DialogResult.OK)
-                return;
+                DialogResult result = dlg.ShowDialog();
 
-            _owner.ResetSettings();
+                if (result == DialogResult.OK)
+                {
+                    selected.CopyFrom(clone);
+
+                }
+            }
         }
     }
 }

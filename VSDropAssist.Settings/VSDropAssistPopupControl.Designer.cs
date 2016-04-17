@@ -33,6 +33,8 @@
             System.Windows.Forms.Label formatExpressionLabel;
             System.Windows.Forms.Label nameLabel;
             System.Windows.Forms.Label tokenToSelectAfterDropLabel;
+            System.Windows.Forms.Label prefixLabel;
+            System.Windows.Forms.Label suffixLabel;
             this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.altMustBeDownCheckBox = new System.Windows.Forms.CheckBox();
             this.controlMustBeDownCheckBox = new System.Windows.Forms.CheckBox();
@@ -53,10 +55,14 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.prefixTextBox = new System.Windows.Forms.TextBox();
+            this.suffixTextBox = new System.Windows.Forms.TextBox();
             delimiterLabel = new System.Windows.Forms.Label();
             formatExpressionLabel = new System.Windows.Forms.Label();
             nameLabel = new System.Windows.Forms.Label();
             tokenToSelectAfterDropLabel = new System.Windows.Forms.Label();
+            prefixLabel = new System.Windows.Forms.Label();
+            suffixLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -67,6 +73,42 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // delimiterLabel
+            // 
+            delimiterLabel.AutoSize = true;
+            delimiterLabel.Location = new System.Drawing.Point(8, 141);
+            delimiterLabel.Name = "delimiterLabel";
+            delimiterLabel.Size = new System.Drawing.Size(50, 13);
+            delimiterLabel.TabIndex = 4;
+            delimiterLabel.Text = "Delimiter:";
+            // 
+            // formatExpressionLabel
+            // 
+            formatExpressionLabel.AutoSize = true;
+            formatExpressionLabel.Location = new System.Drawing.Point(2, 225);
+            formatExpressionLabel.Name = "formatExpressionLabel";
+            formatExpressionLabel.Size = new System.Drawing.Size(54, 13);
+            formatExpressionLabel.TabIndex = 6;
+            formatExpressionLabel.Text = "Template:";
+            // 
+            // nameLabel
+            // 
+            nameLabel.AutoSize = true;
+            nameLabel.Location = new System.Drawing.Point(2, 8);
+            nameLabel.Name = "nameLabel";
+            nameLabel.Size = new System.Drawing.Size(38, 13);
+            nameLabel.TabIndex = 8;
+            nameLabel.Text = "Name:";
+            // 
+            // tokenToSelectAfterDropLabel
+            // 
+            tokenToSelectAfterDropLabel.AutoSize = true;
+            tokenToSelectAfterDropLabel.Location = new System.Drawing.Point(17, 57);
+            tokenToSelectAfterDropLabel.Name = "tokenToSelectAfterDropLabel";
+            tokenToSelectAfterDropLabel.Size = new System.Drawing.Size(141, 13);
+            tokenToSelectAfterDropLabel.TabIndex = 27;
+            tokenToSelectAfterDropLabel.Text = "Token To Select After Drop:";
             // 
             // settingsBindingSource
             // 
@@ -92,15 +134,6 @@
             this.controlMustBeDownCheckBox.Text = "Control";
             this.controlMustBeDownCheckBox.UseVisualStyleBackColor = true;
             // 
-            // delimiterLabel
-            // 
-            delimiterLabel.AutoSize = true;
-            delimiterLabel.Location = new System.Drawing.Point(8, 141);
-            delimiterLabel.Name = "delimiterLabel";
-            delimiterLabel.Size = new System.Drawing.Size(50, 13);
-            delimiterLabel.TabIndex = 4;
-            delimiterLabel.Text = "Delimiter:";
-            // 
             // delimiterTextBox
             // 
             this.delimiterTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "Delimiter", true));
@@ -110,15 +143,6 @@
             this.delimiterTextBox.TabIndex = 1;
             this.toolTip1.SetToolTip(this.delimiterTextBox, "Text to insert between dropped items");
             // 
-            // formatExpressionLabel
-            // 
-            formatExpressionLabel.AutoSize = true;
-            formatExpressionLabel.Location = new System.Drawing.Point(4, 215);
-            formatExpressionLabel.Name = "formatExpressionLabel";
-            formatExpressionLabel.Size = new System.Drawing.Size(54, 13);
-            formatExpressionLabel.TabIndex = 6;
-            formatExpressionLabel.Text = "Template:";
-            // 
             // formatExpressionTextBox
             // 
             this.formatExpressionTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "FormatExpression", true));
@@ -127,17 +151,8 @@
             this.formatExpressionTextBox.Multiline = true;
             this.formatExpressionTextBox.Name = "formatExpressionTextBox";
             this.formatExpressionTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.formatExpressionTextBox.Size = new System.Drawing.Size(774, 196);
+            this.formatExpressionTextBox.Size = new System.Drawing.Size(774, 183);
             this.formatExpressionTextBox.TabIndex = 0;
-            // 
-            // nameLabel
-            // 
-            nameLabel.AutoSize = true;
-            nameLabel.Location = new System.Drawing.Point(2, 8);
-            nameLabel.Name = "nameLabel";
-            nameLabel.Size = new System.Drawing.Size(38, 13);
-            nameLabel.TabIndex = 8;
-            nameLabel.Text = "Name:";
             // 
             // nameTextBox
             // 
@@ -242,15 +257,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Hotkeys the user must press";
             // 
-            // tokenToSelectAfterDropLabel
-            // 
-            tokenToSelectAfterDropLabel.AutoSize = true;
-            tokenToSelectAfterDropLabel.Location = new System.Drawing.Point(17, 57);
-            tokenToSelectAfterDropLabel.Name = "tokenToSelectAfterDropLabel";
-            tokenToSelectAfterDropLabel.Size = new System.Drawing.Size(141, 13);
-            tokenToSelectAfterDropLabel.TabIndex = 27;
-            tokenToSelectAfterDropLabel.Text = "Token To Select After Drop:";
-            // 
             // tokenToSelectAfterDropComboBox
             // 
             this.tokenToSelectAfterDropComboBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "TokenToSelectAfterDrop", true));
@@ -293,6 +299,11 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.AutoScroll = true;
+            this.splitContainer1.Panel1.Controls.Add(suffixLabel);
+            this.splitContainer1.Panel1.Controls.Add(this.suffixTextBox);
+            this.splitContainer1.Panel1.Controls.Add(prefixLabel);
+            this.splitContainer1.Panel1.Controls.Add(this.prefixTextBox);
             this.splitContainer1.Panel1.Controls.Add(nameLabel);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox4);
             this.splitContainer1.Panel1.Controls.Add(this.nameTextBox);
@@ -307,8 +318,44 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.formatExpressionTextBox);
             this.splitContainer1.Size = new System.Drawing.Size(774, 434);
-            this.splitContainer1.SplitterDistance = 234;
+            this.splitContainer1.SplitterDistance = 247;
             this.splitContainer1.TabIndex = 31;
+            // 
+            // prefixLabel
+            // 
+            prefixLabel.AutoSize = true;
+            prefixLabel.Location = new System.Drawing.Point(8, 168);
+            prefixLabel.Name = "prefixLabel";
+            prefixLabel.Size = new System.Drawing.Size(36, 13);
+            prefixLabel.TabIndex = 30;
+            prefixLabel.Text = "Prefix:";
+            // 
+            // prefixTextBox
+            // 
+            this.prefixTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "Prefix", true));
+            this.prefixTextBox.Location = new System.Drawing.Point(130, 165);
+            this.prefixTextBox.Name = "prefixTextBox";
+            this.prefixTextBox.Size = new System.Drawing.Size(100, 20);
+            this.prefixTextBox.TabIndex = 31;
+            this.toolTip1.SetToolTip(this.prefixTextBox, "Text to insert before each item");
+            // 
+            // suffixLabel
+            // 
+            suffixLabel.AutoSize = true;
+            suffixLabel.Location = new System.Drawing.Point(8, 194);
+            suffixLabel.Name = "suffixLabel";
+            suffixLabel.Size = new System.Drawing.Size(36, 13);
+            suffixLabel.TabIndex = 31;
+            suffixLabel.Text = "Suffix:";
+            // 
+            // suffixTextBox
+            // 
+            this.suffixTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "Suffix", true));
+            this.suffixTextBox.Location = new System.Drawing.Point(130, 191);
+            this.suffixTextBox.Name = "suffixTextBox";
+            this.suffixTextBox.Size = new System.Drawing.Size(100, 20);
+            this.suffixTextBox.TabIndex = 32;
+            this.toolTip1.SetToolTip(this.suffixTextBox, "Text to insert after the template for each item");
             // 
             // VSDropAssistPopupControl
             // 
@@ -355,5 +402,7 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.TextBox suffixTextBox;
+        private System.Windows.Forms.TextBox prefixTextBox;
     }
 }

@@ -1,4 +1,5 @@
 using VSDropAssist.Core;
+using VSDropAssist.Settings;
 
 namespace VSDropAssist.DropActions
 {

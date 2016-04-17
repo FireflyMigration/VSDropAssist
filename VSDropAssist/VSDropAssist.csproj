@@ -13,7 +13,8 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -79,6 +80,12 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="DropInfoHandlers\GraphModelDropInfoHandler.cs" />
     <Compile Include="DropActions\MessageBoxDropAction.cs" />
+    <Compile Include="Options\EditOptionsPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Options\EditOptionsPopup.Designer.cs">
+      <DependentUpon>EditOptionsPopup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Options\VSDropAssistOptionsControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -96,7 +103,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="ClassDiagram1.cd" />
-    <None Include="Key.snk" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\VSDropAssist.DropActions.ExpressionItem.datasource" />
     <None Include="Properties\DataSources\VSDropAssist.DropActions.IFormatExpressionService.datasource" />
@@ -113,7 +119,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="index.html" />
     <Content Include="logging.config.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -258,6 +263,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Transactions" />
@@ -268,6 +274,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Options\EditOptionsPopup.resx">
+      <DependentUpon>EditOptionsPopup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Options\VSDropAssistOptionsControl.resx">
       <DependentUpon>VSDropAssistOptionsControl.cs</DependentUpon>
     </EmbeddedResource>

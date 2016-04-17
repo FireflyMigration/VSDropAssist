@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using VSDropAssist.Core;
 using VSDropAssist.Core.Entities;
+using VSDropAssist.Settings;
 
 namespace VSDropAssist.DropActions
 {
@@ -10,6 +11,7 @@ namespace VSDropAssist.DropActions
     {
         private readonly IDropActionConfiguration _configuration;
 
+        public IDropActionConfiguration Configuration { get { return _configuration; } }
         public ConfigurableDropAction(IFormatExpressionService formatExpressionService,
             IDropActionConfiguration configuration, IIndentationService indentationService ) : base(formatExpressionService, indentationService)
         {
