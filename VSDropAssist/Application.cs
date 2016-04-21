@@ -91,7 +91,9 @@ namespace VSDropAssist
         {
             var builder = new ContainerBuilder();
             registerDropActions(builder);
-            builder.Register(cfg => getDropActionProvider(cfg)).As<IDropActionProvider>();
+            //builder.Register(cfg => getDropActionProvider(cfg)).As<IDropActionProvider>();
+            builder.RegisterType<DropActionProvider>().As<IDropActionProvider>();
+
            builder.RegisterType<SmartDropAction>().As<IDropAction>();
             builder.RegisterType<GraphModelDropInfoHandler>().As<IDropInfoHandler>();
             builder.RegisterType<DropHandler>().As<IDropHandler>();

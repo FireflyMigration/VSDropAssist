@@ -86,9 +86,10 @@ namespace VSDropAssist
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [Guid(VSDropAssistPackage.PackageGuidString)]
-    [ProvideOptionPage(typeof(VSDropAssistOptionsPage),
+    /*[ProvideOptionPage(typeof(VSDropAssistOptionsPage),
     "Firefly Community", "VS DropAssist",
     1000, 1001, false)]
+    */
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed class VSDropAssistPackage : Package
     {
