@@ -19,8 +19,8 @@ namespace VSDropAssist
     [Order(Before = "DefaultFileDropHandler")]
     internal class DropHandlerProvider : IDropHandlerProvider
     {
-        
 
+        private const string CONTENT_TYPE_NAME = "CSharp";
         [Import]
         IEditorOperationsFactoryService factory = null;
 
@@ -36,8 +36,12 @@ namespace VSDropAssist
 
         public IDropHandler GetAssociatedDropHandler(IWpfTextView wpfTextView)
         {
+            
+            if (wpfTextView.TextBuffer.ContentType.TypeName != CONTENT_TYPE_NAME) return null;
+
             Application.EditorOperationsFactoryService = factory;
             Application.SmartIndentationService = smartIndentationService;
+            
             return Application.GetDropHandler(wpfTextView);
         }
 

@@ -25,6 +25,7 @@ namespace VSDropAssist
         {
             _log.Debug("DropHandler.ctor");
             _tgt = wpfTextView;
+
             _dropInfoHandlers = dropInfoHandlers;
             _dropAction = dropAction;
             
