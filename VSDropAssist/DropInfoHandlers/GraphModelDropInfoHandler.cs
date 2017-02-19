@@ -90,7 +90,7 @@ namespace VSDropAssist.DropInfoHandlers
                                 }
                             }
                         }
-                        catch (Exception e)
+                        catch (Exception )
                         {
                             _log.Error("Failed to get node sourcecode location: " + member );
                         }
