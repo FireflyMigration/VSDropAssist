@@ -1,11 +1,14 @@
 using System;
 using System.Diagnostics;
 using EnvDTE;
+using log4net;
 
 namespace VSDropAssist
 {
     public static class CodeElementExtensions
     {
+        private static ILog _log = LogManager.GetLogger("CodeElementExtensions");
+
         public static string SafeNamespace(this CodeElement ce)
         {
             if (ce.Kind == vsCMElement.vsCMElementClass)
@@ -25,9 +28,10 @@ namespace VSDropAssist
             {
                 return ce.Name;
             }
+            
             catch (Exception e)
             {
-                Debug.WriteLine("Failed to get Name: " + e.ToString());
+                _log.Info("Failed to get Name (this can be ignored): " + e.ToString());
             }
             return null;
         }
@@ -44,7 +48,7 @@ namespace VSDropAssist
             }
             catch (Exception e)
             {
-                Debug.WriteLine("Failed to parse kind: " + e.ToString());
+                _log.Info("Failed to parse kind: " + e.ToString());
             }
             return null;
         }
