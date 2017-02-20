@@ -19,7 +19,7 @@ namespace VSDropAssist
     [Order(Before = "DefaultFileDropHandler")]
     internal class DropHandlerProvider : IDropHandlerProvider
     {
-        private IServiceContainer _serviceContainer;
+        
 
         [Import]
         IEditorOperationsFactoryService factory = null;

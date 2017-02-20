@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <log4net>
-  <appender name="VisualStudio" type="ClassOutline.Logging.VisualStudioOutputLogger, ClassOutline.Logging" />
+  <appender name="VisualStudio" type="FireflyCommunity.Core.Logging.VisualStudioOutputLogger, FireflyCommunity.Core.Logging" />
 
     <root>
     <level value="DEBUG" />

@@ -332,8 +332,7 @@ namespace VSDropAssist.DropInfoHandlers
             {
                 throw new Exception("GetNodes failed", e);
             }
-
-            return null;
+            
         }
 
         private IEnumerable<Node > findSolutionItems(IList<SolutionExplorerNodeData> droppedData)
