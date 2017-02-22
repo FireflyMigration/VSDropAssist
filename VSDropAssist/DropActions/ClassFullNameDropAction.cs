@@ -9,7 +9,9 @@ namespace VSDropAssist.DropActions
     {
         
         public ClassFullNameDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService,
-             new DropActionConfiguration() { FormatExpression = "%f%", Delimiter = "\n",  TokenToSelectAfterDrop="%f%" ,
+             new DropActionConfiguration() { FormatExpression = "%f%",
+                 Delimiter = "\n",
+                 TokenToSelectAfterDrop ="%f%" ,
                  SupportsMembers = false })
         {
         }

@@ -8,7 +8,9 @@ namespace VSDropAssist.DropActions
     {
         
         public MemberUpdateDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService
-            , new DropActionConfiguration() { AltMustBeDown=true, FormatExpression = "%v%.%m%.Value = ;" , SupportsMembers = true, SupportsDroppingIntoMethod = true, SupportsDroppingIntoClass = false , SelectFirstLineOnly=false  })
+            , new DropActionConfiguration() { AltMustBeDown=true, FormatExpression = "%v%.%m%.Value = ;" ,
+                SupportsClasses = false,
+                SupportsMembers = true, SupportsDroppingIntoMethod = true, SupportsDroppingIntoClass = false , SelectFirstLineOnly=false  })
         {
         }
     }

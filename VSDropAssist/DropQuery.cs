@@ -17,9 +17,9 @@ namespace VSDropAssist
         public int Match(IDropActionConfiguration tgt)
         {
             var ret = 0;
-            if (tgt.ShiftMustBeDown && this.ShiftDown) ret += 1;
-            if (tgt.AltMustBeDown && this.AltDown) ret += 1;
-            if (tgt.ControlMustBeDown && this.ControlDown) ret += 1;
+            if (tgt.ShiftMustBeDown && this.ShiftDown) ret += 10;
+            if (tgt.AltMustBeDown && this.AltDown) ret += 10;
+            if (tgt.ControlMustBeDown && this.ControlDown) ret += 10;
 
             if (tgt.ShiftMustBeDown && !this.ShiftDown) return 0;
             if (tgt.AltMustBeDown && !this.AltDown) return 0;
