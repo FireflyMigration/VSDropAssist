@@ -15,6 +15,8 @@ namespace VSDropAssist.Tests
     [TestFixture]
     public class DropConfigurationTests
     {
+        
+
         [Test]
         public void match_compares_classes()
         {
@@ -30,7 +32,7 @@ namespace VSDropAssist.Tests
             var c = new DropActionConfiguration() { SupportsMembers = true };
             var qry = new DropQuery() { ContainsMembers = true };
 
-            Assert.AreEqual(1, qry.Match(c));
+            Assert.AreEqual(DropQuery.DroppingClassesAndMembersMatchAmount, qry.Match(c));
             Assert.AreEqual(0, new DropQuery().Match(c));
         }
         [Test]
@@ -39,19 +41,20 @@ namespace VSDropAssist.Tests
             var c = new DropActionConfiguration() { SupportsDroppingIntoClass = true };
             var qry = new DropQuery() { DroppingIntoClass=true  };
 
-            Assert.AreEqual(1, qry.Match(c));
+            Assert.AreEqual(DropQuery.DropTargetMatchAmount, qry.Match(c));
             
             c = new DropActionConfiguration() { SupportsDroppingIntoClass = false  };
             Assert.AreEqual(0, new DropQuery().Match(c));
         }
 
+        
         [Test]
         public void match_compares_alt()
         {
             var c = new DropActionConfiguration() { AltMustBeDown = true };
             var qry = new DropQuery() {AltDown = true};
 
-            Assert.AreEqual(1, qry.Match(c));
+            Assert.AreEqual(DropQuery.ControlKeyMatchAmount, qry.Match(c));
             Assert.AreEqual(0, new DropQuery().Match(c));
 
         }
@@ -61,7 +64,7 @@ namespace VSDropAssist.Tests
             var c = new DropActionConfiguration() { ControlMustBeDown = true };
             var qry = new DropQuery() { ControlDown = true };
 
-            Assert.AreEqual(1, qry.Match(c));
+            Assert.AreEqual(DropQuery.ControlKeyMatchAmount, qry.Match(c));
             Assert.AreEqual(0, new DropQuery().Match(c));
 
         }
@@ -72,7 +75,7 @@ namespace VSDropAssist.Tests
             var c = new DropActionConfiguration() { ShiftMustBeDown = true };
             var qry = new DropQuery() { ShiftDown = true };
 
-            Assert.AreEqual(1, qry.Match(c));
+            Assert.AreEqual(DropQuery.ControlKeyMatchAmount, qry.Match(c));
             Assert.AreEqual(0, new DropQuery().Match(c));
         }
 
@@ -82,7 +85,7 @@ namespace VSDropAssist.Tests
             var c = new DropActionConfiguration() { ShiftMustBeDown = true, AltMustBeDown=true  };
             var qry = new DropQuery() { ShiftDown = true, AltDown=true  };
 
-            Assert.AreEqual(2, qry.Match(c));
+            Assert.AreEqual(2* DropQuery.ControlKeyMatchAmount, qry.Match(c));
             Assert.AreEqual(0, new DropQuery().Match(c));
         }
 
@@ -93,7 +96,7 @@ namespace VSDropAssist.Tests
             var c = new DropActionConfiguration() { ShiftMustBeDown = true, AltMustBeDown = true, ControlMustBeDown=true  };
             var qry = new DropQuery() { ShiftDown = true, AltDown = true, ControlDown=true  };
 
-            Assert.AreEqual(3, qry.Match(c));
+            Assert.AreEqual(3* DropQuery.ControlKeyMatchAmount, qry.Match(c));
             Assert.AreEqual(0, new DropQuery().Match(c));
         }
 
@@ -109,17 +112,18 @@ namespace VSDropAssist.Tests
             log4net.Config.XmlConfigurator.Configure(configFile);
         }
         [Test]
-        public void method_level_declaration_dropaction_if_dragging_classes_and_Dropping_into_class()
+        public void method_level_declaration_dropaction_if_dragging_classes_and_Dropping_into_method()
         {
+            var theType = new ClassVarDropAction(new FormatExpressionService());
 
             var svc = getService();
             var query = new DropQuery()
             {
-                ShiftDown = true,
+                ControlDown = true,
                 ContainsClasses = true,
                 ContainsMembers = false,
-                DroppingIntoMethod = true ,
-                DroppingIntoClass = true
+                DroppingIntoMethod = true,
+                DroppingIntoClass = false
             };
 
             var actual = svc.GetAction(query);
@@ -177,10 +181,10 @@ namespace VSDropAssist.Tests
             var query = new DropQuery()
             {
                 ShiftDown=true,
-                ContainsClasses = true,
+                ContainsClasses = false,
                 ContainsMembers = true ,
                 DroppingIntoMethod = true,
-                DroppingIntoClass = true
+                
             };
 
             var actual = svc.GetAction(query);
@@ -200,7 +204,7 @@ namespace VSDropAssist.Tests
                 ContainsClasses = true,
                 ContainsMembers = false,
                 DroppingIntoMethod = true,
-                DroppingIntoClass = true
+                
             };
 
             var actual = svc.GetAction(query);
@@ -219,7 +223,7 @@ namespace VSDropAssist.Tests
                 ContainsClasses = true ,
                 ContainsMembers = true,
                 DroppingIntoMethod = true,
-                DroppingIntoClass = true
+                
             };
 
             var actual = svc.GetAction(query);
@@ -230,15 +234,24 @@ namespace VSDropAssist.Tests
 
         
 
-        private IDropActionProvider getService(IFormatExpressionService formatExpressionService=null  )
+        private IDropActionProvider getService(IFormatExpressionService formatExpressionService=null , IEnumerable<IConfigurableDropAction> fixedTypes = null  )
         {
             if (formatExpressionService == null) formatExpressionService = new Mock<IFormatExpressionService>().Object;
 
             var builder = new ContainerBuilder();
-            builder.RegisterAssemblyTypes(typeof(DropActionProvider).Assembly)
-           .AssignableTo<IConfigurableDropAction>().Except<ConfigurableDropAction>()
-           .As<IConfigurableDropAction>();
-
+            if (fixedTypes == null)
+            {
+                builder.RegisterAssemblyTypes(typeof(DropActionProvider).Assembly)
+               .AssignableTo<IConfigurableDropAction>().Except<ConfigurableDropAction>()
+               .As<IConfigurableDropAction>();
+            } else
+            {
+                foreach(var t in fixedTypes)
+                {
+                    builder.Register(ctx => t ).As<IConfigurableDropAction>();
+                }
+                
+            }
             builder.RegisterInstance(formatExpressionService).As<IFormatExpressionService>();
             builder.RegisterType<DropActionProvider>().As<IDropActionProvider>();
 

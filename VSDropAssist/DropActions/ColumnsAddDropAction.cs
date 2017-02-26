@@ -12,7 +12,10 @@ namespace VSDropAssist.DropActions
         
 
         public ColumnsAddDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService
-            , new DropActionConfiguration() {FormatExpression = "Columns.Add(%v%.%m%);", SupportsClasses = false, ShiftMustBeDown = true, SelectFirstLineOnly=false  })
+            , new DropActionConfiguration() {FormatExpression = "Columns.Add(%v%.%m%);", SupportsClasses = false,
+                SupportsDroppingIntoMethod=true,
+                SupportsDroppingIntoClass=false,
+                ShiftMustBeDown = true, SelectFirstLineOnly=false  })
         {
         }
     }

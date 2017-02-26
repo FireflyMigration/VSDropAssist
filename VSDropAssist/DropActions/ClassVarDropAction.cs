@@ -11,7 +11,7 @@ namespace VSDropAssist.DropActions
             , new DropActionConfiguration()
             {
                 FormatExpression = "var %v% = new %f%();", Delimiter = "\n", SupportsMembers = false, 
-                ShiftMustBeDown=true ,SelectFirstLineOnly=true, ControlMustBeDown=true   }
+                ShiftMustBeDown=false ,SelectFirstLineOnly=true, ControlMustBeDown=true ,SupportsDroppingIntoMethod=true,SupportsDroppingIntoClass=false  }
             )
         {
         }
