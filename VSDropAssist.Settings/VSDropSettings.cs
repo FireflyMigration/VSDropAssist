@@ -38,10 +38,8 @@ namespace VSDropAssist.Settings
             }
 
         }
-      
-
-        [XmlArray("SETTINGS")]
-        [XmlArrayItem("SETTING", typeof(DropActionConfiguration))]
+        
+        [XmlElement("SETTING", typeof(DropActionConfiguration))]
         public List<DropActionConfiguration> Settings { get; set; }
 
         
