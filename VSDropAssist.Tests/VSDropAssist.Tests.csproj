@@ -75,9 +75,9 @@
       <Project>{15BC08F0-530E-404D-B286-0F127E3CA766}</Project>
       <Name>VSDropAssist.Settings</Name>
     </ProjectReference>
-    <ProjectReference Include="..\VSDropAssist\VSDropAssist.2017.csproj">
+    <ProjectReference Include="..\VSDropAssist\VSDropAssist.csproj">
       <Project>{c3633a05-e6e8-4417-95d7-8ceb2400170b}</Project>
-      <Name>VSDropAssist.2017</Name>
+      <Name>VSDropAssist</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
