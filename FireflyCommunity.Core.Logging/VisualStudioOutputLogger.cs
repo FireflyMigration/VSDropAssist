@@ -3,6 +3,7 @@ using EnvDTE;
 using log4net.Appender;
 using log4net.Core;
 using Newtonsoft.Json;
+using System;
 
 namespace FireflyCommunity.Core.Logging
 {
@@ -11,7 +12,7 @@ namespace FireflyCommunity.Core.Logging
     {
       
         private const string OUTPUTPANENAME = "FireflyCommunity";
-        public static EnvDTE.DTE DTE { get; set; }
+        public static Lazy<EnvDTE.DTE> DTE { get; set; }
 
         public VisualStudioOutputLogger()
         {
@@ -19,7 +20,7 @@ namespace FireflyCommunity.Core.Logging
         }
         protected override void Append(LoggingEvent loggingEvent)
         {
-            Debug.WriteLine("ClassOutline.Logging:" + loggingEvent.RenderedMessage);
+            Debug.WriteLine(loggingEvent.RenderedMessage);
             string msg = "";
            
             if (loggingEvent.ExceptionObject != null)
@@ -43,7 +44,7 @@ namespace FireflyCommunity.Core.Logging
 
         private void ReportError(string errorInfo)
         {
-            var dte = DTE;
+            var dte = DTE.Value;
             if (dte == null) return;
 
             var w = dte.Windows.Item(Constants.vsWindowKindOutput);
@@ -55,7 +56,7 @@ namespace FireflyCommunity.Core.Logging
                 pane = outp.OutputWindowPanes.Item(OUTPUTPANENAME);
             }
             catch
-            {
+            { 
                 pane = outp.OutputWindowPanes.Add(OUTPUTPANENAME);
             }
 

@@ -79,5 +79,10 @@ namespace VSDropAssist.DropActions
         {
             return _configuration.FormatExpression;
         }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name}: {_configuration.ToString()}";
+        }
     }
 }

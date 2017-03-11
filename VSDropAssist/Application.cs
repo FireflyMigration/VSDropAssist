@@ -13,6 +13,11 @@ using VSDropAssist.DropActions;
 using VSDropAssist.DropInfoHandlers;
 using VSDropAssist.Options;
 using VSDropAssist.Settings;
+using log4net.Repository.Hierarchy;
+using log4net.Layout;
+using log4net.Appender;
+using log4net.Core;
+using FireflyCommunity.Core.Logging;
 
 namespace VSDropAssist
 {
@@ -62,9 +67,9 @@ namespace VSDropAssist
             registerDropActions(builder);
             builder.RegisterType<DropActionProvider>().As<IDropActionProvider>();
             builder.RegisterType<SmartDropAction>().As<IDropAction>();
-            builder.RegisterType<GraphModelDropInfoHandler>().As<IDropInfoHandler>();
-            builder.RegisterType<DropHandler>().As<IDropHandler>();
-            builder.RegisterType<ProjectItemDropInfoHandler>().As<IDropInfoHandler>();
+            builder.RegisterType<GraphModelDropInfoHandler>().As<IDropInfoHandler>().InstancePerLifetimeScope();
+            builder.RegisterType<DropHandler>().As<IDropHandler>().InstancePerLifetimeScope();
+            builder.RegisterType<ProjectItemDropInfoHandler>().As<IDropInfoHandler>().InstancePerLifetimeScope();
             builder.RegisterType<FormatExpressionService>().As<IFormatExpressionService>();
 
             return builder;
@@ -102,8 +107,9 @@ namespace VSDropAssist
 
         private static void initLogging()
         {
-            
-            XmlConfigurator.Configure();
+
+            Logger.Setup(DTE);
+
             LogManager.GetLogger(typeof(Application)).Debug("Logging Started");
 
         }
@@ -113,6 +119,42 @@ namespace VSDropAssist
             Settings = new VSDropSettings();
             SettingsHelper.SaveToStorage(Settings);
 
+        }
+    }
+    public static class Logger
+    {
+        
+        private static IAppender getAppender(Lazy<DTE> dteFetch)
+        {
+        
+                var logger = new VisualStudioOutputLogger();
+                VisualStudioOutputLogger.DTE = dteFetch;
+            
+
+            return logger;
+
+        }
+        public static void Setup(Lazy<DTE> dteFetch)
+        {
+            Hierarchy hierarchy = (Hierarchy)LogManager.GetRepository();
+
+            
+            MemoryAppender memory = new MemoryAppender();
+            memory.ActivateOptions();
+            hierarchy.Root.AddAppender(memory);
+            var appender = getAppender(dteFetch);
+            if (hierarchy.Root.GetAppender(appender.Name) == null)
+            {
+                hierarchy.Root.AddAppender(appender);
+            }
+            hierarchy.Root.Level = Level.Error;
+
+            var settings = SettingsHelper.LoadSettingsFromStorage();
+            if (settings != null) {
+                if(settings.LogErrors) hierarchy.Root.Level = Level.All;
+            }
+            
+            hierarchy.Configured = true;
         }
     }
 }

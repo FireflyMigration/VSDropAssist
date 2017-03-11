@@ -44,5 +44,6 @@ namespace VSDropAssist.Settings
 
         
         public bool NormaliseProjectNamespace { get; set; }
+        public bool LogErrors { get; set; }
     }
 }

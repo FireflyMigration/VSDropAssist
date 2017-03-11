@@ -31,7 +31,7 @@ namespace VSDropAssist
             
             catch (Exception e)
             {
-                _log.Info("Failed to get Name (this can be ignored): " + e.ToString());
+               // _log.Info("Failed to get Name (this can be ignored): " + e.ToString());
             }
             return null;
         }
