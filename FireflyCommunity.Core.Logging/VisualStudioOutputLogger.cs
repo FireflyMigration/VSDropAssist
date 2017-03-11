@@ -20,7 +20,7 @@ namespace FireflyCommunity.Core.Logging
         }
         protected override void Append(LoggingEvent loggingEvent)
         {
-            Debug.WriteLine("ClassOutline.Logging:" + loggingEvent.RenderedMessage);
+            Debug.WriteLine(loggingEvent.RenderedMessage);
             string msg = "";
            
             if (loggingEvent.ExceptionObject != null)

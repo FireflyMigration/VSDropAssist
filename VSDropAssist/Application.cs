@@ -121,35 +121,39 @@ namespace VSDropAssist
 
         }
     }
-    public class Logger
+    public static class Logger
     {
+        
+        private static IAppender getAppender(Lazy<DTE> dteFetch)
+        {
+        
+                var logger = new VisualStudioOutputLogger();
+                VisualStudioOutputLogger.DTE = dteFetch;
+            
+
+            return logger;
+
+        }
         public static void Setup(Lazy<DTE> dteFetch)
         {
             Hierarchy hierarchy = (Hierarchy)LogManager.GetRepository();
 
-            PatternLayout patternLayout = new PatternLayout();
-            patternLayout.ConversionPattern = "%date [%thread] %-5level %logger - %message%newline";
-            patternLayout.ActivateOptions();
-
-            RollingFileAppender roller = new RollingFileAppender();
-            roller.AppendToFile = false;
-            roller.File = @"Logs\EventLog.txt";
-            roller.Layout = patternLayout;
-            roller.MaxSizeRollBackups = 5;
-            roller.MaximumFileSize = "120MB";
-            roller.RollingStyle = RollingFileAppender.RollingMode.Size;
-            roller.StaticLogFileName = false;
-            roller.ActivateOptions();
-           // hierarchy.Root.AddAppender(roller);
-
+            
             MemoryAppender memory = new MemoryAppender();
             memory.ActivateOptions();
             hierarchy.Root.AddAppender(memory);
-            var tgt = new VisualStudioOutputLogger();
-            VisualStudioOutputLogger.DTE = dteFetch;
-            hierarchy.Root.AddAppender(tgt);
+            var appender = getAppender(dteFetch);
+            if (hierarchy.Root.GetAppender(appender.Name) == null)
+            {
+                hierarchy.Root.AddAppender(appender);
+            }
+            hierarchy.Root.Level = Level.Error;
 
-            hierarchy.Root.Level = Level.All;
+            var settings = SettingsHelper.LoadSettingsFromStorage();
+            if (settings != null) {
+                if(settings.LogErrors) hierarchy.Root.Level = Level.All;
+            }
+            
             hierarchy.Configured = true;
         }
     }
