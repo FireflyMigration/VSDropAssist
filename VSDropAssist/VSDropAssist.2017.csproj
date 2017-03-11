@@ -74,16 +74,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
-    <Compile Include="DropActions\ClassFullNameDropAction.cs" />
-    <Compile Include="DropActions\ClassMemberDropAction.cs" />
-    <Compile Include="DropActions\ClassOnlyDropAction.cs" />
-    <Compile Include="DropActions\ClassModuleVariableDropAction.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="DropActions\Core\ClassFullNameDropAction.cs" />
+    <Compile Include="DropActions\Core\ClassModuleVariableDropAction.cs" />
     <Compile Include="DropActions\ClassOnlyWithSelectDropAction.cs" />
-    <Compile Include="DropActions\ClassVarDropAction.cs" />
+    <Compile Include="DropActions\Core\ClassVarDropAction.cs" />
     <Compile Include="CodeElementExtensions.cs" />
     <Compile Include="CodeElementHelper.cs" />
     <Compile Include="Entities\CodeLine.cs" />
-    <Compile Include="DropActions\CommaDelimitedListDropAction.cs" />
+    <Compile Include="DropActions\Core\CommaDelimitedListDropAction.cs" />
     <Compile Include="DropActions\ConfigurableDropAction.cs" />
     <Compile Include="DropActions\DropActionBase.cs" />
     <Compile Include="DropActionResultEnum.cs" />
@@ -95,9 +94,9 @@
     <Compile Include="IDropActionProvider.cs" />
     <Compile Include="IDropQuery.cs" />
     <Compile Include="IFormatExpressionService.cs" />
-    <Compile Include="DropActions\ColumnsAddDropAction.cs" />
-    <Compile Include="DropActions\MemberUpdateDropAction.cs" />
-    <Compile Include="DropActions\NewClassInstanceDropAction.cs" />
+    <Compile Include="DropActions\Core\ColumnsAddDropAction.cs" />
+    <Compile Include="DropActions\Core\MemberUpdateDropAction.cs" />
+    <Compile Include="DropActions\Core\NewClassInstanceDropAction.cs" />
     <Compile Include="DropActions\SimpleTextDropAction.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="DropHandler.cs" />
@@ -108,7 +107,6 @@
     <Compile Include="DropInfoHandlers\GraphModelDropInfoHandler.cs" />
     <Compile Include="IDropAction.cs" />
     <Compile Include="IDropInfoHandler.cs" />
-    <Compile Include="DropActions\MessageBoxDropAction.cs" />
     <Compile Include="Options\VSDropAssistOptionsControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

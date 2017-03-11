@@ -5,9 +5,12 @@ using System.Linq;
 using EnvDTE;
 using log4net;
 using Microsoft.VisualStudio.Text;
+using System.Xml.Serialization;
 
 namespace VSDropAssist
 {
+    
+    
     public class CodeElementHelper
     {
         private ILog _log = LogManager.GetLogger(typeof (CodeElementHelper));

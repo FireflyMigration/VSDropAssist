@@ -102,14 +102,8 @@ namespace VSDropAssist
 
         private static void initLogging()
         {
-            var appFolder = Path.GetDirectoryName(typeof (Application).Assembly.Location);
-
-            var filepath = Path.Combine(appFolder , "logging.config.xml");
-
-            var fi = new FileInfo(filepath);
-            if (!fi.Exists) throw new FileNotFoundException("logging.config");
             
-            XmlConfigurator.ConfigureAndWatch(fi);
+            XmlConfigurator.Configure();
             LogManager.GetLogger(typeof(Application)).Debug("Logging Started");
 
         }

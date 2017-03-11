@@ -10,12 +10,20 @@ namespace VSDropAssist.DropActions
         public ClassVarDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService
             , new DropActionConfiguration()
             {
-                FormatExpression = "var %v% = new %f%();", Delimiter = "\n", SupportsMembers = false, 
-                ShiftMustBeDown=false ,SelectFirstLineOnly=true, ControlMustBeDown=true ,SupportsDroppingIntoMethod=true,SupportsDroppingIntoClass=false  }
+                FormatExpression = "var %v% = new %f%();",
+                Delimiter = "\n",
+                SupportsMembers = true,
+                SupportsClasses=true,
+                ShiftMustBeDown = false,
+                SelectFirstLineOnly = true,
+                ControlMustBeDown = true,
+                SupportsDroppingIntoMethod = true,
+                SupportsDroppingIntoClass = false
+            }
             )
         {
         }
-        
+
 
     }
 }
