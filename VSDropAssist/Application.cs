@@ -13,6 +13,11 @@ using VSDropAssist.DropActions;
 using VSDropAssist.DropInfoHandlers;
 using VSDropAssist.Options;
 using VSDropAssist.Settings;
+using log4net.Repository.Hierarchy;
+using log4net.Layout;
+using log4net.Appender;
+using log4net.Core;
+using FireflyCommunity.Core.Logging;
 
 namespace VSDropAssist
 {
@@ -62,9 +67,9 @@ namespace VSDropAssist
             registerDropActions(builder);
             builder.RegisterType<DropActionProvider>().As<IDropActionProvider>();
             builder.RegisterType<SmartDropAction>().As<IDropAction>();
-            builder.RegisterType<GraphModelDropInfoHandler>().As<IDropInfoHandler>();
-            builder.RegisterType<DropHandler>().As<IDropHandler>();
-            builder.RegisterType<ProjectItemDropInfoHandler>().As<IDropInfoHandler>();
+            builder.RegisterType<GraphModelDropInfoHandler>().As<IDropInfoHandler>().InstancePerLifetimeScope();
+            builder.RegisterType<DropHandler>().As<IDropHandler>().InstancePerLifetimeScope();
+            builder.RegisterType<ProjectItemDropInfoHandler>().As<IDropInfoHandler>().InstancePerLifetimeScope();
             builder.RegisterType<FormatExpressionService>().As<IFormatExpressionService>();
 
             return builder;
@@ -102,8 +107,9 @@ namespace VSDropAssist
 
         private static void initLogging()
         {
-            
-            XmlConfigurator.Configure();
+
+            Logger.Setup(DTE);
+
             LogManager.GetLogger(typeof(Application)).Debug("Logging Started");
 
         }
@@ -113,6 +119,38 @@ namespace VSDropAssist
             Settings = new VSDropSettings();
             SettingsHelper.SaveToStorage(Settings);
 
+        }
+    }
+    public class Logger
+    {
+        public static void Setup(Lazy<DTE> dteFetch)
+        {
+            Hierarchy hierarchy = (Hierarchy)LogManager.GetRepository();
+
+            PatternLayout patternLayout = new PatternLayout();
+            patternLayout.ConversionPattern = "%date [%thread] %-5level %logger - %message%newline";
+            patternLayout.ActivateOptions();
+
+            RollingFileAppender roller = new RollingFileAppender();
+            roller.AppendToFile = false;
+            roller.File = @"Logs\EventLog.txt";
+            roller.Layout = patternLayout;
+            roller.MaxSizeRollBackups = 5;
+            roller.MaximumFileSize = "120MB";
+            roller.RollingStyle = RollingFileAppender.RollingMode.Size;
+            roller.StaticLogFileName = false;
+            roller.ActivateOptions();
+           // hierarchy.Root.AddAppender(roller);
+
+            MemoryAppender memory = new MemoryAppender();
+            memory.ActivateOptions();
+            hierarchy.Root.AddAppender(memory);
+            var tgt = new VisualStudioOutputLogger();
+            VisualStudioOutputLogger.DTE = dteFetch;
+            hierarchy.Root.AddAppender(tgt);
+
+            hierarchy.Root.Level = Level.All;
+            hierarchy.Configured = true;
         }
     }
 }

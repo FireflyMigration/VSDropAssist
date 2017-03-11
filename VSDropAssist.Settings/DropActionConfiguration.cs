@@ -29,6 +29,11 @@ namespace VSDropAssist.Settings
             SelectFirstLineOnly = true;
         }
 
-     
+        public override string ToString()
+        {
+         
+            return $"ShiftMustBeDown: {ShiftMustBeDown}, ControlMustBeDown: {ControlMustBeDown}, AltMustBeDown: {AltMustBeDown}, Classes: {SupportsClasses}, Members: {SupportsMembers}, DroppingIntoMethod: {SupportsDroppingIntoMethod}, DroppingIntoClass: {SupportsDroppingIntoClass}";
+
+        }
     }
 }
