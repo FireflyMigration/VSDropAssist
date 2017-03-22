@@ -67,9 +67,9 @@ namespace VSDropAssist
             registerDropActions(builder);
             builder.RegisterType<DropActionProvider>().As<IDropActionProvider>();
             builder.RegisterType<SmartDropAction>().As<IDropAction>();
-            builder.RegisterType<GraphModelDropInfoHandler>().As<IDropInfoHandler>().InstancePerLifetimeScope();
-            builder.RegisterType<DropHandler>().As<IDropHandler>().InstancePerLifetimeScope();
-            builder.RegisterType<ProjectItemDropInfoHandler>().As<IDropInfoHandler>().InstancePerLifetimeScope();
+            builder.RegisterType<GraphModelDropInfoHandler>().As<IDropInfoHandler>();
+            builder.RegisterType<DropHandler>().As<IDropHandler>();
+            builder.RegisterType<ProjectItemDropInfoHandler>().As<IDropInfoHandler>();
             builder.RegisterType<FormatExpressionService>().As<IFormatExpressionService>();
 
             return builder;

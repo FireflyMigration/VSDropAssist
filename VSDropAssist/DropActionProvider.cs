@@ -35,7 +35,7 @@ namespace VSDropAssist
 
         public IDropAction GetAction(DropQuery qry)
         {
-            _log.Debug("Searching for " + qry);
+            _log.Debug("Searching for DropActionQry:" + qry);
             _log.Debug("Available actions:\n" + displayActions(_actions));
             var matching = _actions.Select(a => new MatchResult( a.Match(qry), a )).Where(x => x.Match > 0).OrderByDescending(x => x.Match).ToList();
              _log.Debug("Found:\n" + displayActions( matching));

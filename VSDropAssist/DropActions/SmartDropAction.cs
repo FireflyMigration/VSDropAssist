@@ -81,11 +81,13 @@ namespace VSDropAssist.DropActions
             if (Application.Settings.NormaliseProjectNamespace)
             {
                 var defaultNS = dropLocation.ProjectDefaultNamespace;
-                if (!namespaces.Any(x => x.Namespace == defaultNS))
+                if (!namespaces.Any(x => x.Namespace == defaultNS) && !string.IsNullOrEmpty(defaultNS))
                 {
                     namespaces.Add(new NamespaceDeclaration() {Namespace = defaultNS});
                 }
             }
+            namespaces.RemoveAll(x => string.IsNullOrEmpty(x.Namespace));
+
             foreach (var n in nodes)
             {
                 var ns = n.Namespace;
@@ -172,8 +174,13 @@ namespace VSDropAssist.DropActions
             var sel = activeDocument?.Selection as TextSelection;
             CodeElement droppedClass = null;
             CodeElement droppedMethod = null;
-          
-            ret.AddNamespace( getImportStatements(activeDocument));
+
+            var namespaceDeclarations = getImportStatements(activeDocument);
+
+            if (namespaceDeclarations?.Any() == true)
+            {
+                ret.AddNamespace(namespaceDeclarations.Where(x => !string.IsNullOrEmpty(x.Namespace)));
+            }
             if (sel != null)
             {
 
@@ -223,10 +230,12 @@ namespace VSDropAssist.DropActions
             if (activeDocument == null) return null;
 
             var helper = new CodeElementHelper();
-            var tmp = helper.GetCodeElements(activeDocument.ProjectItem.FileCodeModel.CodeElements,
+            var tmp = helper.GetCodeElements(activeDocument?.ProjectItem?.FileCodeModel?.CodeElements,
                 (ce) => ce.Kind == vsCMElement.vsCMElementImportStmt || ce.Kind == vsCMElement.vsCMElementNamespace);
 
+            
             var ret = new List<NamespaceDeclaration>();
+            if (tmp == null) return ret;
 
             foreach (CodeElement t in tmp)
             {
