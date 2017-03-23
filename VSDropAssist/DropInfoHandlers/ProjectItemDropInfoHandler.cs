@@ -407,13 +407,15 @@ namespace VSDropAssist.DropInfoHandlers
 
         private CodeClass findFirstClass(ProjectItem pi)
         {
-            
+            if (pi?.FileCodeModel?.CodeElements == null) return null;
+
             return findFirstClass(pi.FileCodeModel.CodeElements);
             
         }
 
         private CodeClass findFirstClass(CodeElements elements)
         {
+            if (elements == null) return null;
 
             foreach (CodeElement ce in elements )
             {

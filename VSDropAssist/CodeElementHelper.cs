@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using EnvDTE;
 using log4net;
 using Microsoft.VisualStudio.Text;
@@ -38,38 +39,44 @@ namespace VSDropAssist
                 }
                 catch (Exception e)
                 {
-                    Debug.WriteLine("Exception getting object name: " + e.Message );
+                    Debug.WriteLine("Exception getting object name [this can be ignored]: " + e.Message );
                 }
-
-                var sp = getStartPoint(ce);
-                var pointLine = point.GetContainingLine().LineNumber;
-
-                if (sp != null)
+                try
                 {
-                    if (sp.Line > pointLine )
-                    {
-                        // code element starts after the droplocation, ignore it
-                    }
-                    else if (ce.EndPoint.Line  < pointLine )
-                    {
-                        // code element finishes before the droplocation, ignore it
-                    }
-                    else
-                    {
+                    var sp = getStartPoint(ce);
+                    var pointLine = point.GetContainingLine().LineNumber;
 
-                        if (elementType == ce.Kind)
+                    if (sp != null)
+                    {
+                        if (sp.Line > pointLine)
+                        {
+                            // code element starts after the droplocation, ignore it
+                        }
+                        else if (ce.EndPoint.Line < pointLine)
+                        {
+                            // code element finishes before the droplocation, ignore it
+                        }
+                        else
                         {
 
-                            return ce;
-                        }
+                            if (elementType == ce.Kind)
+                            {
 
-                        var childElements = getCodeElements(ce);
-                        if (childElements != null)
-                        {
-                            var ret = GetCodeElement(dte, point, childElements, elementType);
-                            if (ret != null) return ret;
+                                return ce;
+                            }
+
+                            var childElements = getCodeElements(ce);
+                            if (childElements != null)
+                            {
+                                var ret = GetCodeElement(dte, point, childElements, elementType);
+                                if (ret != null) return ret;
+                            }
                         }
                     }
+                }
+                catch (COMException comException)
+                {
+                    _log.Error("Exception retrieving code element", comException);
                 }
             }
             return null;
@@ -110,26 +117,34 @@ namespace VSDropAssist
 
         public IEnumerable<CodeElement> GetCodeElements(CodeElements elements, Predicate<CodeElement> match)
         {
-            var ret = new List<CodeElement>();
-            if (elements == null) return null;
-            if (elements.Count == 0) return null;
-
-            foreach (CodeElement ce in elements)
+            try
             {
-                Debug.WriteLine("{0}: {1}", ce.SafeName(), ce.KindAsString());
-                if(match(ce)) ret.Add(ce);
+                var ret = new List<CodeElement>();
+                if (elements == null) return null;
+                if (elements.Count == 0) return null;
 
-                var children = getCodeElements(ce);
-                if (children != null)
+                foreach (CodeElement ce in elements)
                 {
-                    var inner = GetCodeElements(children, match);
-                    if(inner!=null) ret.AddRange(inner);
+                    Debug.WriteLine("{0}: {1}", ce.SafeName(), ce.KindAsString());
+                    if (match(ce)) ret.Add(ce);
+
+                    var children = getCodeElements(ce);
+                    if (children != null)
+                    {
+                        var inner = GetCodeElements(children, match);
+                        if (inner != null) ret.AddRange(inner);
+                    }
+
                 }
 
+                if (!ret.Any()) return null;
+                return ret;
             }
-
-            if (!ret.Any()) return null;
-            return ret;
+            catch (COMException comException)
+            {
+                _log.Error("Exception getting code elements", comException);
+            }
+            return null;
         }
         public CodeElements getCodeElements(CodeElement ce)
         {

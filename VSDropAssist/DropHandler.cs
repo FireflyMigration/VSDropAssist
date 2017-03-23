@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using log4net;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
@@ -20,6 +21,7 @@ namespace VSDropAssist
         {
             _log.Debug("DropHandler.ctor");
             _tgt = wpfTextView;
+            
             _dropInfoHandlers = dropInfoHandlers;
             _dropAction = dropAction;
             
@@ -32,18 +34,28 @@ namespace VSDropAssist
 
         public DragDropPointerEffects HandleDraggingOver(DragDropInfo dragDropInfo)
         {
+            if(_tgt.IsClosed) return DragDropPointerEffects.None;
+
             try
             {
                 //set the insertion point to follow the drop location
-                _tgt.Caret.MoveTo(dragDropInfo.VirtualBufferPosition);
+                _tgt.Caret.MoveTo(new SnapshotPoint(_tgt.TextSnapshot, dragDropInfo.VirtualBufferPosition.Position));
 
                 return DragDropPointerEffects.Copy;
+            }
+            catch (TaskCanceledException tc)
+            {
+                _log.Info("TaskCancelledException retrieved whilst moving Caret to droplocation [can be ignored]");
+            }
+            catch (InvalidOperationException e)
+            {
+                _log.Error("InvalidOperation trying to move the dragdrop cursor (view likely not initialized)", e);
             }
             catch (Exception e)
             {
                 _log.Error("HandleDraggingOver", e );
             }
-            return DragDropPointerEffects.Copy;
+            return DragDropPointerEffects.None;
         }
 
 
