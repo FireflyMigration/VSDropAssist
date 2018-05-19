@@ -5,6 +5,9 @@ using log4net;
 
 namespace VSDropAssist
 {
+    /// <summary>
+    /// strategy provider that given a list of dropaction handlers, will identify the correct one and return it
+    /// </summary>
     public class DropActionProvider : IDropActionProvider
     {
         private List<IDropAction> _actions;
@@ -24,25 +27,23 @@ namespace VSDropAssist
                 this.Match = match;
                 this.Action = action;
             }
-            
         }
-        private ILog _log = LogManager.GetLogger(typeof (DropActionProvider));
+
+        private ILog _log = LogManager.GetLogger(typeof(DropActionProvider));
 
         public DropActionProvider(IEnumerable<IConfigurableDropAction> actions)
         {
-            _actions = new List<IDropAction>(actions );
+            _actions = new List<IDropAction>(actions);
         }
 
         public IDropAction GetAction(DropQuery qry)
         {
             _log.Debug("Searching for DropActionQry:" + qry);
             _log.Debug("Available actions:\n" + displayActions(_actions));
-            var matching = _actions.Select(a => new MatchResult( a.Match(qry), a )).Where(x => x.Match > 0).OrderByDescending(x => x.Match).ToList();
-             _log.Debug("Found:\n" + displayActions( matching));
+            var matching = _actions.Select(a => new MatchResult(a.Match(qry), a)).Where(x => x.Match > 0).OrderByDescending(x => x.Match).ToList();
+            _log.Debug("Found:\n" + displayActions(matching));
 
-                return matching.FirstOrDefault()?.Action;
-
-
+            return matching.FirstOrDefault()?.Action;
         }
 
         private string displayActions(List<MatchResult> matching)

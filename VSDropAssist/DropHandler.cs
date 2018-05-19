@@ -2,29 +2,34 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using log4net;
+
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
+
 using VSDropAssist.Entities;
 
 namespace VSDropAssist
 {
+    /// <summary>
+    /// Routes drag and drop operations to the correct dropinfohandler strategy that determines what to drop
+    /// </summary>
     internal class DropHandler : IDropHandler
     {
         private readonly IDropAction _dropAction; // new MessageBoxDropAction();
         private readonly IEnumerable<IDropInfoHandler> _dropInfoHandlers; // new GraphModelDropInfoHandler();
-        private readonly ILog _log = LogManager.GetLogger(typeof (DropHandler));
+        private readonly ILog _log = LogManager.GetLogger(typeof(DropHandler));
         private readonly IWpfTextView _tgt;
 
         public DropHandler(IWpfTextView wpfTextView, IEnumerable<IDropInfoHandler> dropInfoHandlers, IDropAction dropAction)
         {
             _log.Debug("DropHandler.ctor");
             _tgt = wpfTextView;
-            
+
             _dropInfoHandlers = dropInfoHandlers;
             _dropAction = dropAction;
-            
         }
 
         public DragDropPointerEffects HandleDragStarted(DragDropInfo dragDropInfo)
@@ -34,7 +39,7 @@ namespace VSDropAssist
 
         public DragDropPointerEffects HandleDraggingOver(DragDropInfo dragDropInfo)
         {
-            if(_tgt.IsClosed) return DragDropPointerEffects.None;
+            if (_tgt.IsClosed) return DragDropPointerEffects.None;
 
             try
             {
@@ -53,11 +58,10 @@ namespace VSDropAssist
             }
             catch (Exception e)
             {
-                _log.Error("HandleDraggingOver", e );
+                _log.Error("HandleDraggingOver", e);
             }
             return DragDropPointerEffects.None;
         }
-
 
         public DragDropPointerEffects HandleDataDropped(DragDropInfo dragDropInfo)
         {
@@ -75,13 +79,11 @@ namespace VSDropAssist
                 return DragDropPointerEffects.None;
             }
 
-
             var result = _dropAction.Execute(nodes, _tgt, dragDropInfo);
-            if (result.DropActionResultEnum  == DropActionResultEnum.AllowCopy) return DragDropPointerEffects.Copy;
+            if (result.DropActionResultEnum == DropActionResultEnum.AllowCopy) return DragDropPointerEffects.Copy;
 
             return DragDropPointerEffects.None;
         }
-
 
         public bool IsDropEnabled(DragDropInfo dragDropInfo)
         {
@@ -97,9 +99,8 @@ namespace VSDropAssist
         {
             try
             {
-                
                 var dropInfoHandler = _dropInfoHandlers.FirstOrDefault(x => x.CanUnderstand(dragDropInfo));
-                if (dropInfoHandler == null )
+                if (dropInfoHandler == null)
                 {
                     _log.Debug("No DropInfoHandler registered");
                     return null;
@@ -109,7 +110,7 @@ namespace VSDropAssist
             }
             catch (Exception e)
             {
-                _log.Error("getNodesfromDropInfo", e );
+                _log.Error("getNodesfromDropInfo", e);
             }
             return null;
         }

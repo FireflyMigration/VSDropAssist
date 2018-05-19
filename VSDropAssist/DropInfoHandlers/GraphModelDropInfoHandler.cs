@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+
 using log4net;
+
 using Microsoft.VisualStudio.GraphModel;
-using Microsoft.VisualStudio.GraphModel.CodeSchema;
-using Microsoft.VisualStudio.GraphModel.Schemas;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
+
 using VSDropAssist.Entities;
 
 namespace VSDropAssist.DropInfoHandlers
@@ -14,7 +15,7 @@ namespace VSDropAssist.DropInfoHandlers
     public class DGMLDropInfoHandler : IDropInfoHandler
     {
         private const string DATAFORMAT = "DGML";
-        private ILog _log = LogManager.GetLogger(typeof (DGMLDropInfoHandler));
+        private ILog _log = LogManager.GetLogger(typeof(DGMLDropInfoHandler));
 
         public bool CanUnderstand(DragDropInfo dragDropInfo)
         {
@@ -26,17 +27,25 @@ namespace VSDropAssist.DropInfoHandlers
             throw new NotImplementedException();
         }
     }
+
+    /// <summary>
+    /// Handes drag and drop of multiselection from solution explorer
+    /// </summary>
     internal class GraphModelDropInfoHandler : IDropInfoHandler
     {
         private const string GRAPHMODELFORMAT = "Microsoft.VisualStudio.GraphModel.Graph";
-        private readonly ILog _log = LogManager.GetLogger(typeof (GraphModelDropInfoHandler));
+        private readonly ILog _log = LogManager.GetLogger(typeof(GraphModelDropInfoHandler));
 
         public bool CanUnderstand(DragDropInfo dragDropInfo)
         {
             return (dragDropInfo.Data.GetDataPresent(GRAPHMODELFORMAT));
-
         }
 
+        /// <summary>
+        /// Returns the Node instances from the given drop info
+        /// </summary>
+        /// <param name="dragDropInfo"></param>
+        /// <returns></returns>
         public IEnumerable<Node> GetNodes(DragDropInfo dragDropInfo)
         {
             try
@@ -48,7 +57,7 @@ namespace VSDropAssist.DropInfoHandlers
                 }
                 var ret = new List<Node>();
 
-                var gm = (Graph) dragDropInfo.Data.GetData(GRAPHMODELFORMAT);
+                var gm = (Graph)dragDropInfo.Data.GetData(GRAPHMODELFORMAT);
                 if (gm != null)
                 {
                     _log.Debug("Found a GraphModel");
@@ -64,7 +73,7 @@ namespace VSDropAssist.DropInfoHandlers
                         var member = "";
                         var startLine = 0;
 
-                       // todo: dropping a class doesnt work as Insufficient information
+                        // todo: dropping a class doesnt work as Insufficient information
 
                         var c = n.Id.Value as GraphNodeIdCollection;
                         if (c != null)
@@ -85,14 +94,14 @@ namespace VSDropAssist.DropInfoHandlers
                             {
                                 if (p.Key.Id == "SourceLocation")
                                 {
-                                    var pos = (Microsoft.VisualStudio.GraphModel.CodeSchema.SourceLocation) p.Value;
+                                    var pos = (Microsoft.VisualStudio.GraphModel.CodeSchema.SourceLocation)p.Value;
                                     startLine = pos.StartPosition.Line;
                                 }
                             }
                         }
-                        catch (Exception )
+                        catch (Exception)
                         {
-                            _log.Error("Failed to get node sourcecode location: " + member );
+                            _log.Error("Failed to get node sourcecode location: " + member);
                         }
 
                         if (!string.IsNullOrEmpty(type))
@@ -104,13 +113,13 @@ namespace VSDropAssist.DropInfoHandlers
                                 Assembly = assembly,
                                 Member = member,
                                 Namespace = ns,
-                                Type = nestedTypeName ,
+                                Type = nestedTypeName,
                                 StartLine = startLine
                             });
                         }
                     }
                 }
-                if (ret.Any()) return ret.OrderBy(x => x.StartLine );
+                if (ret.Any()) return ret.OrderBy(x => x.StartLine);
             }
             catch (Exception e)
             {
@@ -118,8 +127,11 @@ namespace VSDropAssist.DropInfoHandlers
             }
             return null;
         }
-    
     }
+
+    /// <summary>
+    /// Converts a given node into a type-string
+    /// </summary>
     public class TypeParser
     {
         public string GetTypeFromString(string source)
@@ -143,11 +155,9 @@ namespace VSDropAssist.DropInfoHandlers
                         typeNames.Add(pg.Value);
                     }
                 }
-
             }
             typeNames.Reverse();
             return string.Join(".", typeNames);
-
         }
     }
 }
