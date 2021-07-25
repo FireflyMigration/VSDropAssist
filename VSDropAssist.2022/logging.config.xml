@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<log4net>
+	<appender name="TraceAppender" type="log4net.Appender.TraceAppender">
+						
+		<layout type="log4net.Layout.PatternLayout">
+			<conversionPattern value="%date [%thread] %level %logger - %message%newline%exception"/>
+		</layout>
+	</appender>
+	
+  <appender name="VisualStudio" type="FireflyCommunity.Core.Logging.VisualStudioOutputLogger, FireflyCommunity.Core.Logging" />
+
+    <root>
+    <level value="DEBUG" />
+    <appender-ref ref="VisualStudio" />
+		<appender-ref ref="TraceAppender" />
+  </root>
+</log4net>

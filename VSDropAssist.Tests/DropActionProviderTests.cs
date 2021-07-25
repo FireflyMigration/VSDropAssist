@@ -107,7 +107,7 @@ namespace VSDropAssist.Tests
         [SetUp]
         public static void setup()
         {
-            var configFile = new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logging.config.xml"));
+            var configFile = new FileInfo("logging.config.xml"));
             Assert.IsTrue(configFile.Exists);
             log4net.Config.XmlConfigurator.Configure(configFile);
         }

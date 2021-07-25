@@ -1,9 +1,14 @@
+
+
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace VSDropAssist.Settings
 {
     [XmlRoot("DropActionConfiguration")]
     public class DropActionConfiguration : IDropActionConfiguration {
+        private const bool BRIEF_TOSTRING = true;
+
         public bool ShiftMustBeDown { get; set; }
         public bool ControlMustBeDown { get; set; }
         public bool AltMustBeDown { get; set; }
@@ -31,7 +36,22 @@ namespace VSDropAssist.Settings
 
         public override string ToString()
         {
-         
+
+            if (BRIEF_TOSTRING)
+            {
+                var keys = new List<string>();
+                if(ShiftMustBeDown) keys.Add($"Shift");
+                if (ControlMustBeDown) keys.Add($"Control");
+                if (AltMustBeDown) keys.Add($"Alt");
+
+                var tgt = new List<string>();
+                if (SupportsClasses) tgt.Add("classes");
+                if (SupportsDroppingIntoMethod) tgt.Add("methods");
+                if (SupportsDroppingIntoClass) tgt.Add("class");
+
+                return string.Join("+",keys) + " (" + string.Join("|",tgt) + ")";
+            }
+
             return $"ShiftMustBeDown: {ShiftMustBeDown}, ControlMustBeDown: {ControlMustBeDown}, AltMustBeDown: {AltMustBeDown}, Classes: {SupportsClasses}, Members: {SupportsMembers}, DroppingIntoMethod: {SupportsDroppingIntoMethod}, DroppingIntoClass: {SupportsDroppingIntoClass}";
 
         }
