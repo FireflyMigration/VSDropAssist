@@ -303,7 +303,7 @@ namespace VSDropAssist.DropInfoHandlers
 
         }
 
-        public IEnumerable<Node> GetNodes(DragDropInfo dragDropInfo)
+        public IEnumerable<INode> GetNodes(DragDropInfo dragDropInfo)
         {
             try
             {

@@ -27,10 +27,10 @@ namespace VSDropAssist.DropActions
             _dropActionProvider = dropActionProvider;
         }
 
-        public IExecuteResult  Execute(IEnumerable<Node> enodes, IWpfTextView textView, DragDropInfo dragDropInfo)
+        public IExecuteResult  Execute(IEnumerable<INode> enodes, IWpfTextView textView, DragDropInfo dragDropInfo)
         {
             var dropLocation = GetDropLocation();
-            var nodes = new List<Node>(enodes);
+            var nodes = new List<INode>(enodes);
             normaliseNamespaces(dropLocation, nodes);
 
             var dropAction = getDropAction(nodes, dragDropInfo, dropLocation);
@@ -70,12 +70,12 @@ namespace VSDropAssist.DropActions
 
         }
 
-        public virtual int Match(DropQuery qry)
+        public virtual int Match(IDropQuery qry)
         {
             return 1;
         }
 
-        private void normaliseNamespaces(DropLocation dropLocation , List<Node> nodes)
+        private void normaliseNamespaces(DropLocation dropLocation , List<INode> nodes)
         {
             List<NamespaceDeclaration> namespaces = new List<NamespaceDeclaration>(dropLocation.Namespaces);
             if (Application.Settings.NormaliseProjectNamespace)
@@ -263,7 +263,7 @@ namespace VSDropAssist.DropActions
             return ret;
         }
 
-        private IDropAction getDropAction(IEnumerable<Node> nodes, DragDropInfo dragDropInfo, DropLocation dropLocation )
+        private IDropAction getDropAction(IEnumerable<INode> nodes, DragDropInfo dragDropInfo, DropLocation dropLocation )
         {
             var qry = new DropQuery()
             {

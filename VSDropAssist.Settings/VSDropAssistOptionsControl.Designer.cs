@@ -28,25 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.bindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource2)).BeginInit();
             this.SuspendLayout();
-            // 
-            // settingsBindingSource
-            // 
-            this.settingsBindingSource.DataMember = "Settings";
-            this.settingsBindingSource.DataSource = this.bindingSource2;
-            // 
-            // bindingSource2
-            // 
-            this.bindingSource2.DataSource = typeof(VSDropAssist.Settings.VSDropSettings);
             // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.AutoScroll = true;
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -60,17 +47,12 @@
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "VSDropAssistOptionsControl";
             this.Size = new System.Drawing.Size(690, 354);
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource2)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.BindingSource bindingSource2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn keyDataGridViewTextBoxColumn;
-        private System.Windows.Forms.BindingSource settingsBindingSource;
+        
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }

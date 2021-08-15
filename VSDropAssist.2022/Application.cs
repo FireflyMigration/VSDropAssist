@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.Text.Editor.DragDrop;
 using Microsoft.VisualStudio.Text.Operations;
 using VSDropAssist.DropActions;
 using VSDropAssist.DropInfoHandlers;
-using VSDropAssist.Options;
+
 using VSDropAssist.Settings;
 using log4net.Repository.Hierarchy;
 using log4net.Layout;
@@ -78,7 +78,11 @@ namespace VSDropAssist
 
             return builder;
         }
+        public static IDropActionProvider GetDropActionProvider()
+        {
+            return _container.Resolve<IDropActionProvider>();
 
+        }
         internal  static void registerDropActions(ContainerBuilder builder)
         {
             builder.RegisterAssemblyTypes(typeof (DropActionProvider).Assembly)

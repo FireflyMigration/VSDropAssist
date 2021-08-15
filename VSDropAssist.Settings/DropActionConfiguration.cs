@@ -1,6 +1,7 @@
 
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace VSDropAssist.Settings
@@ -34,22 +35,33 @@ namespace VSDropAssist.Settings
             SelectFirstLineOnly = true;
         }
 
-        public override string ToString()
+        
+        public string ToString(bool showKeys = true, bool showDragItems = true, bool showDropTarget = true)
         {
-
             if (BRIEF_TOSTRING)
             {
                 var keys = new List<string>();
-                if(ShiftMustBeDown) keys.Add($"Shift");
-                if (ControlMustBeDown) keys.Add($"Control");
-                if (AltMustBeDown) keys.Add($"Alt");
-
+                if (showKeys)
+                {
+                    if (ShiftMustBeDown) keys.Add($"Shift");
+                    if (ControlMustBeDown) keys.Add($"Control");
+                    if (AltMustBeDown) keys.Add($"Alt");
+                }
                 var tgt = new List<string>();
-                if (SupportsClasses) tgt.Add("classes");
-                if (SupportsDroppingIntoMethod) tgt.Add("methods");
-                if (SupportsDroppingIntoClass) tgt.Add("class");
+                if (showDropTarget)
+                {
+                    
+                    if (SupportsDroppingIntoMethod) tgt.Add("methods");
+                    if (SupportsDroppingIntoClass) tgt.Add("class");
+                }
 
-                return string.Join("+",keys) + " (" + string.Join("|",tgt) + ")";
+                var dragItems = new List<string>();
+                if (showDragItems)
+                {
+                    if (SupportsClasses) dragItems.Add("classes");
+                    if (SupportsMembers) dragItems.Add("methods");
+                }
+                return string.Join("+", keys) + (dragItems.Any() ? " (" + string.Join("|", dragItems) + ")" : "" ) + (tgt.Any() ? " onto (" + string.Join("|", tgt) + ")" : "") ;
             }
 
             return $"ShiftMustBeDown: {ShiftMustBeDown}, ControlMustBeDown: {ControlMustBeDown}, AltMustBeDown: {AltMustBeDown}, Classes: {SupportsClasses}, Members: {SupportsMembers}, DroppingIntoMethod: {SupportsDroppingIntoMethod}, DroppingIntoClass: {SupportsDroppingIntoClass}";

@@ -5,7 +5,7 @@ using VSDropAssist.Settings;
 
 namespace VSDropAssist.DropActions
 {
-    internal class ClassVarDropAction : ClassOnlyWithSelectDropAction
+    public class ClassVarDropAction : ClassOnlyWithSelectDropAction
     {
         public ClassVarDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService
             , new DropActionConfiguration()
@@ -19,7 +19,9 @@ namespace VSDropAssist.DropActions
                 ControlMustBeDown = true,
                 SupportsDroppingIntoMethod = true,
                 SupportsDroppingIntoClass = false
-            }
+            },
+            "new variable",
+            "Declares a new vriable for every dropped class/column"
             )
         {
         }

@@ -2,13 +2,13 @@ using System;
 
 namespace VSDropAssist.Entities
 {
-    public class ExpressionItem
+    public class ExpressionItem : IExpressionItem
     {
         public string Token { get; set; }
         public string Description { get; set; }
-        public Func<Node, string, string> expr { get; set; }
+        public Func<INode, string, string> expr { get; set; }
 
-        public ExpressionItem(string token, string description, Func<Node, string, string > expr)
+        public ExpressionItem(string token, string description, Func<INode, string, string> expr)
         {
             Token = token;
             Description = description;

@@ -14,6 +14,8 @@ namespace VSDropAssist
         bool SupportsDroppingIntoClass { get;  }
         string TokenToSelectAfterDrop { get; }
         bool SelectFirstLineOnly { get;  }
+
+        string ToString(bool showKeys = true, bool showDragItems = true, bool showDropTarget = true);
         
     }
 }

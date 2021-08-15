@@ -13,23 +13,26 @@ namespace VSDropAssist.Settings
             InitializeComponent();
         }
 
-        public void Init(IOptionsOwner vsDropAssistOptionsPage)
+        public void Init(IOptionsOwner vsDropAssistOptionsPage, IDropActionProvider dropActionProvider)
         {
             _optionsPage = vsDropAssistOptionsPage;
 
-            // show the settings
-            this.bindingSource2.DataSource = _optionsPage.Settings;
-
+            displayActions(dropActionProvider);
+            
         }
 
-        private void ResetControl_Click(object sender, EventArgs e)
+        private void displayActions(IDropActionProvider dropActionProvider)
         {
-            this.bindingSource2.EndEdit();
+            foreach(var da in dropActionProvider.GetActions())
+            {
+                var x = new ucConfigurableDropAction();
+                x.DropAction = da;
+                x.Width = this.flowLayoutPanel1.Width - 30;
+                this.Controls.Add(x);
 
-            if (MessageBox.Show("Warning. This will remove all custom settings and revert to defaults", "Reset", MessageBoxButtons.OKCancel) != DialogResult.OK)
-                return;
-
-            _optionsPage.ResetSettings();
+                x.Visible = true;
+                x.Parent = this.flowLayoutPanel1;
+            }
         }
     }
 }

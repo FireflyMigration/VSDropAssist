@@ -15,10 +15,10 @@ namespace VSDropAssist.DropActions
             _log = LogManager.GetLogger(GetType());
         }
 
-        public abstract IExecuteResult  Execute(IEnumerable<Node> nodes, IWpfTextView textView,
+        public abstract IExecuteResult  Execute(IEnumerable<INode> nodes, IWpfTextView textView,
             DragDropInfo dragDropInfo);
 
-        public virtual int Match(DropQuery qry)
+        public virtual int Match(IDropQuery qry)
         {
             return 1;
         }

@@ -1,10 +1,10 @@
 namespace VSDropAssist.DropActions
 {
-    internal abstract class ClassOnlyWithSelectDropAction : ConfigurableDropAction
+    public abstract class ClassOnlyWithSelectDropAction : ConfigurableDropAction
     {
      
-        protected  ClassOnlyWithSelectDropAction(IFormatExpressionService formatExpressionService, IDropActionConfiguration config ) : 
-            base(formatExpressionService,config  )
+        protected  ClassOnlyWithSelectDropAction(IFormatExpressionService formatExpressionService, IDropActionConfiguration config, string name, string description ) : 
+            base(formatExpressionService,config , name, description )
         {
         }
     }

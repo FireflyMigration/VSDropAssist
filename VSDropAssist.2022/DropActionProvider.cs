@@ -36,7 +36,7 @@ namespace VSDropAssist
             _actions = new List<IDropAction>(actions);
         }
 
-        public IDropAction GetAction(DropQuery qry)
+        public IDropAction GetAction(IDropQuery qry)
         {
             _log.Debug("Searching for DropActionQry:" + qry);
             _log.Debug("Available actions:\n" + displayActions(_actions));
@@ -54,6 +54,11 @@ namespace VSDropAssist
         private string displayActions(List<IDropAction> actions)
         {
             return string.Join("\n", actions);
+        }
+
+        public IEnumerable<IDropAction> GetActions()
+        {
+            return _actions.AsEnumerable();
         }
     }
 }

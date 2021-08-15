@@ -22,7 +22,7 @@ namespace VSDropAssist.DropInfoHandlers
             return dragDropInfo.Data.GetDataPresent(DATAFORMAT);
         }
 
-        public IEnumerable<Node> GetNodes(DragDropInfo dragDropInfo)
+        public IEnumerable<INode> GetNodes(DragDropInfo dragDropInfo)
         {
             throw new NotImplementedException();
         }
@@ -46,7 +46,7 @@ namespace VSDropAssist.DropInfoHandlers
         /// </summary>
         /// <param name="dragDropInfo"></param>
         /// <returns></returns>
-        public IEnumerable<Node> GetNodes(DragDropInfo dragDropInfo)
+        public IEnumerable<INode> GetNodes(DragDropInfo dragDropInfo)
         {
             try
             {

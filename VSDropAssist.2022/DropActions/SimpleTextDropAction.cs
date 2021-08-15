@@ -19,14 +19,14 @@ namespace VSDropAssist.DropActions
             _formatExpressionService = formatExpressionService;
         }
 
-        public virtual bool getNodeFilter(Node n)
+        public virtual bool getNodeFilter(INode n)
         {
             return  true ;
 
         }
 
        
-        public override IExecuteResult Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo)
+        public override IExecuteResult Execute(IEnumerable<INode> nodes, IWpfTextView textView, DragDropInfo dragDropInfo)
         {
             var filteredNodes = nodes.Where(x => getNodeFilter(x));
 
@@ -50,7 +50,7 @@ namespace VSDropAssist.DropActions
                 }
             }
 
-            List<CodeLine> codeLines = null;
+            List<ICodeLine> codeLines = null;
 
             codeLines = getTextToInsert(filteredNodes).Distinct().ToList();
             var indentText = "";
@@ -105,18 +105,18 @@ namespace VSDropAssist.DropActions
             return true;
         }
 
-        protected  virtual int getSelectionHeight(IEnumerable<CodeLine > lines)
+        protected  virtual int getSelectionHeight(IEnumerable<ICodeLine > lines)
         {
             return lines.Count();
         }
 
-        protected virtual int getSelectionWidth(IEnumerable<CodeLine> lines)
+        protected virtual int getSelectionWidth(IEnumerable<ICodeLine> lines)
         {
             if (lines==null || !lines.Any()) return 0;
             return lines.Max(x => x.TokenLength);
 
         }
-        protected virtual int getSelectionStart(IEnumerable<CodeLine> lines)
+        protected virtual int getSelectionStart(IEnumerable<ICodeLine> lines)
         {
             if (lines == null || !lines.Any()) return -1;
             return lines.FirstOrDefault().TokenStartPosition ;
@@ -126,7 +126,7 @@ namespace VSDropAssist.DropActions
         {
             return "%v%";
         }
-        protected virtual IEnumerable<CodeLine> getTextToInsert(IEnumerable<Node> nodes)
+        protected virtual IEnumerable<ICodeLine> getTextToInsert(IEnumerable<INode> nodes)
         {
 
            return nodes.Select(node => new CodeLine() {

@@ -4,7 +4,7 @@ using VSDropAssist.Settings;
 
 namespace VSDropAssist.DropActions
 {
-    internal class MemberUpdateDropAction : ConfigurableDropAction
+    public class MemberUpdateDropAction : ConfigurableDropAction
     {
 
         public MemberUpdateDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService
@@ -20,7 +20,9 @@ namespace VSDropAssist.DropActions
                 SupportsDroppingIntoClass = false,
                 SupportsDroppingIntoMethod = true,
                 SelectFirstLineOnly = false
-            })
+            },
+            "Column Update",
+            "Adds a column.value=XX for every dropped column")
         {
         }
     }

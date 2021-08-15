@@ -2,8 +2,8 @@
 
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="VSDropAssist.Firefly.555d6eb1-6e3b-4802-ba63-50c22173d3bf" Version="2019.1" Language="en-US" Publisher="Firefly" />
-        <DisplayName>VSDropAssist.2017</DisplayName>
+        <Identity Id="VSDropAssist.Firefly.555d6eb1-6e3b-4802-ba63-50c22173d3bf" Version="2022.1" Language="en-US" Publisher="Firefly" />
+        <DisplayName>VSDropAssist.2022</DisplayName>
         <Description xml:space="preserve">VS Drop Assist 2022 - allows more intelligent dragging from Solution Explorer</Description>
         <MoreInfo>https://github.com/FireflyMigration/VSDropAssist</MoreInfo>
         <License>eula.txt</License>

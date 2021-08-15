@@ -58,14 +58,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DropActionConfiguration.cs" />
-    <Compile Include="IDropActionConfiguration.cs" />
     <Compile Include="IOptionsOwner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserControl1.cs">
+    <Compile Include="ucConfigurableDropAction.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControl1.Designer.cs">
-      <DependentUpon>UserControl1.cs</DependentUpon>
+    <Compile Include="ucConfigurableDropAction.Designer.cs">
+      <DependentUpon>ucConfigurableDropAction.cs</DependentUpon>
     </Compile>
     <Compile Include="VSDropAssistOptionsControl.cs">
       <SubType>UserControl</SubType>
@@ -82,8 +81,8 @@
     <Compile Include="VSDropSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UserControl1.resx">
-      <DependentUpon>UserControl1.cs</DependentUpon>
+    <EmbeddedResource Include="ucConfigurableDropAction.resx">
+      <DependentUpon>ucConfigurableDropAction.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VSDropAssistOptionsControl.resx">
       <DependentUpon>VSDropAssistOptionsControl.cs</DependentUpon>
@@ -93,8 +92,15 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\DataSources\VSDropAssist.IConfigurableDropAction.datasource" />
     <None Include="Properties\DataSources\VSDropAssist.IDropActionConfiguration.datasource" />
     <None Include="Properties\DataSources\VSDropSettings.datasource" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VSDropAssist.2022.Interfaces\VSDropAssist.2022.Interfaces.csproj">
+      <Project>{a83152dd-cffe-40b3-a5dd-41e18c9d5b36}</Project>
+      <Name>VSDropAssist.2022.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,7 +5,7 @@ using VSDropAssist.Settings;
 
 namespace VSDropAssist.DropActions
 {
-    internal class ClassModuleVariableDropAction : ClassOnlyWithSelectDropAction
+    public  class ClassModuleVariableDropAction : ClassOnlyWithSelectDropAction
     {
         public ClassModuleVariableDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService
             , new DropActionConfiguration()
@@ -18,7 +18,9 @@ namespace VSDropAssist.DropActions
                 ShiftMustBeDown = true ,
                 SupportsDroppingIntoClass = true,
                 SupportsDroppingIntoMethod = true
-            })
+            },
+            "Add Module variable",
+            "Creates a new module-level variable for every dropped class")
         {
         }
 

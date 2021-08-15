@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
-using VSDropAssist;
-using VSDropAssist.DropActions;
 using VSDropAssist.Entities;
 
 namespace VSDropAssist
@@ -60,8 +58,8 @@ namespace VSDropAssist
 
     public interface IDropAction
     {
-        IExecuteResult Execute(IEnumerable<Node> nodes, IWpfTextView textView, DragDropInfo dragDropInfo);
-        int Match(DropQuery qry);
+        IExecuteResult Execute(IEnumerable<INode> nodes, IWpfTextView textView, DragDropInfo dragDropInfo);
+        int Match(IDropQuery qry);
     }
 
     

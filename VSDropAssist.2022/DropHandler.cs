@@ -95,7 +95,7 @@ namespace VSDropAssist
             // ignore it
         }
 
-        private IEnumerable<Node> getNodesfromDropInfo(DragDropInfo dragDropInfo)
+        private IEnumerable<INode> getNodesfromDropInfo(DragDropInfo dragDropInfo)
         {
             try
             {

@@ -1,7 +1,6 @@
 using System.Windows.Forms;
 using Microsoft.VisualStudio.Shell;
 using VSDropAssist.Settings;
-using VSDropAssistOptionsControl = VSDropAssist.Options.VSDropAssistOptionsControl;
 
 namespace VSDropAssist
 {
@@ -48,7 +47,7 @@ namespace VSDropAssist
             get
             {
                 var ret = new VSDropAssistOptionsControl();
-                ret.Init(this);
+                ret.Init(this,Application.GetDropActionProvider() );
 
                 return ret;
             }

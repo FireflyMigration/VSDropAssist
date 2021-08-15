@@ -5,7 +5,7 @@ using VSDropAssist.Settings;
 
 namespace VSDropAssist.DropActions
 {
-    internal class ColumnsAddDropAction : ConfigurableDropAction
+    public class ColumnsAddDropAction : ConfigurableDropAction
     {
 
 
@@ -23,7 +23,9 @@ namespace VSDropAssist.DropActions
                 SupportsDroppingIntoClass = false,
                 SupportsDroppingIntoMethod = true,
                 SelectFirstLineOnly = false
-            })
+            },
+            "Columns.Add",
+            "Adds the Columns.Add() command for every dropped column")
         {
         }
     }

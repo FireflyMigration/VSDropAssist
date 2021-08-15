@@ -102,15 +102,10 @@
     <Compile Include="DropActions\Core\CommaDelimitedListDropAction.cs" />
     <Compile Include="DropActions\ConfigurableDropAction.cs" />
     <Compile Include="DropActions\DropActionBase.cs" />
-    <Compile Include="DropActionResultEnum.cs" />
     <Compile Include="DropActionProvider.cs" />
     <Compile Include="DropQuery.cs" />
     <Compile Include="Entities\ExpressionItem.cs" />
     <Compile Include="FormatExpressionService.cs" />
-    <Compile Include="IConfigurableDropAction.cs" />
-    <Compile Include="IDropActionProvider.cs" />
-    <Compile Include="IDropQuery.cs" />
-    <Compile Include="IFormatExpressionService.cs" />
     <Compile Include="DropActions\Core\ColumnsAddDropAction.cs" />
     <Compile Include="DropActions\Core\MemberUpdateDropAction.cs" />
     <Compile Include="DropActions\Core\NewClassInstanceDropAction.cs" />
@@ -122,14 +117,6 @@
     <Compile Include="DropHandlerProvider.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="DropInfoHandlers\GraphModelDropInfoHandler.cs" />
-    <Compile Include="IDropAction.cs" />
-    <Compile Include="IDropInfoHandler.cs" />
-    <Compile Include="Options\VSDropAssistOptionsControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Options\VSDropAssistOptionsControl.Designer.cs">
-      <DependentUpon>VSDropAssistOptionsControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DropActions\SmartDropAction.cs" />
@@ -187,9 +174,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Options\VSDropAssistOptionsControl.resx">
-      <DependentUpon>VSDropAssistOptionsControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>
       <ManifestResourceName>VSPackage</ManifestResourceName>
@@ -199,6 +183,10 @@
     <ProjectReference Include="..\FireflyCommunity.Core.Logging\FireflyCommunity.Core.Logging.csproj">
       <Project>{22ce5512-28d9-404d-b925-95cc00060674}</Project>
       <Name>FireflyCommunity.Core.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VSDropAssist.2022.Interfaces\VSDropAssist.2022.Interfaces.csproj">
+      <Project>{a83152dd-cffe-40b3-a5dd-41e18c9d5b36}</Project>
+      <Name>VSDropAssist.2022.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\VSDropAssist.Settings\VSDropAssist.Settings.csproj">
       <Project>{15bc08f0-530e-404d-b286-0f127e3ca766}</Project>

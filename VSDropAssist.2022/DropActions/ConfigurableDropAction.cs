@@ -5,17 +5,26 @@ using VSDropAssist.Entities;
 
 namespace VSDropAssist.DropActions
 {
-    public class ConfigurableDropAction : SimpleTextDropAction, IConfigurableDropAction 
+    public abstract class ConfigurableDropAction : SimpleTextDropAction, IConfigurableDropAction 
     {
         private readonly IDropActionConfiguration _configuration;
+        public IDropActionConfiguration Configuration => _configuration;
+
+        private readonly string _name;
+        private readonly string _description;
+        public string Name => _name;
+
+        public string Description => _description;
 
         public ConfigurableDropAction(IFormatExpressionService formatExpressionService,
-            IDropActionConfiguration configuration ) : base(formatExpressionService)
+            IDropActionConfiguration configuration, string name, string description ) : base(formatExpressionService)
         {
             _configuration = configuration;
+            _name = name;
+            _description = description;
         }
 
-        public override int Match(DropQuery qry)
+        public override int Match(IDropQuery qry)
         {
             return qry.Match(_configuration);
         }
@@ -25,14 +34,14 @@ namespace VSDropAssist.DropActions
             return _configuration.Delimiter;
         }
 
-        protected override int getSelectionHeight(IEnumerable<CodeLine> lines)
+        protected override int getSelectionHeight(IEnumerable<ICodeLine> lines)
         {
             if (_configuration.SelectFirstLineOnly) return Math.Min(1, lines.Count());
 
             return lines.Count();
         }
 
-        protected override int getSelectionWidth(IEnumerable<CodeLine> lines)
+        protected override int getSelectionWidth(IEnumerable<ICodeLine> lines)
         {
             if (lines == null || !lines.Any()) return 0;
 
@@ -56,7 +65,7 @@ namespace VSDropAssist.DropActions
 
             return true  ;
         }
-        public override bool getNodeFilter(Node n)
+        public override bool getNodeFilter(INode n)
         {
             
             if (!_configuration.SupportsClasses && n.IsClass) return false;

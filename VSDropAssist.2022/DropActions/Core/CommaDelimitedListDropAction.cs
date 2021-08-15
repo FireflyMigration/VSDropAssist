@@ -4,7 +4,7 @@ using VSDropAssist.Settings;
 
 namespace VSDropAssist.DropActions
 {
-    internal class CommaDelimitedListDropAction : ConfigurableDropAction
+    public class CommaDelimitedListDropAction : ConfigurableDropAction
     {
 
 
@@ -21,7 +21,9 @@ namespace VSDropAssist.DropActions
                 SupportsDroppingIntoClass = false,
                 SupportsDroppingIntoMethod = true,
                 SelectFirstLineOnly = false
-            })
+            },
+            "Comma-Delimited List",
+            "Adds a comma delimited list of every column dropped")
         {
         }
 

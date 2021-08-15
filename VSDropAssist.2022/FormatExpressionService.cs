@@ -29,7 +29,7 @@ namespace VSDropAssist
 
         }
 
-        public int GetTokenLength(Node n, string token)
+        public int GetTokenLength(INode n, string token)
         {
             var item = _expressionItems.FirstOrDefault(x => x.Token.Equals(token));
             if (item  == null) return 0;
@@ -39,7 +39,7 @@ namespace VSDropAssist
             return tmpExpression.Length;
         }
 
-        public string ReplaceText( Node n, string formatExpression)
+        public string ReplaceText( INode n, string formatExpression)
         {
     
                 var expr = formatExpression;
@@ -53,13 +53,13 @@ namespace VSDropAssist
             return expr;
         }
 
-        public IEnumerable<ExpressionItem> GetExpressionItems()
+        public IEnumerable<IExpressionItem> GetExpressionItems()
         {
             return _expressionItems;
             
         }
 
-        public int GetTokenStart(Node node, string expr, string token)
+        public int GetTokenStart(INode node, string expr, string token)
         {
             var g = Guid.NewGuid();
             var tmpExpr = expr;

@@ -5,7 +5,7 @@ using VSDropAssist.Settings;
 
 namespace VSDropAssist.DropActions
 {
-    internal class ClassFullNameDropAction : ConfigurableDropAction
+    public class ClassFullNameDropAction : ConfigurableDropAction
     {
 
         public ClassFullNameDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService,
@@ -21,7 +21,9 @@ namespace VSDropAssist.DropActions
                  ShiftMustBeDown = false,
                  SupportsDroppingIntoClass = true,
                  SupportsDroppingIntoMethod = true
-             })
+             },
+             "Full TypeName",
+             "Adds the Declaration/Class name")
         {
         }
 

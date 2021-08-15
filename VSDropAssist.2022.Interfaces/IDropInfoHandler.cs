@@ -4,10 +4,10 @@ using VSDropAssist.Entities;
 
 namespace VSDropAssist
 {
-    internal interface IDropInfoHandler
+    public interface IDropInfoHandler
     {
         bool CanUnderstand(DragDropInfo dragDropInfo);
 
-        IEnumerable<Node> GetNodes(DragDropInfo dragDropInfo);
+        IEnumerable<INode> GetNodes(DragDropInfo dragDropInfo);
     }
 }

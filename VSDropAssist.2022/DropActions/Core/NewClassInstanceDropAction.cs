@@ -16,11 +16,13 @@ namespace VSDropAssist.DropActions
                 ShiftMustBeDown = false,
                 SupportsDroppingIntoClass = false ,
                 SupportsDroppingIntoMethod = true
-            })
+            },
+            "New Instance",
+            "Creates a new instance of the dropped class 'new XXX'")
         {
         }
 
-        public override int Match(DropQuery qry)
+        public override int Match(IDropQuery qry)
         {
             var ret = base.Match(qry);
 
