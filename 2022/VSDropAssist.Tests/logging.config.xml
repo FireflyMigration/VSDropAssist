@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<log4net>
+  <appender name="VisualStudio" type="ClassOutline.Logging.VisualStudioOutputLogger, FireflyCommunity.Core.Logging" />
+  <appender name="DebugAppender" type="log4net.Appender.DebugAppender" >
+    <layout type="log4net.Layout.PatternLayout">
+      <conversionPattern value="%date [%thread] %-5level %logger [%property{NDC}] - %message%newline" />
+    </layout>
+  </appender>
+    <root>
+    <level value="ALL" />
+    <appender-ref ref="DebugAppender" />
+  </root>
+</log4net>

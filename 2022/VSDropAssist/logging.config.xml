@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<log4net>
+  <appender name="VisualStudio" type="FireflyCommunity.Core.Logging.VisualStudioOutputLogger, FireflyCommunity.Core.Logging" />
+
+    <root>
+    <level value="DEBUG" />
+    <appender-ref ref="VisualStudio" />
+  </root>
+</log4net>
