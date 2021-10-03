@@ -23,3 +23,20 @@ Where
 %m% =	Method/member name
 
 After dropping, the %v% is selected and you can immediately type a new name (press ESC to cancel the selection)
+
+# Development
+Often you need to force a reinstall of the nuget packages (unsure why)
+1. Launch VS
+2. Launch Package Manager Console
+3. run `update-package -reinstall`
+4. you may need to `set-executionpolicy remotesigned`
+
+# Debugging
+1. Set startup project to VSDropAssist.2017
+2. Set Project options to Start External Program, point to your vs2017 devenv 
+common examples:
+`C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\devenv.exe`
+`C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\devenv.exe`
+
+3. set command line args to `/rootsuffix Exp`
+4. F5 to start debugging

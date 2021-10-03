@@ -111,7 +111,7 @@ namespace VSDropAssist.DropActions
 
                         if (similar != null)
                         {
-                            n.NormalisedNamespace =   ns.Substring(similar.Namespace.Length + 1);
+                            n.NormalisedNamespace =   ns.Substring(similar.Namespace.Length );
                             if (!string.IsNullOrEmpty(similar.Alias))
                                 n.NormalisedNamespace = similar.Alias + "." + n.NormalisedNamespace;
                         }
