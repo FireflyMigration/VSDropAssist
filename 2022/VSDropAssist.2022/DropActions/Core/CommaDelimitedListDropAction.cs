@@ -1,13 +1,9 @@
-using System.Collections.Generic;
-using System.Linq;
 using VSDropAssist.Settings;
 
 namespace VSDropAssist.DropActions
 {
     public class CommaDelimitedListDropAction : ConfigurableDropAction
     {
-
-
         public CommaDelimitedListDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService
             , new DropActionConfiguration()
             {
@@ -26,6 +22,5 @@ namespace VSDropAssist.DropActions
             "Adds a comma delimited list of every column dropped")
         {
         }
-
     }
 }

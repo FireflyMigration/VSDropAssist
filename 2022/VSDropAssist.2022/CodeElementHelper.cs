@@ -6,7 +6,6 @@ using System.Runtime.InteropServices;
 using EnvDTE;
 using log4net;
 using Microsoft.VisualStudio.Text;
-using System.Xml.Serialization;
 
 namespace VSDropAssist
 {

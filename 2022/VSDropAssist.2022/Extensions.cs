@@ -1,5 +1,5 @@
 using System;
-using System.Windows;
+using System.Windows.Forms;
 using log4net;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
 

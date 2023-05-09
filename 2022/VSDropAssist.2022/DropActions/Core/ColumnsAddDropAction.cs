@@ -1,16 +1,9 @@
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using VSDropAssist.Settings;
 
 namespace VSDropAssist.DropActions
 {
     public class ColumnsAddDropAction : ConfigurableDropAction
     {
-
-
-
-
         public ColumnsAddDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService
             , new DropActionConfiguration()
             {

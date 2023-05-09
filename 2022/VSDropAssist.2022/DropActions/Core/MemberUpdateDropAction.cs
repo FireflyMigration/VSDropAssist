@@ -1,12 +1,9 @@
-using System.Collections.Generic;
-using System.Text;
 using VSDropAssist.Settings;
 
 namespace VSDropAssist.DropActions
 {
     public class MemberUpdateDropAction : ConfigurableDropAction
     {
-
         public MemberUpdateDropAction(IFormatExpressionService formatExpressionService) : base(formatExpressionService
             , new DropActionConfiguration()
             {
@@ -26,5 +23,4 @@ namespace VSDropAssist.DropActions
         {
         }
     }
-
 }

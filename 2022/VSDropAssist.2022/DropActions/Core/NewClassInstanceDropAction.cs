@@ -28,7 +28,5 @@ namespace VSDropAssist.DropActions
 
             return ret;
         }
-
-
     }
 }

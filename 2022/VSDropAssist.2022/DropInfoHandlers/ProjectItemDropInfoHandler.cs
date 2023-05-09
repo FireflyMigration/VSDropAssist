@@ -7,7 +7,6 @@ using System.Text;
 using System.Windows;
 using EnvDTE;
 using log4net;
-using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text.Editor.DragDrop;
 using VSDropAssist.Entities;

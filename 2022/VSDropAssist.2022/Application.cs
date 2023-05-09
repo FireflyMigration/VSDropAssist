@@ -3,7 +3,6 @@ using System.IO;
 using Autofac;
 using EnvDTE;
 using log4net;
-using log4net.Config;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text.Editor;
@@ -14,7 +13,6 @@ using VSDropAssist.DropInfoHandlers;
 
 using VSDropAssist.Settings;
 using log4net.Repository.Hierarchy;
-using log4net.Layout;
 using log4net.Appender;
 using log4net.Core;
 using FireflyCommunity.Core.Logging;
